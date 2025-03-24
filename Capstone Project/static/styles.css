@@ -1,0 +1,554 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff; /* White page background by default */
+  color: #000;
+}
+
+.navbar {
+  position: sticky;  /* critical for sticking */
+  top: 0;            /* sticks to the top edge of the viewport */
+  z-index: 999;      /* ensure it stays on top of other elements */
+  background: #000;  /* example black background */
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+
+.nav-left .brand {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.nav-right {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-right a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Sign up button: white outline, black background on hover */
+.signup-btn {
+  border: 1px solid #fff;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  background: transparent;
+  color: #fff;
+  transition: background 0.3s, color 0.3s;
+}
+.signup-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* HERO SECTION */
+.hero {
+  height: 100vh;             /* occupies full viewport height */
+  display: flex;             /* optionally center content */
+  align-items: center;       /* vertically center if you like */
+  justify-content: center;   /* horizontally center if you like */
+  background: #D8F0F0;       /* your desired background or image */
+  /* remove margins/padding so it truly fills the screen */
+}
+
+
+.hero-content {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+/* Left column with text */
+.hero-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.small-heading {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.hero-left h1 {
+  font-size: 5rem; /* bigger, to mimic the large editorial text in the screenshot */
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  max-width: 500px;
+}
+
+/* CTA button on the hero */
+.cta-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background: #333;
+}
+
+.scroll-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  /* Decrease the padding values */
+  padding: 0.5rem 1rem; 
+  /* Lower the font size so text is smaller */
+  font-size: 0.9rem;
+
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+/* Right column with image */
+.hero-right {
+  flex: 1;
+  display: flex;
+  align-items: flex-end; 
+  justify-content: center;
+}
+
+.hero-right img {
+  /* The hero image can be fairly large, might need to adjust to your design */
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* LANDING SECTION */
+.landing-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem; /* adjust as needed to reduce whitespace */
+}
+
+/* Heading / Subtitle styling */
+.landing-section h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.landing-section .subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+.cta-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  transition: background 0.3s;
+}
+.cta-button:hover {
+  background: #333;
+}
+
+/* 2) Map Container */
+#map {
+  width: 100%;
+  height: 400px; /* or 500px, etc. */
+  background: #ccc; /* fallback background if map doesn't load */
+  border: 1px solid #ddd;
+  margin-top: 2rem;    /* Add space above the map */
+  margin-bottom: 3rem;
+}
+
+/* Why Us? header with "Learn more" link on the right */
+.why-us-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+
+}
+.why-us-header h3 {
+  font-size: 1.5rem;
+}
+.why-us-header a {
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+}
+.why-us-header a:hover {
+  text-decoration: underline;
+}
+
+/* Why Us? grid of 3 images/cards */
+.why-us-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.why-us-card {
+  flex: 1; /* each card can stretch */
+  min-width: 200px;
+  background: #f9f9f9;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+}
+.why-us-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+.why-us-card h4 {
+  margin-bottom: 0.5rem;
+}
+
+/* CLIMATE CLEANUP SECTION */
+.climate-cleanup {
+  background: #f5f5f5;
+  padding: 1.5rem;
+}
+
+.climate-cleanup h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.climate-cleanup h4 {
+  font-size: 1.1rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.climate-cleanup p {
+  margin-bottom: 1rem;
+}
+
+.climate-cta {
+  margin-top: 1rem;
+}
+
+.climate-cta button {
+  background: #000;
+  color: #fff;
+  border: none;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.climate-cta button:hover {
+  background: #333;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #000;
+  color: #fff;
+  margin-top: 2rem;
+}
+
+/* 1) Page Wrapper */
+.food-forest-library {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  /* If your base body background is white, this is enough. */
+}
+
+/* 2) Top Section: Title, Subtitle, Search */
+.library-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.library-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.library-header .subtitle {
+  font-size: 1rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0.5rem auto 2rem;
+  line-height: 1.5;
+}
+
+/* Search Container: input + button */
+.search-container {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden; /* so the button edges align */
+}
+
+.search-container input {
+  flex: 1; /* fill remaining space */
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+}
+
+.search-container button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+.search-container button:hover {
+  background: #333;
+}
+
+/* 3) Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+/* 4) Individual Card Styles */
+.card {
+  background: #f8f8f8;
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.card h5 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: #000;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+/* 5) Placeholder Image Block */
+.img-placeholder {
+  background: #ddd;
+  width: 100%;
+  height: 150px; /* or whatever height you want */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.img-placeholder span {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* 6) Actions at bottom of card (button + link) */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card-actions button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.card-actions button:hover {
+  background: #333;
+}
+
+.card-actions a {
+  color: #000;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.card-actions a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* --- ABOUT PAGE WRAPPER --- */
+.about-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background: #fff; /* White content area */
+}
+
+/* 2-Column Layout: Left text + Right image */
+.about-content {
+  display: flex;
+  flex-wrap: wrap;      /* Ensures responsiveness on smaller screens */
+  gap: 2rem;
+}
+
+/* Left Column: Heading, text, form */
+.about-left {
+  flex: 1 1 400px;      /* Grows/shrinks, min width ~400px */
+}
+
+.about-left h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.about-subtitle {
+  font-weight: normal;
+  font-size: 1.1rem;
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+.about-left p {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+/* Right Column: Large image */
+.about-right {
+  flex: 1 1 300px;      /* The image column can also grow/shrink */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+}
+
+.about-right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px; /* Optional: slightly rounded corners */
+}
+
+/* --- CONTACT FORM --- */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;  /* so they stack on small screens */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: #666;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Submit button styling */
+.submit-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.submit-button:hover {
+  background: #333;
+}
+
+/* --- FOOTER (OPTIONAL) ---
+   If you want a footer with columns, you can add something like:
+*/
+footer {
+  background: black;
+  border-top: 1px solid #eee;
+  padding: 2rem 1rem;
+}
+footer .footer-content {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+}
+footer .footer-left {
+  /* e.g. site name, social icons */
+}
+footer .footer-right {
+  display: flex;
+  gap: 4rem; /* space between topic columns */
+}
+footer .topic-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+footer .topic-column h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+/* ... etc. */
+

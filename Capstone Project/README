@@ -1,0 +1,10 @@
+project/
+ ├── app.py
+ ├── templates/
+ │    ├── landing.html
+ │    ├── home.html
+ │    ├── product.html
+ │    └── about.html
+ └── static/
+      ├── styles.css
+      └── script.js

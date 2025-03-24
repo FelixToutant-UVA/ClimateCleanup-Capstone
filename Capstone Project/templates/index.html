@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+
+ <!-- Hero / Splash Section -->
+ <section class="hero">
+  <div class="hero-content">
+
+    <!-- Left side text -->
+    <div class="hero-left">
+      <h1>Welcome to EcoLink</h1>
+      <button class="scroll-button" 
+      onclick="document.getElementById('landing').scrollIntoView({behavior: 'smooth'})">
+      Explore
+      </button>
+    </div>
+
+    <!-- Right side image -->
+     <div class="hero-right">
+      <!-- Replace with your own chair image or design asset -->
+      <img src="static/images/hero_pears.jpg" alt="Chair with leaf print" />
+    </div> 
+  </div>
+</section>
+
+<!-- LANDING SECTION -->
+<section id="landing" class="landing-section">
+  <h2>Explore Sustainable Food Forests, One Harvest at a Time</h2>
+  <p class="subtitle">Connecting you with sustainable food forests and their environmental impact.</p>
+  <a class="cta-button" href="{{ url_for('food_forests') }}">Explore food forests</a>
+
+  <!-- Map container -->
+  <div id="map"></div>
+  <!-- Why us? -->
+  <div class="why-us-header">
+    <h3>Why us?</h3>
+    <a href="{{ url_for('about_us') }}">Learn more</a>
+  </div>
+
+  <div class="why-us-grid">
+    <!-- Card 1 -->
+    <div class="why-us-card">
+      <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Placeholder 1" />
+      <h4>1</h4>
+      <p>Direct Connection with Food Forest Owners</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="why-us-card">
+      <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Placeholder 2" />
+      <h4>2</h4>
+      <p>Transparent Environmental Impact Metrics</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="why-us-card">
+      <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Placeholder 3" />
+      <h4>3</h4>
+      <p>Support Sustainable Agriculture with Every Purchase</p>
+    </div>
+  </div>
+
+  <!-- Climate Cleanup Section -->
+  <section class="climate-cleanup">
+    <h3>Climate Cleanup</h3>
+    <h4>Climate Cleanup Partnership</h4>
+    <p>
+      Powered by data and guidance from Climate Cleanup, a leading organization dedicated to restoring carbon balance.
+    </p>
+    <h4>Mission</h4>
+    <p>
+      Body text for whatever you’d like to add to the main point. It provides details, explanations, and context.
+    </p>
+    <div class="climate-cta">
+      <button>Learn more</button>
+      <button>Get in contact</button>
+    </div>
+  </section>
+</section>
+
+{% endblock %}

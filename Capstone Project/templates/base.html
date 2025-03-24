@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EcoLink</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+</head>
+<body>
+  <!-- Sticky Navbar at the top -->
+  <!-- Not fully functional atm-->
+  <header>
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="{{ url_for('home') }}" class="brand">EcoLink</a>
+      </div>
+      <ul class="nav-right">
+        <li><a href="{{ url_for('food_forests') }}">Food Forests</a></li>
+        <li><a href="{{ url_for('about_us') }}">About us</a></li>
+        <!-- Sign-up: White outline button -->
+        <li><a href="#" class="signup-btn">Sign up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer (optional) -->
+  <footer>
+    <p>&copy; 2025 EcoLink. All rights reserved.</p>
+  </footer>
+
+<!-- Interactive map Stuff-->
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Check if the #map exists on the page
+    const mapEl = document.getElementById('map');
+    if (mapEl) {
+      // Center on the Netherlands (lat ~52.1326, lng ~5.2913)
+      const myMap = L.map('map').setView([52.1326, 5.2913], 7);
+  
+      // Add tile layer (for example, OpenStreetMap):
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(myMap);
+  
+      // You could place markers or polygons here for specific forests, e.g.:
+      // L.marker([52.0907, 5.1214]).addTo(myMap).bindPopup('Sample Marker');
+    }
+  });
+</script>
+
+
+<!-- End of interactive map -->
+</body>
+</html>
