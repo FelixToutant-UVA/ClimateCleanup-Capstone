@@ -1,37 +1,49 @@
-# Flask Web App Tutorial
+# 🌱 EcoLink: A Platform for Sustainable Food Forests
 
-## Setup & Installation
+EcoLink is a web application that connects users with sustainable food forests and showcases environmental initiatives. The platform currently features user authentication (sign-up and login), a homepage, and several static pages like Food Forests and About Us. More interactive features will be added as development progresses.
 
-Make sure you have the latest version of Python installed.
+---
 
-```bash
+## 🚀 Setup & Installation
+
+Before you begin, make sure you have:
+
+- Python 3.8+
+- Git installed
+- (Optional) A virtual environment setup (recommended)
+
+### 1. Clone the repository
+
+```
 git clone <repo-url>
+cd website
 ```
 
-```bash
+### 2. Install dependencies
+
+```
 pip install -r requirements.txt
 ```
 
-## Running The App
+---
 
-```bash
+## ▶️ Running the App Locally
+
+Inside the `website` directory, start the Flask app by running:
+
+```
 python main.py
 ```
 
-## Viewing The App
+This will start a development server. You should see output that includes a local URL (usually `http://127.0.0.1:5000`).
 
-Go to `http://127.0.0.1:5000`
+---
 
+## 🌐 Viewing the Website
 
-# 💻 Launch Your Software Development Career Today!  
+Open your browser and go to:
 
-🎓 **No degree? No problem!** My program equips you with everything you need to break into tech and land an entry-level software development role.  
+```
+http://127.0.0.1:5000
+```
 
-🚀 **Why Join?**  
-- 💼 **$70k+ starting salary potential**  
-- 🕐 **Self-paced:** Complete on your own time  
-- 🤑 **Affordable:** Low risk compared to expensive bootcamps or degrees
-- 🎯 **45,000+ job openings** in the market  
-
-👉 **[Start your journey today!](https://techwithtim.net/dev)**  
-No experience needed—just your determination. Future-proof your career and unlock six-figure potential like many of our students have!  
