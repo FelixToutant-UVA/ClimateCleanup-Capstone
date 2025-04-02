@@ -672,6 +672,8 @@ footer .topic-column h4 {
   min-width: 280px;
   background: #eee; 
   padding: 1rem;
+  width: 30%;
+  max-width: 400px;
 }
 
 .details-wrapper h2 {
@@ -683,6 +685,7 @@ footer .topic-column h4 {
   background: #ccc;
   padding: 1rem;
   margin-top: 1rem;
+
 }
 
 .metrics-header {
