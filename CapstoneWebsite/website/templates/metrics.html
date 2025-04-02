@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-metrics">
+  <!-- Optional overlay if you want text over the image -->
+  <div class="hero-image">
+    <!-- Replace 'pears-hero.jpg' with your actual image -->
+    <img src="{{ url_for('static', filename='images/pears-hero.jpg') }}" alt="Background pears" />
+  </div>
+  <div class="hero-text">
+    <h1>Food Forest name</h1>
+    <p>Location of Food Forest</p>
+  </div>
+</section>
+
+<!-- METRICS SECTION -->
+<section class="metrics-section">
+  <h2>Metrics</h2>
+  
+  <div class="metrics-grid">
+    <!-- Left Column: Large image + description -->
+    <div class="metrics-left">
+      <div class="metrics-card">
+        <img src="{{ url_for('static', filename='images/pears.jpg') }}" alt="Carbon storage image" />
+        <h3>Carbon storage</h3>
+        <p>Description of the graph</p>
+      </div>
+    </div>
+
+    <!-- Right Column: 2 smaller images stacked -->
+    <div class="metrics-right">
+      <div class="metrics-card">
+        <img src="{{ url_for('static', filename='images/pears-water.jpg') }}" alt="Water storage graph" />
+        <h3>Water storage</h3>
+        <p>Description of graph</p>
+      </div>
+
+      <div class="metrics-card">
+        <img src="{{ url_for('static', filename='images/pears-biodiversity.jpg') }}" alt="Biodiversity index graph" />
+        <h3>Biodiversity index</h3>
+        <p>Description of the graph</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

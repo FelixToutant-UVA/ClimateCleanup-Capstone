@@ -47,3 +47,10 @@ def about_us():
 def food_forests():
     return render_template("food_forests.html", user=current_user)
 
+@views.route('/profile')
+def profile():
+    return render_template("profile.html", user=current_user)
+
+@views.route('/metrics', endpoint="metrics")
+def metrics():
+    return render_template("metrics.html", user=current_user)

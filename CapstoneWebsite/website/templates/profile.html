@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- PROFILE PAGE WRAPPER -->
+<div class="profile-page">
+  
+  <!-- Top Section: Two columns (Forest details + Metrics) -->
+<section class="profile-top">
+    <!-- Column 1: Forest details -->
+    <div class="forest-details">
+      <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Forest Image" />
+      <h2>Food forest name</h2>
+      <p>Location</p>
+    </div>
+
+
+    <!-- Column 2: Details / Metrics -->
+    <section class="metrics-section"
+    onclick="window.location='{{ url_for('views.metrics') }}';"
+    style="cursor: pointer;">    
+    
+        <div class="details-wrapper">
+            <!-- Example sub-section: Metrics and a 'Plot' tab -->
+        <div class="metrics-box">
+            <div class="metrics-header">
+            <h2>Metrics</h2>
+            <button class="tab-button">Plot</button>
+            </div>
+            <div class="metrics-content">
+            <p><strong>Biodiversity-index:</strong> 0.75</p>
+            <p><strong>Age of the plot:</strong> 4</p>
+            <p><strong>Soil-Type:</strong> Zandgrond</p>
+            <p><strong>Square-meters:</strong> 20000</p>
+            </div>
+
+        </div>
+        </div>
+    </section>
+</section>
+
+  <!-- Inventory Section -->
+  <section class="inventory-section">
+    <div class="inventory-header">
+      <h2>Inventory</h2>
+      <button class="tab-button">Plot</button>
+    </div>
+
+    <div class="inventory-grid">
+      <!-- Example product cards -->
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Product 1" />
+        <h4>Product</h4>
+        <p>Description of first product</p>
+        <p class="price">$10.99</p>
+      </div>
+
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Product 2" />
+        <h4>Product</h4>
+        <p>Description of second product</p>
+        <p class="price">$10.99</p>
+      </div>
+
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Product 3" />
+        <h4>Product</h4>
+        <p>Description of third product</p>
+        <p class="price">$10.99</p>
+      </div>
+
+      <!-- Add more product cards as needed -->
+    </div>
+  </section>
+</div>
+
+{% endblock %}

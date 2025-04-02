@@ -57,89 +57,63 @@ body {
   color: #000;
 }
 
-/* HERO SECTION */
+/* Hero container */
 .hero {
-  height: 100vh;             /* occupies full viewport height */
-  display: flex;             /* optionally center content */
-  align-items: center;       /* vertically center if you like */
-  justify-content: center;   /* horizontally center if you like */
-  background: #D8F0F0;       /* your desired background or image */
-  /* remove margins/padding so it truly fills the screen */
-}
-
-
-.hero-content {
   display: flex;
-  max-width: 1200px;
-  width: 100%;
-  padding: 2rem;
-  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;  /* left text, right image */
+  background: #D8F0F0;            /* pastel mint, adapt as needed */
+  min-height: 80vh;               /* tall hero */
+  padding: 2rem;                  /* space around content */
 }
 
-/* Left column with text */
+/* Left column (title + buttons) */
 .hero-left {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.small-heading {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 0.5rem;
+  max-width: 600px;  /* so text doesn’t stretch too wide */
 }
 
 .hero-left h1 {
-  font-size: 5rem; /* bigger, to mimic the large editorial text in the screenshot */
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-  max-width: 500px;
+  font-size: 3rem;
+  margin-bottom: 2rem;
 }
 
-/* CTA button on the hero */
+/* Horizontal row for multiple CTAs */
+.button-row {
+  display: flex;
+  gap: 1rem;
+}
+
+/* CTA buttons styling */
 .cta-button {
   background: #000;
   color: #fff;
-  border: none;
+  text-decoration: none;
   padding: 0.8rem 1.5rem;
-  cursor: pointer;
   border-radius: 4px;
+  font-weight: 500;
   font-size: 1rem;
   transition: background 0.3s;
 }
-
 .cta-button:hover {
   background: #333;
 }
 
-.scroll-button {
-  background: #000;
-  color: #fff;
-  border: none;
-  /* Decrease the padding values */
-  padding: 0.5rem 1rem; 
-  /* Lower the font size so text is smaller */
-  font-size: 0.9rem;
-
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.3s;
-}
-/* Right column with image */
+/* Right column (pear image) */
 .hero-right {
   flex: 1;
   display: flex;
-  align-items: flex-end; 
   justify-content: center;
+  align-items: center;
 }
 
+/* Make sure the image doesn’t overflow */
 .hero-right img {
-  /* The hero image can be fairly large, might need to adjust to your design */
   max-width: 100%;
   height: auto;
-  object-fit: contain;
+  border-radius: 4px; /* optional subtle rounding */
 }
+
 
 /* LANDING SECTION */
 .landing-section {
@@ -171,6 +145,107 @@ body {
 .cta-button:hover {
   background: #333;
 }
+
+/* HERO-metrics SECTION */
+.hero-metrics {
+  position: relative;
+  width: 100%;
+  height: 60vh; /* or however tall you want the hero */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-metrics .hero-image {
+  position: absolute; 
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-metrics .hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fill the container, cropping as needed */
+}
+
+.hero-metrics .hero-text {
+  position: relative;
+  z-index: 2;  /* above the image */
+  text-align: center;
+  color: #fff; /* if the image is dark or use an overlay for better contrast */
+}
+
+.hero-metrics .hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-metrics .hero-text p {
+  font-size: 1.2rem;
+}
+
+/* METRICS SECTION */
+.metrics-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.metrics-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Grid layout: left column (big) + right column (two smaller) */
+.metrics-grid {
+  display: flex;
+  flex-wrap: wrap; /* so it doesn’t break on smaller screens */
+  gap: 2rem;
+}
+
+/* Left column: big card */
+.metrics-left {
+  flex: 1 1 400px; /* grows, but min ~400px wide */
+}
+
+/* Right column: two stacked cards */
+.metrics-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1 1 400px; 
+}
+
+/* Individual card styling */
+.metrics-card {
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 1rem;
+  text-align: center;
+}
+
+.metrics-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.metrics-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+.metrics-card p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
 
 /* 2) Map Container */
 #map {
@@ -552,3 +627,152 @@ footer .topic-column h4 {
 }
 /* ... etc. */
 
+/* PROFILE PAGE WRAPPER */
+.profile-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* -- TOP SECTION: 2 columns -- */
+.profile-top {
+  display: flex;
+  flex-wrap: wrap; /* ensures wrapping on small screens */
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* FOREST DETAILS COLUMN */
+.forest-details {
+  flex: 1; /* takes up half (ish) in a 2-col layout */
+  min-width: 280px;
+  background: #eee; /* matching the gray from your mock? */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center the image & text */
+  text-align: center;
+}
+
+.forest-details img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.forest-details h2 {
+  margin-bottom: 0.5rem;
+}
+
+/* DETAILS COLUMN */
+.details-wrapper {
+  flex: 2; /* or 1, depending on how wide you want it */
+  min-width: 280px;
+  background: #eee; 
+  padding: 1rem;
+}
+
+.details-wrapper h2 {
+  margin-bottom: 1rem;
+}
+
+/* METRICS BOX */
+.metrics-box {
+  background: #ccc;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.metrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.metrics-header h3 {
+  margin: 0;
+}
+
+/* Tab button example */
+.tab-button {
+  background: #fff;
+  border: 1px solid #333;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.tab-button:hover {
+  background: #ddd;
+}
+
+/* METRICS CONTENT */
+.metrics-content p {
+  margin: 0.5rem 0;
+}
+
+.metrics-section {
+  cursor: pointer;
+}
+
+
+/* -- INVENTORY SECTION -- */
+.inventory-section {
+  background: #ddd; /* big gray box per your mock */
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Inventory heading + tab */
+.inventory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.inventory-header h2 {
+  margin: 0;
+}
+
+/* PRODUCT GRID */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  background: #fdf2f2; /* slightly pinkish area to match your screenshot */
+  padding: 1rem;
+}
+
+/* PRODUCT CARD */
+.product-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0.5rem;
+  text-align: center;
+  transition: box-shadow 0.3s;
+}
+.product-card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.product-card h4 {
+  margin-bottom: 0.25rem;
+}
+
+.product-card p {
+  margin-bottom: 0.25rem;
+}
+.price {
+  font-weight: bold;
+}

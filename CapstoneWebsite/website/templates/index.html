@@ -2,23 +2,18 @@
 
 <!-- Hero / Splash Section -->
 <section class="hero">
-  <div class="hero-content">
-    <!-- Left side text -->
-    <div class="hero-left">
-      <h1>Welcome to EcoLink</h1>
-      <button
-        class="scroll-button"
-        onclick="document.getElementById('landing').scrollIntoView({behavior: 'smooth'})"
-      >
-        Explore
-      </button>
+  <div class="hero-left">
+    <h1>Welcome to EcoLink</h1>
+    <!-- Two-button row instead of one "Explore" button -->
+    <div class="button-row">
+      <a href="/business" class="cta-button">I’m a business</a>
+      <a href="/profile" class="cta-button">I’m a food forest</a>
     </div>
+  </div>
 
-    <!-- Right side image -->
-    <div class="hero-right">
-      <!-- Replace with your own chair image or design asset -->
-      <img src="static/images/hero_pears.jpg" alt="Chair with leaf print" />
-    </div>
+  <div class="hero-right">
+    <!-- The pear image (same as before) -->
+    <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Pears">
   </div>
 </section>
 
