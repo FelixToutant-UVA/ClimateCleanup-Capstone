@@ -54,3 +54,7 @@ def profile():
 @views.route('/metrics', endpoint="metrics")
 def metrics():
     return render_template("metrics.html", user=current_user)
+
+@views.route('/forest')
+def forest():
+    return render_template("forest.html", user=current_user)
