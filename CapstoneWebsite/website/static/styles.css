@@ -12,10 +12,10 @@ body {
 }
 
 .navbar {
-  position: sticky;  /* critical for sticking */
-  top: 0;            /* sticks to the top edge of the viewport */
-  z-index: 999;      /* ensure it stays on top of other elements */
-  background: #000;  /* example black background */
+  position: sticky;
+  top: 0;
+  z-index: 999;  /* or a high number */
+  background: #000;
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -147,37 +147,36 @@ body {
 }
 
 /* HERO-metrics SECTION */
+/***** HERO SECTION *****/
 .hero-metrics {
   position: relative;
   width: 100%;
-  height: 60vh; /* or however tall you want the hero */
-  overflow: hidden;
+  height: 50vh; /* slightly smaller than before, adjust as needed */
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 .hero-metrics .hero-image {
-  position: absolute; 
-  top: 0; 
-  left: 0;
-  width: 100%; 
-  height: 100%;
-  overflow: hidden;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: 1;
 }
 
 .hero-metrics .hero-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* fill the container, cropping as needed */
+  object-fit: cover;
 }
 
 .hero-metrics .hero-text {
   position: relative;
-  z-index: 2;  /* above the image */
+  z-index: 2; /* above the background image */
   text-align: center;
-  color: #fff; /* if the image is dark or use an overlay for better contrast */
+  color: #fff;
 }
 
 .hero-metrics .hero-text h1 {
@@ -189,61 +188,134 @@ body {
   font-size: 1.2rem;
 }
 
-/* METRICS SECTION */
+/***** METRICS SECTION *****/
 .metrics-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1rem;
 }
 
 .metrics-section h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
 }
 
-/* Grid layout: left column (big) + right column (two smaller) */
+/* The main 3-column layout:
+   - Left: .metrics-left
+   - Middle: .metrics-right
+   - Right: .metrics-data
+*/
 .metrics-grid {
-  display: flex;
-  flex-wrap: wrap; /* so it doesn’t break on smaller screens */
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns, can adjust */
+  gap: 1.5rem;
 }
 
-/* Left column: big card */
-.metrics-left {
-  flex: 1 1 400px; /* grows, but min ~400px wide */
-}
+/* Alternatively, if you want the middle bigger:
+   grid-template-columns: 1fr 1.2fr 1fr;
+   or something similar 
+*/
 
-/* Right column: two stacked cards */
-.metrics-right {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  flex: 1 1 400px; 
-}
-
-/* Individual card styling */
+/***** METRICS CARDS *****/
 .metrics-card {
   background: #fff;
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
   padding: 1rem;
   text-align: center;
 }
 
+/* The images in the cards */
 .metrics-card img {
   max-width: 100%;
   height: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .metrics-card h3 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   font-size: 1.2rem;
-  color: #000;
 }
 
 .metrics-card p {
-  color: #666;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/***** CARBON INFO CARD *****/
+.carbon-info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* align text & form to the left */
+  text-align: left;        /* override the default center from .metrics-card */
+}
+
+/* The "Add/Edit Data" link can remain a button or an anchor as you like */
+.carbon-info-card a.btn {
+  margin-top: 0.5rem;
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background: #007BFF; /* typical bootstrap-ish color */
+  transition: background 0.3s;
+}
+.carbon-info-card a.btn:hover {
+  background: #0056b3;
+}
+
+/***** THE CARBON FORM *****/
+.carbon-form {
+  margin-top: 1rem;
+  width: 100%; /* let it fill the card width */
+}
+
+.carbon-form .form-group {
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.carbon-form .form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+}
+
+.carbon-form .form-group input,
+.carbon-form .form-group select {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.carbon-form button.btn.btn-success {
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background: #28a745;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.carbon-form button.btn.btn-success:hover {
+  background: #218838;
+}
+
+/***** DELETE BUTTON *****/
+.btn.btn-danger {
+  background: #dc3545;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btn.btn-danger:hover {
+  background: #c82333;
 }
 
 

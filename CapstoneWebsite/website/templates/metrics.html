@@ -1,10 +1,9 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 
 <!-- HERO SECTION -->
 <section class="hero-metrics">
-  <!-- Optional overlay if you want text over the image -->
   <div class="hero-image">
-    <!-- Replace 'pears-hero.jpg' with your actual image -->
     <img
       src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
       alt="Background pears"
@@ -54,35 +53,34 @@
       </div>
     </div>
 
-    <!-- New Column: Carbon Info -->
+    <!-- Right Column: Carbon Info / Form -->
     <div class="metrics-data">
-      <div class="metrics-card">
+      <div class="metrics-card carbon-info-card">
         <h3>Carbon Storage Info</h3>
 
         {% if carbon_data %}
-        <p><strong>Size (m²):</strong> {{ carbon_data.size_m2 }}</p>
-        <p><strong>Soil Type:</strong> {{ carbon_data.soil_type }}</p>
-        <p><strong>Age (years):</strong> {{ carbon_data.age_years }}</p>
+          <p><strong>Size (m²):</strong> {{ carbon_data.size_m2 }}</p>
+          <p><strong>Soil Type:</strong> {{ carbon_data.soil_type }}</p>
+          <p><strong>Age (years):</strong> {{ carbon_data.age_years }}</p>
 
-        {% if carbon_estimate %}
-          <p><strong>Estimated Carbon Sequestration:</strong>
-          {{ carbon_estimate.min }} – {{ carbon_estimate.max }} {{ carbon_estimate.unit }}
-          </p>
-        {% endif %}
-        
+          {% if carbon_estimate %}
+            <p>
+              <strong>Estimated Carbon Sequestration:</strong>
+              {{ carbon_estimate.min }} – {{ carbon_estimate.max }} {{ carbon_estimate.unit }}
+            </p>
+          {% endif %}
         {% else %}
-        <p>No carbon data added yet.</p>
+          <p>No carbon data added yet.</p>
         {% endif %}
 
-        <a
-          href="{{ url_for('views.metrics', form='true') }}"
-          class="btn btn-primary"
-          style="margin-top: 0.5rem"
-          >Add/Edit Data</a
-        >
+        <a href="{{ url_for('views.metrics', form='true') }}"
+           class="btn btn-primary"
+           style="margin-top: 0.5rem">
+          Add/Edit Data
+        </a>
 
         {% if show_form %}
-        <form method="POST" style="margin-top: 1rem">
+        <form method="POST" class="carbon-form">
           <div class="form-group">
             <label for="size">Size (m²)</label>
             <input
@@ -99,10 +97,22 @@
             <label for="soil">Soil Type</label>
             <select name="soil" id="soil" required>
               <option value="" disabled {% if not carbon_data %}selected{% endif %}>Select Soil Type</option>
-              <option value="Grassland" {% if carbon_data and carbon_data.soil_type == 'Grassland' %}selected{% endif %}>Grassland</option>
-              <option value="Temperate agroforest" {% if carbon_data and carbon_data.soil_type == 'Temperate agroforest' %}selected{% endif %}>Temperate agroforest</option>
-              <option value="Mature forest (reforested)" {% if carbon_data and carbon_data.soil_type == 'Mature forest (reforested)' %}selected{% endif %}>Mature forest (reforested)</option>
-              <option value="Peatland (restored)" {% if carbon_data and carbon_data.soil_type == 'Peatland (restored)' %}selected{% endif %}>Peatland (restored)</option>
+              <option value="Grassland"
+                {% if carbon_data and carbon_data.soil_type == 'Grassland' %}selected{% endif %}>
+                Grassland
+              </option>
+              <option value="Temperate agroforest"
+                {% if carbon_data and carbon_data.soil_type == 'Temperate agroforest' %}selected{% endif %}>
+                Temperate agroforest
+              </option>
+              <option value="Mature forest (reforested)"
+                {% if carbon_data and carbon_data.soil_type == 'Mature forest (reforested)' %}selected{% endif %}>
+                Mature forest (reforested)
+              </option>
+              <option value="Peatland (restored)"
+                {% if carbon_data and carbon_data.soil_type == 'Peatland (restored)' %}selected{% endif %}>
+                Peatland (restored)
+              </option>
             </select>
           </div>
 
@@ -119,7 +129,9 @@
 
           <button type="submit" class="btn btn-success">Save</button>
         </form>
-        {% endif %} {% if carbon_data %}
+        {% endif %}
+
+        {% if carbon_data %}
         <form
           action="{{ url_for('views.delete_carbon', id=carbon_data.id) }}"
           method="POST"
