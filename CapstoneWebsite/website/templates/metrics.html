@@ -3,10 +3,11 @@
 
 <!-- HERO SECTION -->
 <section class="hero-metrics">
-  <!-- Optional overlay if you want text over the image -->
   <div class="hero-image">
-    <!-- Replace 'pears-hero.jpg' with your actual image -->
-    <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Background pears" />
+    <img
+      src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
+      alt="Background pears"
+    />
   </div>
   <div class="hero-text">
     <h1>Food Forest name</h1>
@@ -17,29 +18,128 @@
 <!-- METRICS SECTION -->
 <section class="metrics-section">
   <h2>Metrics</h2>
-  
+
   <div class="metrics-grid">
-    <!-- Left Column: Large image + description -->
+    <!-- Left Column -->
     <div class="metrics-left">
       <div class="metrics-card">
-        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Carbon storage image" />
+        <img
+          src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
+          alt="Carbon storage image"
+        />
         <h3>Carbon storage</h3>
         <p>Description of the graph</p>
       </div>
     </div>
 
-    <!-- Right Column: 2 smaller images stacked -->
+    <!-- Middle Column -->
     <div class="metrics-right">
       <div class="metrics-card">
-        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Water storage graph" />
+        <img
+          src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
+          alt="Water storage graph"
+        />
         <h3>Water storage</h3>
         <p>Description of graph</p>
       </div>
 
       <div class="metrics-card">
-        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Biodiversity index graph" />
+        <img
+          src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
+          alt="Biodiversity index graph"
+        />
         <h3>Biodiversity index</h3>
         <p>Description of the graph</p>
+      </div>
+    </div>
+
+    <!-- Right Column: Carbon Info / Form -->
+    <div class="metrics-data">
+      <div class="metrics-card carbon-info-card">
+        <h3>Carbon Storage Info</h3>
+
+        {% if carbon_data %}
+          <p><strong>Size (m²):</strong> {{ carbon_data.size_m2 }}</p>
+          <p><strong>Soil Type:</strong> {{ carbon_data.soil_type }}</p>
+          <p><strong>Age (years):</strong> {{ carbon_data.age_years }}</p>
+
+          {% if carbon_estimate %}
+            <p>
+              <strong>Estimated Carbon Sequestration:</strong>
+              {{ carbon_estimate.min }} – {{ carbon_estimate.max }} {{ carbon_estimate.unit }}
+            </p>
+          {% endif %}
+        {% else %}
+          <p>No carbon data added yet.</p>
+        {% endif %}
+
+        <a href="{{ url_for('views.metrics', form='true') }}"
+           class="btn btn-primary"
+           style="margin-top: 0.5rem">
+          Add/Edit Data
+        </a>
+
+        {% if show_form %}
+        <form method="POST" class="carbon-form">
+          <div class="form-group">
+            <label for="size">Size (m²)</label>
+            <input
+              type="number"
+              step="0.01"
+              name="size"
+              id="size"
+              required
+              value="{{ carbon_data.size_m2 if carbon_data else '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="soil">Soil Type</label>
+            <select name="soil" id="soil" required>
+              <option value="" disabled {% if not carbon_data %}selected{% endif %}>Select Soil Type</option>
+              <option value="Grassland"
+                {% if carbon_data and carbon_data.soil_type == 'Grassland' %}selected{% endif %}>
+                Grassland
+              </option>
+              <option value="Temperate agroforest"
+                {% if carbon_data and carbon_data.soil_type == 'Temperate agroforest' %}selected{% endif %}>
+                Temperate agroforest
+              </option>
+              <option value="Mature forest (reforested)"
+                {% if carbon_data and carbon_data.soil_type == 'Mature forest (reforested)' %}selected{% endif %}>
+                Mature forest (reforested)
+              </option>
+              <option value="Peatland (restored)"
+                {% if carbon_data and carbon_data.soil_type == 'Peatland (restored)' %}selected{% endif %}>
+                Peatland (restored)
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="age">Age (years)</label>
+            <input
+              type="number"
+              name="age"
+              id="age"
+              required
+              value="{{ carbon_data.age_years if carbon_data else '' }}"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-success">Save</button>
+        </form>
+        {% endif %}
+
+        {% if carbon_data %}
+        <form
+          action="{{ url_for('views.delete_carbon', id=carbon_data.id) }}"
+          method="POST"
+          style="margin-top: 0.5rem"
+        >
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+        {% endif %}
       </div>
     </div>
   </div>
