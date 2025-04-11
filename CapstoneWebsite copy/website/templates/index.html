@@ -18,29 +18,8 @@
 
   <!-- SECTION 2 -->
   <div class="section" id="section2" data-bg="#E8E1F2" data-text-color="#333">
-    <h1>Section 2</h1>
+    <h1>Why Food Forests?</h1>
     <div class="line"></div>
-    <p>
-      Another piece of content goes here. This could be a short introduction or
-      a mission statement.
-    </p>
-  </div>
-
-  <!-- SECTION 3 -->
-  <div class="section" id="section3" data-bg="#F2EDE1" data-text-color="#555">
-    <h1>Section 3</h1>
-    <div class="line"></div>
-    <p>
-      Use additional sections as needed for videos, images, or other
-      storytelling elements.
-    </p>
-  </div>
-
-  <!-- SECTION 4 -->
-  <div class="section" id="section4" data-bg="#E1F2E5" data-text-color="#000">
-    <h1>Section 4</h1>
-    <div class="line"></div>
-    <p>Another spot for relevant info or calls to action.</p>
   </div>
 
   <!-- WHY US Sections -->
@@ -95,9 +74,10 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const fullpageInstance = new fullpage("#fullpage", {
-      scrollingSpeed: 1000,
       autoScrolling: true,
-      navigation: false,
+      scrollOverflow: true,
+      scrollingSpeed: 700, // reduce from 1000 for snappier response
+      easingcss3: "ease-in-out", // or try 'easeOutExpo' with JS-based easing
       onLeave: function (origin, destination, direction) {
         const leavingText = origin.item.querySelector("h1");
         const enteringText = destination.item.querySelector("h1");
