@@ -1,78 +1,246 @@
-{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Revamped Fullpage Layout</title>
 
-<!-- Hero / Splash Section -->
-<section class="hero">
-  <div class="hero-left">
-    <h1>Welcome to EcoLink</h1>
-    <!-- Two-button row instead of one "Explore" button -->
-    <div class="button-row">
-      <a href="#0" 
-      class="cta-button" 
-      onclick="document.getElementById('landing').scrollIntoView({behavior: 'smooth'}); return false;">
-     I’m a business
-      </a>      
-      <a href="/profile" class="cta-button">I’m a food forest</a>
+  <!-- Fullpage.js CSS -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.css" 
+  />
 
+  <!-- (Optional) Your own stylesheet first so you can override it below -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- GSAP Scripts -->
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js">
+  </script>
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js">
+  </script>
+
+  <style>
+    /* The section class for FullPage.js */
+    .section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      font-size: 3rem; /* Adjust as needed */
+      overflow: hidden;
+      position: relative;
+      transition: background-color 0.5s;
+    }
+
+    /* Ken Burns effect on #section1 (hero) */
+    #section1 {
+      transform-origin: center center;
+      animation: kenBurns 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes kenBurns {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.2);
+      }
+    }
+
+    /* Just a simple “line” element to demonstrate GSAP width animations */
+    .line {
+      width: 150px;
+      height: 4px;
+      background: currentColor; /* so it follows the text color */
+      margin: 2rem auto;
+      transition: width 0.5s;
+    }
+
+    /* Add additional custom styles for “why-us” sections */
+    .why-us-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .why-us-content img {
+      max-width: 100%;
+      height: auto;
+    }
+    .why-us-content p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Fullpage container -->
+  <div id="fullpage">
+    <!-- SECTION 1 (Hero) -->
+    <div 
+      class="section" 
+      id="section1" 
+      data-bg="#DCF5F2" 
+      data-text-color="#000">
+      <h1>Welcome to Our Revamped Site</h1>
+      <div class="line"></div>
+      <p style="font-size:1.2rem;">
+        An immersive journey to discover why food forests are the future of sustainable produce.
+      </p>
     </div>
-  </div>
 
-  <div class="hero-right">
-    <!-- The pear image (same as before) -->
-    <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Pears">
-  </div>
-</section>
-
-<!-- LANDING SECTION -->
-<section id="landing" class="landing-section">
-  <h2>Explore Sustainable Food Forests, One Harvest at a Time</h2>
-  <p class="subtitle">
-    Connecting you with sustainable food forests and their environmental impact.
-  </p>
-  <a class="cta-button" href="{{ url_for('views.food_forests') }}"
-    >Explore food forests</a
-  >
-
-  <!-- Map container -->
-  <div id="map"></div>
-  <!-- Why us? -->
-  <div class="why-us-header">
-    <h3>Why us?</h3>
-    <a href="{{ url_for('views.about_us') }}">Learn more</a>
-  </div>
-
-  <div class="why-us-grid">
-    <!-- Card 1 -->
-    <div class="why-us-card">
-      <img
-        src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
-        alt="Placeholder 1"
-      />
-      <h4>1</h4>
-      <p>Direct Connection with Food Forest Owners</p>
+    <!-- SECTION 2 (Generic content) -->
+    <div 
+      class="section" 
+      id="section2" 
+      data-bg="#E8E1F2" 
+      data-text-color="#333">
+      <h1>Section 2</h1>
+      <div class="line"></div>
+      <p style="font-size:1.2rem;">
+        Another piece of content goes here. This could be a short introduction or a mission statement.
+      </p>
     </div>
 
-    <!-- Card 2 -->
-    <div class="why-us-card">
-      <img
-        src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
-        alt="Placeholder 2"
-      />
-      <h4>2</h4>
-      <p>Transparent Environmental Impact Metrics</p>
+    <!-- SECTION 3 (Generic content) -->
+    <div 
+      class="section" 
+      id="section3" 
+      data-bg="#F2EDE1" 
+      data-text-color="#555">
+      <h1>Section 3</h1>
+      <div class="line"></div>
+      <p style="font-size:1.2rem;">
+        Use additional sections as needed for videos, images, or other storytelling elements.
+      </p>
     </div>
 
-    <!-- Card 3 -->
-    <div class="why-us-card">
-      <img
-        src="{{ url_for('static', filename='images/hero_pears.jpg') }}"
-        alt="Placeholder 3"
-      />
-      <h4>3</h4>
-      <p>Support Sustainable Agriculture with Every Purchase</p>
+    <!-- SECTION 4 (Generic content) -->
+    <div 
+      class="section" 
+      id="section4" 
+      data-bg="#E1F2E5" 
+      data-text-color="#000">
+      <h1>Section 4</h1>
+      <div class="line"></div>
+      <p style="font-size:1.2rem;">
+        Another spot for relevant info or calls to action.
+      </p>
     </div>
-  </div>
 
+    <!-- WHY-US-1 -->
+    <div 
+      class="section" 
+      id="why-us-1" 
+      data-bg="#F2E1E1" 
+      data-text-color="#000">
+      <h1>Why Us #1</h1>
+      <div class="line"></div>
+      <div class="why-us-content">
+        <img src="images/why-us-1.jpg" alt="Reason 1" />
+        <p>Food forests increase biodiversity by creating layered ecosystems.</p>
+      </div>
+    </div>
 
-</section>
+    <!-- WHY-US-2 -->
+    <div 
+      class="section" 
+      id="why-us-2" 
+      data-bg="#E1F1F2" 
+      data-text-color="#333">
+      <h1>Why Us #2</h1>
+      <div class="line"></div>
+      <div class="why-us-content">
+        <img src="images/why-us-2.jpg" alt="Reason 2" />
+        <p>They naturally improve soil fertility, reducing or eliminating the need for synthetic fertilizers.</p>
+      </div>
+    </div>
 
-{% endblock %}
+    <!-- WHY-US-3 -->
+    <div 
+      class="section" 
+      id="why-us-3" 
+      data-bg="#F2F1E1" 
+      data-text-color="#333">
+      <h1>Why Us #3</h1>
+      <div class="line"></div>
+      <div class="why-us-content">
+        <img src="images/why-us-3.jpg" alt="Reason 3" />
+        <p>They sequester carbon, helping mitigate climate change while producing fresh, nutritious food.</p>
+      </div>
+    </div>
+
+    <!-- Add as many "why-us" sections as you need -->
+
+  </div> <!-- End #fullpage -->
+
+  <!-- Fullpage.js and GSAP (again) at bottom for performance reasons -->
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js">
+  </script>
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js">
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const fullpageInstance = new fullpage("#fullpage", {
+        scrollingSpeed: 1000,
+        autoScrolling: true,
+        navigation: false, // set to true if you want the small nav dots
+        onLeave: function (origin, destination, direction) {
+          const leavingText = origin.item.querySelector("h1");
+          const enteringText = destination.item.querySelector("h1");
+          const line = destination.item.querySelector(".line");
+
+          // Animate the leaving text to fade out
+          gsap.to(leavingText, {
+            opacity: 0,
+            y: -100,
+            duration: 1.5,
+            ease: "power2.out",
+          });
+
+          // Animate the entering text to fade in
+          gsap.fromTo(
+            enteringText,
+            { y: 100, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              color: destination.item.getAttribute("data-text-color"), 
+              duration: 1.5,
+              ease: "power2.out",
+              delay: 0.5,
+            }
+          );
+
+          // Update background color
+          const newBgColor = destination.item.getAttribute("data-bg");
+          destination.item.style.backgroundColor = newBgColor;
+
+          // Update text color on the line
+          gsap.to(line, { color: destination.item.getAttribute("data-text-color"), duration: 0.5 });
+
+          // Example “line width” animation
+          const newLineWidth = (destination.index + 1) * 150;
+          gsap.to(line, {
+            width: newLineWidth + "px",
+            duration: 1.5,
+            ease: "power2.out",
+          });
+        },
+      });
+
+      // If you want clickable links for navigation:
+      // document.getElementById("link1").addEventListener("click", () => {
+      //   fullpageInstance.moveTo(1);
+      // });
+      // Add more as needed...
+    });
+  </script>
+</body>
+</html>
