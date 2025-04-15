@@ -1,0 +1,2843 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff; /* White page background by default */
+  color: #000;
+}
+
+/* Update navbar styling to match sustainability theme */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #2e7d32; /* Green background to match sustainability theme */
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-left .brand {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.4rem;
+  transition: transform 0.3s;
+}
+
+.nav-left .brand:hover {
+  transform: translateY(-2px);
+}
+
+.nav-right {
+  list-style: none; /* Fixed: was list_style with underscore */
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-right li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-right a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: 0.3rem 0;
+  transition: color 0.3s;
+}
+
+/* Underline effect on hover - improved animation */
+.nav-right a:not(.signup-btn)::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background-color: #fff;
+  transition: width 0.3s ease;
+  opacity: 0;
+}
+
+.nav-right a:not(.signup-btn):hover::after {
+  width: 100%;
+  opacity: 1;
+}
+
+/* Sign up button: white outline, green background on hover */
+.signup-btn {
+  border: 2px solid #fff;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  background: transparent;
+  color: #fff;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+
+.signup-btn:hover {
+  background: #fff;
+  color: #2e7d32;
+  transform: translateY(-2px);
+}
+
+/* Hero container */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* left text, right image */
+  background: #d8f0f0; /* pastel mint, adapt as needed */
+  min-height: 80vh; /* tall hero */
+  padding: 2rem; /* space around content */
+}
+
+/* Left column (title + buttons) */
+.hero-left {
+  flex: 1;
+  max-width: 600px; /* so text doesn't stretch too wide */
+}
+
+.hero-left h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+/* Horizontal row for multiple CTAs */
+.button-row {
+  display: flex;
+  gap: 1rem;
+}
+
+/* CTA buttons styling */
+.cta-button {
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.3s, transform 0.2s;
+  display: inline-block;
+}
+.cta-button:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+.cta-button.secondary {
+  background: transparent;
+  border: 2px solid #2e7d32;
+  color: #2e7d32;
+}
+.cta-button.secondary:hover {
+  background: rgba(46, 125, 50, 0.1);
+}
+
+.cta-button.primary {
+  background: #2e7d32;
+}
+.cta-button.primary:hover {
+  background: #1b5e20;
+}
+
+/* Right column (pear image) */
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Make sure the image doesn't overflow */
+.hero-right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px; /* optional subtle rounding */
+}
+
+/* LANDING SECTION */
+.landing-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem; /* adjust as needed to reduce whitespace */
+}
+
+/* Heading / Subtitle styling */
+.landing-section h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.landing-section .subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+.cta-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  transition: background 0.3s;
+}
+.cta-button:hover {
+  background: #333;
+}
+
+/* HERO-metrics SECTION */
+/***** HERO SECTION *****/
+.hero-metrics {
+  position: relative;
+  width: 100%;
+  height: 50vh; /* slightly smaller than before, adjust as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.hero-metrics .hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-metrics .hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-metrics .hero-text {
+  position: relative;
+  z-index: 2; /* above the background image */
+  text-align: center;
+  color: #fff;
+}
+
+.hero-metrics .hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-metrics .hero-text p {
+  font-size: 1.2rem;
+}
+
+/***** METRICS SECTION *****/
+.metrics-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.metrics-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+/* The main 3-column layout:
+   - Left: .metrics-left
+   - Middle: .metrics-right
+   - Right: .metrics-data
+*/
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns, can adjust */
+  gap: 1.5rem;
+}
+
+/* Alternatively, if you want the middle bigger:
+   grid-template-columns: 1fr 1.2fr 1fr;
+   or something similar 
+*/
+
+/***** METRICS CARDS *****/
+.metrics-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* The images in the cards */
+.metrics-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.metrics-card h3 {
+  margin-bottom: 0.3rem;
+  font-size: 1.2rem;
+}
+
+.metrics-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/***** CARBON INFO CARD *****/
+.carbon-info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* align text & form to the left */
+  text-align: left; /* override the default center from .metrics-card */
+}
+
+/* The "Add/Edit Data" link can remain a button or an anchor as you like */
+.carbon-info-card a.btn {
+  margin-top: 0.5rem;
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background: #007bff; /* typical bootstrap-ish color */
+  transition: background 0.3s;
+}
+.carbon-info-card a.btn:hover {
+  background: #0056b3;
+}
+
+/***** THE CARBON FORM *****/
+.carbon-form {
+  margin-top: 1rem;
+  width: 100%; /* let it fill the card width */
+}
+
+.carbon-form .form-group {
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.carbon-form .form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+}
+
+.carbon-form .form-group input,
+.carbon-form .form-group select {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.carbon-form button.btn.btn-success {
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background: #28a745;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.carbon-form button.btn.btn-success:hover {
+  background: #218838;
+}
+
+/***** DELETE BUTTON *****/
+.btn.btn-danger {
+  background: #dc3545;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btn.btn-danger:hover {
+  background: #c82333;
+}
+
+/* 2) Map Container */
+#map {
+  width: 100%;
+  height: 400px; /* or 500px, etc. */
+  background: #ccc; /* fallback background if map doesn't load */
+  border: 1px solid #ddd;
+  margin-top: 2rem; /* Add space above the map */
+  margin-bottom: 3rem;
+}
+
+/* Why Us? header with "Learn more" link on the right */
+.why-us-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+}
+.why-us-header h3 {
+  font-size: 1.5rem;
+}
+.why-us-header a {
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+}
+.why-us-header a:hover {
+  text-decoration: underline;
+}
+
+/* Why Us? grid of 3 images/cards */
+.why-us-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.why-us-card {
+  flex: 1; /* each card can stretch */
+  min-width: 200px;
+  background: #f9f9f9;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+}
+.why-us-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+.why-us-card h4 {
+  margin-bottom: 0.5rem;
+}
+
+/* CLIMATE CLEANUP SECTION */
+.climate-cleanup {
+  background: #f5f5f5;
+  padding: 1.5rem;
+}
+
+.climate-cleanup h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.climate-cleanup h4 {
+  font-size: 1.1rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.climate-cleanup p {
+  margin-bottom: 1rem;
+}
+
+.climate-cta {
+  margin-top: 1rem;
+}
+
+.climate-cta button {
+  background: #000;
+  color: #fff;
+  border: none;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.climate-cta button:hover {
+  background: #333;
+}
+
+/* Update footer to match navbar theme */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background: #2e7d32;
+  color: #fff;
+  margin-top: 2rem;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* 1) Page Wrapper */
+.food-forest-library {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  /* If your base body background is white, this is enough. */
+}
+
+/* 2) Top Section: Title, Subtitle, Search */
+.library-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.library-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.library-header .subtitle {
+  font-size: 1rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0.5rem auto 2rem;
+  line-height: 1.5;
+}
+
+/* Search Container: input + button */
+.search-container {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden; /* so the button edges align */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.search-container input {
+  flex: 1; /* fill remaining space */
+  padding: 0.8rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-container button {
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-container button:hover {
+  background: #1b5e20;
+}
+
+.search-icon {
+  margin: 0 0.5rem 0 1rem;
+  color: #666;
+}
+
+/* FOOD FOREST LIBRARY NEW STYLES */
+
+/* Hero Banner for Forest Library */
+.forest-library-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/static/images/hero_pears.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 5rem 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
+
+.forest-hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.forest-hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.forest-hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Search and Filter Section */
+.search-filter-section {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 0.9rem;
+}
+
+/* Featured Forest Section */
+.featured-forest {
+  position: relative;
+  background: #e8f5e9;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.featured-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: #ff9800;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.featured-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.featured-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-details {
+  flex: 1;
+  min-width: 300px;
+  padding: 2rem;
+}
+
+.forest-category {
+  display: inline-block;
+  background: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+}
+
+.featured-details h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.forest-location {
+  color: #666;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.forest-description {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.forest-metrics {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metric i {
+  color: #2e7d32;
+  font-size: 1.2rem;
+}
+
+.featured-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.secondary-link {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.secondary-link:hover {
+  text-decoration: underline;
+}
+
+/* Forest Categories Section */
+.forest-categories {
+  margin-bottom: 2rem;
+}
+
+.forest-categories h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.category-tab {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.category-tab:hover {
+  background: #f0f0f0;
+}
+
+.category-tab.active {
+  background: #2e7d32;
+  color: white;
+  border-color: #2e7d32;
+}
+
+/* Forest Grid */
+.forest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Forest Card */
+.forest-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.forest-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.forest-card-image {
+  position: relative;
+  height: 200px;
+}
+
+.forest-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.forest-card-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.forest-card-content {
+  padding: 1.5rem;
+}
+
+.forest-card-content h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.forest-card-content .forest-location {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.8rem;
+}
+
+.forest-card-content .forest-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.forest-card-metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.forest-card-metrics i {
+  color: #2e7d32;
+  margin-right: 0.3rem;
+}
+
+.forest-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forest-card-button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.forest-card-button:hover {
+  background: #1b5e20;
+}
+
+.forest-card-favorite {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.forest-card-favorite:hover {
+  transform: scale(1.1);
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.view-button {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+}
+
+.view-button:hover {
+  background: #f0f0f0;
+}
+
+.view-button.active {
+  background: #2e7d32;
+  color: white;
+  border-color: #2e7d32;
+}
+
+/* Map Container */
+.map-container {
+  margin-bottom: 2rem;
+}
+
+#forests-map {
+  height: 500px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.pagination-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  background: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.pagination-button:hover {
+  background: #f0f0f0;
+}
+
+.pagination-button.active {
+  background: #2e7d32;
+  color: white;
+  border-color: #2e7d32;
+}
+
+.pagination-ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+/* Join Network CTA */
+.join-network {
+  background: linear-gradient(to right, #2e7d32, #1b5e20);
+  color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.join-network-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+}
+
+.join-network-text {
+  flex: 2;
+  min-width: 300px;
+}
+
+.join-network-text h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.join-network-text p {
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.join-network-action {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .forest-library-hero {
+    padding: 3rem 1rem;
+  }
+
+  .forest-hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .featured-content {
+    flex-direction: column;
+  }
+
+  .featured-image {
+    height: 250px;
+  }
+
+  .forest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .join-network-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .filter-options {
+    flex-direction: column;
+  }
+}
+
+/* 3) Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+/* 4) Individual Card Styles */
+.card {
+  background: #f8f8f8;
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.card h5 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: #000;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+/* 5) Placeholder Image Block */
+.img-placeholder {
+  background: #ddd;
+  width: 100%;
+  height: 150px; /* or whatever height you want */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.img-placeholder span {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* 6) Actions at bottom of card (button + link) */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card-actions button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.card-actions button:hover {
+  background: #333;
+}
+
+.card-actions a {
+  color: whitesmoke;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.card-actions a:hover {
+  text-decoration: underline;
+}
+
+/* --- ABOUT PAGE WRAPPER --- */
+.about-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background: #fff; /* White content area */
+}
+
+/* 2-Column Layout: Left text + Right image */
+.about-content {
+  display: flex;
+  flex-wrap: wrap; /* Ensures responsiveness on smaller screens */
+  gap: 2rem;
+}
+
+/* Left Column: Heading, text, form */
+.about-left {
+  flex: 1 1 400px; /* Grows/shrinks, min width ~400px */
+}
+
+.about-left h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.about-subtitle {
+  font-weight: normal;
+  font-size: 1.1rem;
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+.about-left p {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+/* Right Column: Large image */
+.about-right {
+  flex: 1 1 300px; /* The image column can also grow/shrink */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.about-right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px; /* Optional: slightly rounded corners */
+}
+
+/* --- CONTACT FORM --- */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap; /* so they stack on small screens */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: #666;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Submit button styling */
+.submit-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.submit-button:hover {
+  background: #333;
+}
+
+/* --- FOOTER (OPTIONAL) ---
+   If you want a footer with columns, you can add something like:
+*/
+footer {
+  background: black;
+  border-top: 1px solid #eee;
+  padding: 2rem 1rem;
+}
+footer .footer-content {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+}
+footer .footer-left {
+  /* e.g. site name, social icons */
+}
+footer .footer-right {
+  display: flex;
+  gap: 4rem; /* space between topic columns */
+}
+footer .topic-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+footer .topic-column h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+/* ... etc. */
+
+/* PROFILE PAGE WRAPPER */
+.profile-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* -- TOP SECTION: 2 columns -- */
+.profile-top {
+  display: flex;
+  flex-wrap: wrap; /* ensures wrapping on small screens */
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* FOREST DETAILS COLUMN */
+.forest-details {
+  flex: 1; /* takes up half (ish) in a 2-col layout */
+  min-width: 280px;
+  background: #eee; /* matching the gray from your mock? */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center the image & text */
+  text-align: center;
+}
+
+.forest-details img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.forest-details h2 {
+  margin-bottom: 0.5rem;
+}
+
+/* DETAILS COLUMN */
+.details-wrapper {
+  flex: 2; /* or 1, depending on how wide you want it */
+  min-width: 280px;
+  background: #eee;
+  padding: 1rem;
+  width: 30%;
+  max-width: 400px;
+}
+
+.details-wrapper h2 {
+  margin-bottom: 1rem;
+}
+
+/* METRICS BOX */
+.metrics-box {
+  background: #ccc;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.metrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.metrics-header h3 {
+  margin: 0;
+}
+
+/* Tab button example */
+.tab-button {
+  background: #fff;
+  border: 1px solid #333;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.tab-button:hover {
+  background: #ddd;
+}
+
+/* METRICS CONTENT */
+.metrics-content p {
+  margin: 0.5rem 0;
+}
+
+.metrics-section {
+  cursor: pointer;
+}
+
+/* -- INVENTORY SECTION -- */
+.inventory-section {
+  background: #ddd; /* big gray box per your mock */
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Inventory heading + tab */
+.inventory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.inventory-header h2 {
+  margin: 0;
+}
+
+/* PRODUCT GRID */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  background: #fdf2f2; /* slightly pinkish area to match your screenshot */
+  padding: 1rem;
+}
+
+/* PRODUCT CARD */
+.product-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0.5rem;
+  text-align: center;
+  transition: box-shadow 0.3s;
+}
+.product-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.product-card h4 {
+  margin-bottom: 0.25rem;
+}
+
+.product-card p {
+  margin-bottom: 0.25rem;
+}
+.price {
+  font-weight: bold;
+}
+
+/* FOOD FOREST SECTION */
+
+/* Food Forest HERO SECTION */
+.hero-forest {
+  position: relative;
+  width: 100%;
+  height: 60vh; /* adjust for desired hero height */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* The background image container */
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fill the area, cropping if needed */
+}
+
+/* Text overlay on top of hero image */
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff; /* white text on top of the pears image */
+}
+
+.hero-overlay h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-overlay p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.hero-btn:hover {
+  background: #333;
+}
+
+/* INVENTORY SECTION */
+
+.inventory-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Reduce vertical padding to tighten layout */
+  padding: 1rem;
+}
+
+.inventory-section h2 {
+  font-size: 1.5rem; /* slightly smaller heading */
+  margin-bottom: 1rem;
+}
+
+/* Inventory grid with less gap */
+.inventory-grid {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Ensure left (featured) takes up more space than right */
+.featured-product {
+  flex: 2; /* bigger portion */
+  background: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #eee;
+}
+
+.product-grid-right {
+  flex: 1; /* smaller portion */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.featured-product img {
+  max-height: 300px;
+  width: 100%; /* keep width flexible */
+  object-fit: cover; /* crops to fill if the aspect ratio doesn't match */
+  display: block;
+}
+
+.featured-product h3 {
+  margin-bottom: 0.3rem;
+  font-size: 1.1rem;
+}
+.featured-product p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Product card styling trimmed down */
+.product-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem; /* less padding than before */
+  text-align: center;
+}
+
+.product-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.product-card h4 {
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+}
+
+.product-card p {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0; /* If you want minimal bottom spacing */
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  font-size: 3rem;
+  overflow: hidden;
+  position: relative;
+  transition: background-color 0.5s;
+}
+
+#section1 {
+  background: url("/static/images/fresh-vegetables.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #dcf5f2;
+  color: #000;
+  position: relative;
+}
+
+#section1 .overlay {
+  background: rgba(255, 255, 255, 0.75); /* semi-transparent white */
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  text-align: center;
+}
+
+.line {
+  width: 150px;
+  height: 4px;
+  background: currentColor;
+  margin: 2rem auto;
+  transition: width 0.5s;
+}
+
+.why-us-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.why-us-content img {
+  max-width: 100%;
+  height: auto;
+}
+.why-us-content p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* NEW STYLES FOR FULLPAGE SECTIONS */
+
+/* Content container for sections */
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+/* Welcome section styling */
+#welcome-section {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.welcome-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.welcome-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Food forest section styling */
+.food-forest-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.food-forest-text {
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
+}
+
+.food-forest-text p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.food-forest-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.food-forest-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Benefit sections styling */
+.benefit-section {
+  text-align: center;
+}
+
+.benefit-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.benefit-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.benefit-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.benefit-content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* Fullpage navigation styling */
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+  background: #2e7d32 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .welcome-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+  }
+
+  .benefit-icon {
+    font-size: 3rem;
+  }
+
+  .benefit-content h2 {
+    font-size: 2rem;
+  }
+
+  .benefit-content p {
+    font-size: 1rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-button {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+  }
+}
+
+/* Existing styles remain unchanged */
+
+/* FOREST PAGE STYLES */
+.forest-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/static/images/hero_pears.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.forest-hero-content {
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.forest-hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.forest-location {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.hero-btn {
+  background: #2e7d32;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.hero-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Inventory Section */
+.inventory-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.inventory-container h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #333;
+}
+
+.inventory-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.featured-product {
+  display: flex;
+  flex-wrap: wrap;
+  background: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.featured-product img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: cover;
+}
+
+.featured-product-info {
+  flex: 1;
+  min-width: 300px;
+  padding: 2rem;
+}
+
+.featured-product-info h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+}
+
+.featured-product-info p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.view-product-btn {
+  display: inline-block;
+  background: #2e7d32;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.view-product-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 1.5rem;
+}
+
+.product-info h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.product-info p {
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.product-link {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+.product-link:hover {
+  color: #1b5e20;
+  text-decoration: underline;
+}
+
+/* Forest Metrics Section */
+.forest-metrics {
+  margin: 4rem 0;
+  padding: 3rem;
+  background: #e8f5e9;
+  border-radius: 8px;
+}
+
+.forest-metrics h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2e7d32;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.metric-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.metric-card i {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.metric-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+.metric-card p {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Forest Story Section */
+.forest-story {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin: 4rem 0;
+}
+
+.story-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.story-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.story-content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.story-content ul {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.story-content li {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.learn-more-link {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+.learn-more-link:hover {
+  color: #1b5e20;
+  text-decoration: underline;
+}
+
+.story-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.story-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* PRODUCT DETAIL PAGE STYLES */
+.product-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.product-overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.product-image {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.product-info h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #2e7d32;
+  margin-bottom: 1.5rem;
+}
+
+.product-description {
+  margin-bottom: 2rem;
+}
+
+.product-description p {
+  line-height: 1.6;
+  color: #555;
+}
+
+.product-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.add-to-cart-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-btn {
+  background: white;
+  color: #666;
+  border: 1px solid #ddd;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.favorite-btn:hover {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.product-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  color: #666;
+}
+
+.product-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.product-meta i {
+  color: #2e7d32;
+}
+
+/* True Value Assessment Section */
+.true-value-section {
+  margin-bottom: 4rem;
+  padding: 3rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.true-value-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.true-value-section > p {
+  margin-bottom: 2rem;
+  color: #555;
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+.value-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.cost-breakdown {
+  flex: 1;
+  min-width: 300px;
+}
+
+.cost-breakdown h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.pie-chart {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.chart-placeholder {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #eee;
+}
+
+.chart-legend {
+  flex: 1;
+  min-width: 200px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-label {
+  color: #555;
+}
+
+/* Comparison Metrics Section */
+.comparison-section {
+  margin-bottom: 4rem;
+}
+
+.comparison-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.comparison-section > p {
+  margin-bottom: 2rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.metric-card {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.metric-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.comparison-chart {
+  margin-bottom: 1.5rem;
+}
+
+.comparison-bars {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  height: 250px;
+  align-items: flex-end;
+}
+
+.bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+}
+
+.bar-label {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.bar-wrapper {
+  width: 40px;
+  height: 200px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #4caf50;
+  border-radius: 4px 4px 0 0;
+  transition: height 1s ease;
+}
+
+.bar.supermarket {
+  background: #f44336;
+}
+
+.bar-value {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.metric-description {
+  text-align: center;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Related Products Section */
+.related-products {
+  margin-bottom: 3rem;
+}
+
+.related-products h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.related-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.related-products .product-card {
+  text-align: center;
+}
+
+.related-products .product-card h3 {
+  font-size: 1.2rem;
+  margin: 1rem 0 0.5rem;
+  color: #333;
+}
+
+.related-products .product-card p {
+  color: #2e7d32;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.view-product-link {
+  display: inline-block;
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.view-product-link:hover {
+  color: #1b5e20;
+  text-decoration: underline;
+}
+
+/* ARTICLE PAGE STYLES */
+.article-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.comparison-article {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.article-header {
+  padding: 3rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.article-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.visual-comparison {
+  padding: 2rem;
+  background: #f9f9f9;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.comparison-column {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-column h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.product-image {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.product-image img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.price-tag {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.price-value {
+  font-weight: 500;
+}
+
+.value-breakdown {
+  margin-bottom: 2rem;
+}
+
+.chart-container {
+  margin-bottom: 1.5rem;
+}
+
+.purchase-value h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.total-value {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.cost-breakdown,
+.benefit-breakdown {
+  margin-bottom: 1.5rem;
+}
+
+.cost-item,
+.benefit-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cost-label,
+.benefit-label {
+  color: #555;
+}
+
+.cost-value {
+  color: #f44336;
+}
+
+.benefit-item.positive .benefit-value {
+  color: #4caf50;
+}
+
+.true-cost h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.total-cost {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.supermarket .total-cost {
+  color: #f44336;
+}
+
+.food-forest .total-cost {
+  color: #4caf50;
+}
+
+.amount-slider {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.amount-slider h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.current-amount {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.slider {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #2e7d32;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.detailed-explanation {
+  padding: 3rem;
+}
+
+.detailed-explanation h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #333;
+  text-align: center;
+}
+
+.explanation-block {
+  margin-bottom: 2.5rem;
+}
+
+.explanation-block h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+}
+
+.explanation-block p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.explanation-block ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.explanation-block li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.article-cta {
+  padding: 3rem;
+  background: #e8f5e9;
+  text-align: center;
+}
+
+.article-cta h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+}
+
+.article-cta p {
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #555;
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .forest-hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-overview {
+    flex-direction: column;
+  }
+
+  .product-image {
+    max-width: 100%;
+  }
+
+  .comparison-bars {
+    gap: 1.5rem;
+  }
+
+  .bar-container {
+    width: 60px;
+  }
+
+  .detailed-explanation {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .forest-hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .product-actions {
+    flex-direction: column;
+  }
+
+  .favorite-btn {
+    width: 100%;
+  }
+
+  .comparison-bars {
+    gap: 1rem;
+  }
+
+  .bar-container {
+    width: 50px;
+  }
+
+  .bar-wrapper {
+    width: 30px;
+  }
+}
+
+
+/* AUTH PAGES STYLING */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 150px);
+  padding: 2rem 1rem;
+  background-color: #f9f9f9;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.auth-welcome {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.account-type-selector {
+  display: flex;
+  margin-bottom: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.account-type-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.account-type-btn.active {
+  background: #2e7d32;
+  color: white;
+}
+
+.auth-form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.auth-form .form-control {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.auth-form .form-control:focus {
+  border-color: #2e7d32;
+  outline: none;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+.forgot-password a {
+  color: #2e7d32;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 1rem;
+}
+
+.auth-submit-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+}
+
+.auth-divider span {
+  padding: 0 1rem;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.google-btn:hover {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.auth-footer {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.auth-footer a {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.5rem;
+  }
+
+  .auth-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .account-type-btn {
+    padding: 0.7rem 0.5rem;
+    font-size: 0.9rem;
+  }
+}
