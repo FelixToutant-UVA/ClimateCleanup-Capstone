@@ -1,0 +1,424 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="article-container">
+  <article class="comparison-article">
+    <header class="article-header">
+      <h1>Why Food Forests?</h1>
+      <p class="article-subtitle">Try this tool to visualise the long-term financial impact of conventional agriculture products when including ecological damage.</p>
+    </header>
+
+    <!-- Visual Comparison Section -->
+    <section class="visual-comparison">
+      <div class="comparison-grid">
+        <!-- Supermarket Column -->
+        <div class="comparison-column supermarket">
+          <h2>Supermarket</h2>
+          <div class="product-image">
+            <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Supermarket pear" />
+          </div>
+          <div class="price-tag">
+            <span class="price-label">Price:</span>
+            <span class="price-value">€<span id="supermarket-price">2.05</span> per kg</span>
+          </div>
+          <div class="value-breakdown">
+            <div class="chart-container">
+              <canvas id="supermarketChart"></canvas>
+            </div>
+          </div>
+          <div class="purchase-value">
+            <h3>Purchase Value</h3>
+            <p class="total-value">€<span id="supermarket-purchase-value">4,100</span></p>
+            <div class="cost-breakdown">
+              <div class="cost-item">
+                <span class="cost-label">Loss of biodiversity</span>
+                <span class="cost-value">+€<span id="supermarket-biodiversity-cost">0.45</span> per kg</span>
+              </div>
+              <div class="cost-item">
+                <span class="cost-label">Carbon footprint</span>
+                <span class="cost-value">+€<span id="supermarket-carbon-cost">0.90</span> per kg</span>
+              </div>
+              <div class="cost-item">
+                <span class="cost-label">Water usage</span>
+                <span class="cost-value">+€<span id="supermarket-water-cost">0.50</span> per kg</span>
+              </div>
+            </div>
+            <div class="true-cost">
+              <h3>True cost</h3>
+              <p class="total-cost">€<span id="supermarket-true-cost">7,800</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food Forest Column -->
+        <div class="comparison-column food-forest">
+          <h2>Food Forest</h2>
+          <div class="product-image">
+            <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Food forest pear" />
+          </div>
+          <div class="price-tag">
+            <span class="price-label">Price:</span>
+            <span class="price-value">€<span id="foodforest-price">3.55</span> per kg</span>
+          </div>
+          <div class="value-breakdown">
+            <div class="chart-container">
+              <canvas id="foodforestChart"></canvas>
+            </div>
+          </div>
+          <div class="purchase-value">
+            <h3>Purchase Value</h3>
+            <p class="total-value">€<span id="foodforest-purchase-value">7,100</span></p>
+            <div class="benefit-breakdown">
+              <div class="benefit-item positive">
+                <span class="benefit-label">Biodiversity gain</span>
+                <span class="benefit-value">-€<span id="foodforest-biodiversity-benefit">0.20</span> per kg</span>
+              </div>
+              <div class="benefit-item positive">
+                <span class="benefit-label">Carbon sequestration</span>
+                <span class="benefit-value">-€<span id="foodforest-carbon-benefit">0.70</span> per kg</span>
+              </div>
+              <div class="benefit-item positive">
+                <span class="benefit-label">Water benefits</span>
+                <span class="benefit-value">-€<span id="foodforest-water-benefit">0.15</span> per kg</span>
+              </div>
+            </div>
+            <div class="true-cost">
+              <h3>True cost</h3>
+              <p class="total-cost">€<span id="foodforest-true-cost">5,400</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amount Slider -->
+      <div class="amount-slider">
+        <h3>Amount in KG</h3>
+        <p class="current-amount"><span id="current-amount">2000</span>KG</p>
+        <input type="range" min="100" max="5000" value="2000" step="100" class="slider" id="amountSlider">
+      </div>
+    </section>
+
+    <!-- Detailed Explanation Section -->
+    <section class="detailed-explanation">
+      <h2>Understanding the True Cost of Food</h2>
+      
+      <div class="explanation-block">
+        <h3>Environmental Impact</h3>
+        <p>Conventional agriculture often creates "externalities" - costs that aren't reflected in the price tag but are paid by society and the environment. These include:</p>
+        <ul>
+          <li><strong>Biodiversity Loss:</strong> Monoculture farming and pesticide use reduce wildlife habitat and kill beneficial insects.</li>
+          <li><strong>Carbon Emissions:</strong> Conventional farming relies heavily on fossil fuels for machinery, transportation, and synthetic fertilizers.</li>
+          <li><strong>Water Pollution:</strong> Runoff from fertilizers and pesticides contaminates waterways, creating dead zones and harming aquatic life.</li>
+        </ul>
+      </div>
+      
+      <div class="explanation-block">
+        <h3>Food Forest Benefits</h3>
+        <p>Food forests create positive environmental impacts that offset their higher upfront price:</p>
+        <ul>
+          <li><strong>Carbon Sequestration:</strong> Perennial plants and healthy soil in food forests capture and store carbon from the atmosphere.</li>
+          <li><strong>Biodiversity Enhancement:</strong> Multi-layered food forests provide habitat for birds, insects, and other wildlife.</li>
+          <li><strong>Water Conservation:</strong> Improved soil structure retains moisture, reducing irrigation needs and preventing runoff.</li>
+        </ul>
+      </div>
+      
+      <div class="explanation-block">
+        <h3>The Economics of Sustainability</h3>
+        <p>When environmental costs and benefits are factored in, food forest products often have a lower true cost than conventionally grown alternatives, despite their higher price tag. By purchasing food forest products, you're investing in:</p>
+        <ul>
+          <li>A healthier planet for future generations</li>
+          <li>Local, resilient food systems</li>
+          <li>Higher nutritional quality food</li>
+          <li>Ecosystem services that benefit your community</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="article-cta">
+      <h2>Experience the Difference</h2>
+      <p>Visit our network of food forests to taste the difference and see sustainable agriculture in action.</p>
+      <div class="cta-buttons">
+        <a href="{{ url_for('views.food_forests') }}" class="cta-button primary">Find a Food Forest</a>
+        <a href="{{ url_for('auth.sign_up') }}" class="cta-button secondary">Join Our Community</a>
+      </div>
+    </section>
+  </article>
+</div>
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- JavaScript for the slider functionality -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Base values per kg
+    const baseValues = {
+      supermarket: {
+        price: 2.05,
+        biodiversityCost: 0.45,
+        carbonCost: 0.90,
+        waterCost: 0.50
+      },
+      foodForest: {
+        price: 3.55,
+        biodiversityBenefit: 0.20,
+        carbonBenefit: 0.70,
+        waterBenefit: 0.15
+      }
+    };
+
+    // Initialize charts
+    let supermarketChart, foodforestChart;
+    
+    function initCharts() {
+      // Supermarket chart
+      const supermarketCtx = document.getElementById('supermarketChart').getContext('2d');
+      supermarketChart = new Chart(supermarketCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Production', 'Biodiversity Loss', 'Carbon Emissions', 'Water Usage'],
+          datasets: [{
+            data: [baseValues.supermarket.price, 
+                  baseValues.supermarket.biodiversityCost, 
+                  baseValues.supermarket.carbonCost, 
+                  baseValues.supermarket.waterCost],
+            backgroundColor: [
+              '#4CAF50',
+              '#FF5722',
+              '#2196F3',
+              '#9C27B0'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+      
+      // Food forest chart
+      const foodforestCtx = document.getElementById('foodforestChart').getContext('2d');
+      foodforestChart = new Chart(foodforestCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Production', 'Biodiversity Gain', 'Carbon Sequestration', 'Water Benefits'],
+          datasets: [{
+            data: [baseValues.foodForest.price, 
+                  baseValues.foodForest.biodiversityBenefit, 
+                  baseValues.foodForest.carbonBenefit, 
+                  baseValues.foodForest.waterBenefit],
+            backgroundColor: [
+              '#4CAF50',
+              '#8BC34A',
+              '#03A9F4',
+              '#00BCD4'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+    
+    // Initialize charts
+    initCharts();
+    
+    // Format number with commas
+    function formatNumber(num) {
+      return new Intl.NumberFormat('en-US').format(num);
+    }
+    
+    // Update all values based on amount
+    function updateValues(amount) {
+      // Update displayed amount
+      document.getElementById('current-amount').textContent = amount;
+      
+      // Supermarket calculations
+      const supermarketPrice = baseValues.supermarket.price;
+      const supermarketBiodiversityCost = baseValues.supermarket.biodiversityCost;
+      const supermarketCarbonCost = baseValues.supermarket.carbonCost;
+      const supermarketWaterCost = baseValues.supermarket.waterCost;
+      
+      const supermarketPurchaseValue = supermarketPrice * amount;
+      const supermarketTrueCost = (supermarketPrice + supermarketBiodiversityCost + supermarketCarbonCost + supermarketWaterCost) * amount;
+      
+      // Food forest calculations
+      const foodforestPrice = baseValues.foodForest.price;
+      const foodforestBiodiversityBenefit = baseValues.foodForest.biodiversityBenefit;
+      const foodforestCarbonBenefit = baseValues.foodForest.carbonBenefit;
+      const foodforestWaterBenefit = baseValues.foodForest.waterBenefit;
+      
+      const foodforestPurchaseValue = foodforestPrice * amount;
+      const foodforestTrueCost = (foodforestPrice - foodforestBiodiversityBenefit - foodforestCarbonBenefit - foodforestWaterBenefit) * amount;
+      
+      // Update supermarket values
+      document.getElementById('supermarket-price').textContent = supermarketPrice.toFixed(2);
+      document.getElementById('supermarket-biodiversity-cost').textContent = supermarketBiodiversityCost.toFixed(2);
+      document.getElementById('supermarket-carbon-cost').textContent = supermarketCarbonCost.toFixed(2);
+      document.getElementById('supermarket-water-cost').textContent = supermarketWaterCost.toFixed(2);
+      document.getElementById('supermarket-purchase-value').textContent = formatNumber(supermarketPurchaseValue.toFixed(0));
+      document.getElementById('supermarket-true-cost').textContent = formatNumber(supermarketTrueCost.toFixed(0));
+      
+      // Update food forest values
+      document.getElementById('foodforest-price').textContent = foodforestPrice.toFixed(2);
+      document.getElementById('foodforest-biodiversity-benefit').textContent = foodforestBiodiversityBenefit.toFixed(2);
+      document.getElementById('foodforest-carbon-benefit').textContent = foodforestCarbonBenefit.toFixed(2);
+      document.getElementById('foodforest-water-benefit').textContent = foodforestWaterBenefit.toFixed(2);
+      document.getElementById('foodforest-purchase-value').textContent = formatNumber(foodforestPurchaseValue.toFixed(0));
+      document.getElementById('foodforest-true-cost').textContent = formatNumber(foodforestTrueCost.toFixed(0));
+      
+      // Update charts
+      supermarketChart.data.datasets[0].data = [supermarketPrice, supermarketBiodiversityCost, supermarketCarbonCost, supermarketWaterCost];
+      supermarketChart.update();
+      
+      foodforestChart.data.datasets[0].data = [foodforestPrice, foodforestBiodiversityBenefit, foodforestCarbonBenefit, foodforestWaterBenefit];
+      foodforestChart.update();
+    }
+    
+    // Get slider element
+    const slider = document.getElementById('amountSlider');
+    
+    // Update values when slider changes
+    slider.addEventListener('input', function() {
+      updateValues(parseInt(this.value));
+    });
+    
+    // Initialize with default value
+    updateValues(parseInt(slider.value));
+  });
+</script>
+
+<style>
+  /* Additional styles for the comparison tool */
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .comparison-column {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .comparison-column.supermarket {
+    border-top: 4px solid #FF5722;
+  }
+  
+  .comparison-column.food-forest {
+    border-top: 4px solid #4CAF50;
+  }
+  
+  .product-image {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .product-image img {
+    max-width: 100%;
+    height: auto;
+    max-height: 200px;
+    border-radius: 8px;
+  }
+  
+  .price-tag {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem;
+    background: #fff;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .price-value {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .chart-container {
+    height: 200px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cost-breakdown, .benefit-breakdown {
+    margin: 1rem 0;
+  }
+  
+  .cost-item, .benefit-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .cost-value {
+    color: #FF5722;
+    font-weight: 500;
+  }
+  
+  .benefit-value {
+    color: #4CAF50;
+    font-weight: 500;
+  }
+  
+  .true-cost {
+    background: #f0f0f0;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+  
+  .true-cost h3 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .total-cost {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .amount-slider {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+  
+  .current-amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1rem 0;
+  }
+  
+  .slider {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 768px) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% endblock %}

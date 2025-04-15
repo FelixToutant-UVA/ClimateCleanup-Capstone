@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Create Account <i class="fas fa-user-plus"></i></h2>
+      <p class="auth-welcome">Join our community of sustainable food systems</p>
+    </div>
+
+    <div class="account-type-selector">
+      <button type="button" class="account-type-btn active" data-type="business">Business</button>
+      <button type="button" class="account-type-btn" data-type="food-forest">Food Forest</button>
+    </div>
+
+    <form method="POST" class="auth-form">
+      <div class="form-group">
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email" 
+          name="email" 
+          placeholder="Email address"
+          required
+        />
+      </div>
+      
+      <div class="form-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          id="firstName" 
+          name="firstName" 
+          placeholder="First name"
+          required
+        />
+      </div>
+      
+      <div class="form-group business-fields">
+        <input 
+          type="text" 
+          class="form-control" 
+          id="businessName" 
+          name="businessName" 
+          placeholder="Business name"
+        />
+      </div>
+      
+      <div class="form-group forest-fields" style="display: none;">
+        <input 
+          type="text" 
+          class="form-control" 
+          id="forestName" 
+          name="forestName" 
+          placeholder="Forest name"
+        />
+      </div>
+      
+      <div class="form-group forest-fields" style="display: none;">
+        <input 
+          type="text" 
+          class="form-control" 
+          id="forestLocation" 
+          name="forestLocation" 
+          placeholder="Forest location"
+        />
+      </div>
+      
+      <div class="form-group">
+        <input 
+          type="password" 
+          class="form-control" 
+          id="password1" 
+          name="password1" 
+          placeholder="Password"
+          required
+        />
+      </div>
+      
+      <div class="form-group">
+        <input 
+          type="password" 
+          class="form-control" 
+          id="password2" 
+          name="password2" 
+          placeholder="Confirm password"
+          required
+        />
+      </div>
+
+      <input type="hidden" name="account_type" id="account_type" value="business">
+      
+      <button type="submit" class="auth-submit-btn">Create Account</button>
+    </form>
+
+    <div class="auth-divider">
+      <span>Or sign up with</span>
+    </div>
+
+    <div class="social-login">
+      <button type="button" class="google-btn">
+        <img src="{{ url_for('static', filename='images/google-icon.png') }}" alt="Google" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'; this.style.width='18px';">
+        Google
+      </button>
+    </div>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const accountTypeBtns = document.querySelectorAll('.account-type-btn');
+    const accountTypeInput = document.getElementById('account_type');
+    const businessFields = document.querySelectorAll('.business-fields');
+    const forestFields = document.querySelectorAll('.forest-fields');
+    
+    accountTypeBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Remove active class from all buttons
+        accountTypeBtns.forEach(b => b.classList.remove('active'));
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Update hidden input value
+        accountTypeInput.value = this.dataset.type;
+        
+        // Show/hide appropriate fields
+        if (this.dataset.type === 'business') {
+          businessFields.forEach(field => field.style.display = 'block');
+          forestFields.forEach(field => field.style.display = 'none');
+        } else {
+          businessFields.forEach(field => field.style.display = 'none');
+          forestFields.forEach(field => field.style.display = 'block');
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

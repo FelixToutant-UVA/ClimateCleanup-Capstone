@@ -1,0 +1,346 @@
+{% extends "base.html" %} 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='profile-styles.css') }}">
+{% endblock %}
+{% block content %}
+
+<div class="profile-container">
+  <!-- Top Section: Forest Details and Metrics -->
+  <div class="profile-top-section">
+    <!-- Forest Details Card -->
+    <div class="profile-card forest-details-card">
+      <h2>Forest Details</h2>
+      <div class="forest-details-content">
+        <div class="forest-image">
+          {% if user.forest_image %}
+            <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Forest Image">
+          {% else %}
+            <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Forest Image">
+          {% endif %}
+        </div>
+        <div class="forest-info">
+          <h3>{{ user.forest_name|default('Food Forest Name') }}</h3>
+          <p class="forest-location">{{ user.forest_location|default('Location') }}</p>
+          <div class="forest-actions">
+            <button class="edit-forest-btn"><i class="fas fa-edit"></i> Edit Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metrics Card -->
+    <div class="profile-card metrics-card">
+      <div class="card-header">
+        <h2>Metrics</h2>
+        <div class="card-actions">
+          <a href="{{ url_for('views.metrics') }}" class="tab-button">Plot</a>
+        </div>
+      </div>
+      
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <span class="metric-label">Biodiversity-index</span>
+          <span class="metric-value">{{ carbon_data.biodiversity_index|default('0.75') }}</span>
+        </div>
+        
+        <div class="metric-item">
+          <span class="metric-label">Age of the plot</span>
+          <span class="metric-value">{{ carbon_data.age_years|default('4') }}</span>
+        </div>
+        
+        <div class="metric-item">
+          <span class="metric-label">Soil-Type</span>
+          <span class="metric-value">{{ carbon_data.soil_type|default('Zandgrond') }}</span>
+        </div>
+        
+        <div class="metric-item">
+          <span class="metric-label">Square-meters</span>
+          <span class="metric-value">{{ carbon_data.size_m2|default('20000') }}</span>
+        </div>
+      </div>
+      
+      <!-- Carbon Sequestration Summary -->
+      <div class="carbon-summary">
+        <div class="carbon-icon">
+          <i class="fas fa-leaf"></i>
+        </div>
+        <div class="carbon-info">
+          <h4>Carbon Sequestration</h4>
+          <p>{{ carbon_estimate.min|default('15') }} - {{ carbon_estimate.max|default('30') }} {{ carbon_estimate.unit|default('tons CO₂e') }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inventory Section -->
+  <div class="profile-card inventory-card">
+    <div class="card-header">
+      <h2>Inventory</h2>
+      <div class="card-actions">
+        <button class="tab-button">Plot</button>
+        <button class="add-product-btn"><i class="fas fa-plus"></i> Add Product</button>
+      </div>
+    </div>
+    
+    <div class="inventory-grid">
+      {% if products %}
+        {% for product in products %}
+          <div class="product-item" data-product-id="{{ product.id }}">
+            <div class="product-image">
+              {% if product.image %}
+                <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+              {% else %}
+                <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ product.name }}">
+              {% endif %}
+            </div>
+            <div class="product-details">
+              <h3>{{ product.name }}</h3>
+              <p class="product-price">€{{ product.price }}</p>
+              <div class="product-actions">
+                <button class="edit-product-btn" data-product-id="{{ product.id }}"><i class="fas fa-edit"></i></button>
+                <button class="delete-product-btn" data-product-id="{{ product.id }}"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-products-message">
+          <p>No products added yet. Click "Add Product" to add your first product.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <!-- Add Product Modal -->
+  <div id="addProductModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Add New Product</h2>
+      <form id="addProductForm" action="{{ url_for('views.add_product') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <input type="text" id="productName" name="productName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="productPrice">Price (€)</label>
+          <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="productImage">Product Image</label>
+          <input type="file" id="productImage" name="productImage" accept="image/*">
+        </div>
+        
+        <div class="form-group">
+          <label for="productDescription">Description</label>
+          <textarea id="productDescription" name="productDescription" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Add Product</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div id="editProductModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Edit Product</h2>
+      <form id="editProductForm" action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="editProductName">Product Name</label>
+          <input type="text" id="editProductName" name="productName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editProductPrice">Price (€)</label>
+          <input type="number" id="editProductPrice" name="productPrice" step="0.01" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editProductImage">Product Image</label>
+          <input type="file" id="editProductImage" name="productImage" accept="image/*">
+          <div id="currentProductImage" class="current-image"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="editProductDescription">Description</label>
+          <textarea id="editProductDescription" name="productDescription" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Forest Details Modal -->
+  <div id="editForestModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Edit Forest Details</h2>
+      <form id="editForestForm" action="{{ url_for('views.update_forest') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="forestName">Forest Name</label>
+          <input type="text" id="forestName" name="forestName" value="{{ user.forest_name|default('Food Forest Name') }}" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="forestLocation">Location</label>
+          <input type="text" id="forestLocation" name="forestLocation" value="{{ user.forest_location|default('Location') }}" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="forestImage">Forest Image</label>
+          <input type="file" id="forestImage" name="forestImage" accept="image/*">
+          {% if user.forest_image %}
+            <div class="current-image">
+              <p>Current image:</p>
+              <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Current Forest Image" style="max-width: 100px;">
+            </div>
+          {% endif %}
+        </div>
+        
+        <div class="form-group">
+          <label for="soilType">Soil Type</label>
+          <select id="soilType" name="soilType">
+            <option value="Zandgrond" {% if carbon_data and carbon_data.soil_type == 'Zandgrond' %}selected{% endif %}>Zandgrond</option>
+            <option value="Kleigrond" {% if carbon_data and carbon_data.soil_type == 'Kleigrond' %}selected{% endif %}>Kleigrond</option>
+            <option value="Veengrond" {% if carbon_data and carbon_data.soil_type == 'Veengrond' %}selected{% endif %}>Veengrond</option>
+            <option value="Loess" {% if carbon_data and carbon_data.soil_type == 'Loess' %}selected{% endif %}>Loess</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="forestAge">Age of the plot (years)</label>
+          <input type="number" id="forestAge" name="forestAge" value="{{ carbon_data.age_years|default('4') }}" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="forestSize">Size (square meters)</label>
+          <input type="number" id="forestSize" name="forestSize" value="{{ carbon_data.size_m2|default('20000') }}" required>
+        </div>
+        
+        <button type="submit" class="submit-btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Product Confirmation Form -->
+  <form id="deleteProductForm" method="POST" style="display: none;"></form>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add Product Modal
+    const addProductBtn = document.querySelector('.add-product-btn');
+    const addProductModal = document.getElementById('addProductModal');
+    const closeAddModal = addProductModal.querySelector('.close-modal');
+    
+    addProductBtn.addEventListener('click', function() {
+      addProductModal.style.display = 'block';
+    });
+    
+    closeAddModal.addEventListener('click', function() {
+      addProductModal.style.display = 'none';
+    });
+    
+    // Edit Forest Modal
+    const editForestBtn = document.querySelector('.edit-forest-btn');
+    const editForestModal = document.getElementById('editForestModal');
+    const closeEditForestModal = editForestModal.querySelector('.close-modal');
+    
+    editForestBtn.addEventListener('click', function() {
+      editForestModal.style.display = 'block';
+    });
+    
+    closeEditForestModal.addEventListener('click', function() {
+      editForestModal.style.display = 'none';
+    });
+    
+    // Edit Product Modal
+    const editProductModal = document.getElementById('editProductModal');
+    const closeEditProductModal = editProductModal.querySelector('.close-modal');
+    const editProductForm = document.getElementById('editProductForm');
+    const editProductBtns = document.querySelectorAll('.edit-product-btn');
+    
+    // Product data for edit modal
+    const productData = {
+      {% if products %}
+        {% for product in products %}
+          "{{ product.id }}": {
+            "name": "{{ product.name }}",
+            "price": {{ product.price }},
+            "description": "{{ product.description|default('') }}",
+            "image": "{{ product.image|default('') }}"
+          }{% if not loop.last %},{% endif %}
+        {% endfor %}
+      {% endif %}
+    };
+    
+    editProductBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        const product = productData[productId];
+        
+        // Set form action
+        editProductForm.action = `/edit-product/${productId}`;
+        
+        // Fill form fields
+        document.getElementById('editProductName').value = product.name;
+        document.getElementById('editProductPrice').value = product.price;
+        document.getElementById('editProductDescription').value = product.description;
+        
+        // Show current image if exists
+        const currentImageContainer = document.getElementById('currentProductImage');
+        currentImageContainer.innerHTML = '';
+        if (product.image) {
+          const currentImage = document.createElement('div');
+          currentImage.innerHTML = `
+            <p>Current image:</p>
+            <img src="/static/${product.image}" alt="${product.name}" style="max-width: 100px;">
+          `;
+          currentImageContainer.appendChild(currentImage);
+        }
+        
+        // Show modal
+        editProductModal.style.display = 'block';
+      });
+    });
+    
+    closeEditProductModal.addEventListener('click', function() {
+      editProductModal.style.display = 'none';
+    });
+    
+    // Delete Product
+    const deleteProductBtns = document.querySelectorAll('.delete-product-btn');
+    const deleteProductForm = document.getElementById('deleteProductForm');
+    
+    deleteProductBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        
+        if (confirm('Are you sure you want to delete this product?')) {
+          // Set form action and submit
+          deleteProductForm.action = `/delete-product/${productId}`;
+          deleteProductForm.submit();
+        }
+      });
+    });
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === addProductModal) {
+        addProductModal.style.display = 'none';
+      }
+      if (event.target === editForestModal) {
+        editForestModal.style.display = 'none';
+      }
+      if (event.target === editProductModal) {
+        editProductModal.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+{% endblock %}
