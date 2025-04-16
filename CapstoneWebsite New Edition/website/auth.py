@@ -12,25 +12,23 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-
-        # Capture the account_type from the hidden input in login.html
-        # (default to "business" if it wasn't set)
         account_type = request.form.get('account_type', 'business')
 
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email, account_type=account_type).first()
         if user:
-            # Check password
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
 
-                # Because both business and food-forest have the same access,
-                # we do NOT enforce a matching account_type here.
-                return redirect(url_for('views.home'))
+                # Redirect based on account_type
+                if user.account_type == 'business':
+                    return redirect(url_for('views.business_profile'))
+                else:
+                    return redirect(url_for('views.profile'))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('Email does not exist for this account type.', category='error')
 
     return render_template("login.html", user=current_user)
 
@@ -49,12 +47,8 @@ def sign_up():
         first_name = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-
-        # Capture the account_type from the hidden input in sign_up.html
-        # (default to "business" if it wasn't set)
         account_type = request.form.get('account_type', 'business')
 
-        # Basic validation checks
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already exists.', category='error')
@@ -67,7 +61,6 @@ def sign_up():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            # Store the hashed password and the account type
             new_user = User(
                 email=email,
                 first_name=first_name,
@@ -79,6 +72,11 @@ def sign_up():
 
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
-            return redirect(url_for('views.home'))
+
+            # Redirect based on account_type
+            if new_user.account_type == 'business':
+                return redirect(url_for('views.business_profile'))
+            else:
+                return redirect(url_for('views.profile'))
 
     return render_template("sign_up.html", user=current_user)

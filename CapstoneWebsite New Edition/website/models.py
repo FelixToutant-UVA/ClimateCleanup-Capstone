@@ -13,7 +13,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
-    # This field indicates whether the user is a 'business' or 'food-forest'
+    
+    # Account type: either 'business' or 'food-forest'
     account_type = db.Column(db.String(20), default='business')
 
     # Business-specific fields
@@ -25,7 +26,7 @@ class User(db.Model, UserMixin):
     forest_image = db.Column(db.String(255))  # Path to forest image
 
     # Relationships
-    notes = db.relationship('Note')
+    notes = db.relationship('Note', backref='user', lazy=True)
     carbon_data = db.relationship('CarbonData', backref='user', uselist=False)
     products = db.relationship('Product', backref='user', lazy=True)
 

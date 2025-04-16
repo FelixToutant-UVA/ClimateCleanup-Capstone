@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='profile-styles.css') }}">
+{% endblock %}
+{% block content %}
+
+<div class="profile-container">
+  <!-- Top Section: Business Details -->
+  <div class="profile-top-section">
+    <!-- Business Details Card -->
+    <div class="profile-card business-details-card">
+      <h2>Business Details</h2>
+      <div class="business-details-content">
+        <div class="business-image">
+          {% if user.business_image %}
+            <img src="{{ url_for('static', filename=user.business_image) }}" alt="Business Image">
+          {% else %}
+            <img src="{{ url_for('static', filename='images/default_business.jpg') }}" alt="Business Image">
+          {% endif %}
+        </div>
+        <div class="business-info">
+          <h3>{{ user.business_name|default('Business Name') }}</h3>
+          <p class="business-location">{{ user.business_location|default('Location') }}</p>
+          <div class="business-actions">
+            <button class="edit-business-btn"><i class="fas fa-edit"></i> Edit Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

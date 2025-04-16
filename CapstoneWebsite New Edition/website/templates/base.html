@@ -37,7 +37,12 @@
           <li><a href="{{ url_for('views.about_us') }}">About Us</a></li>
 
           {% if user.is_authenticated %}
-          <li><a href="{{ url_for('views.profile') }}">Forest Profile</a></li>
+            {% if user.account_type == 'business' %}
+              <li><a href="{{ url_for('views.business_profile') }}">Business Profile</a></li>
+            {% else %}
+              <li><a href="{{ url_for('views.profile') }}">Forest Profile</a></li>
+            {% endif %}
+
           <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
           {% else %}
           <li><a href="{{ url_for('auth.login') }}">Login</a></li>

@@ -436,3 +436,14 @@ def delete_note():
             db.session.delete(note)
             db.session.commit()
     return jsonify({})
+
+
+@views.route('/business-profile')
+@login_required
+def business_profile():
+    if current_user.account_type != 'business':
+        flash('Unauthorized access.', category='error')
+        return redirect(url_for('views.profile'))
+
+
+    return render_template('business_profile.html', user=current_user)
