@@ -13,16 +13,18 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
-    account_type = db.Column(db.String(20), default='business')  # 'business' or 'food-forest'
-    
-    # Business specific fields
+    # This field indicates whether the user is a 'business' or 'food-forest'
+    account_type = db.Column(db.String(20), default='business')
+
+    # Business-specific fields
     business_name = db.Column(db.String(150))
-    
-    # Food Forest specific fields
+
+    # Food-Forest-specific fields
     forest_name = db.Column(db.String(150))
     forest_location = db.Column(db.String(150))
     forest_image = db.Column(db.String(255))  # Path to forest image
-    
+
+    # Relationships
     notes = db.relationship('Note')
     carbon_data = db.relationship('CarbonData', backref='user', uselist=False)
     products = db.relationship('Product', backref='user', lazy=True)
@@ -44,3 +46,4 @@ class Product(db.Model):
     image = db.Column(db.String(255))  # Path to product image
     date_added = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+

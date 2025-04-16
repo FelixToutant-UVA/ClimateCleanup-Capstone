@@ -9,88 +9,93 @@
       <p class="auth-welcome">Join our community of sustainable food systems</p>
     </div>
 
+    <!-- Toggle buttons for Business / Food Forest -->
     <div class="account-type-selector">
       <button type="button" class="account-type-btn active" data-type="business">Business</button>
       <button type="button" class="account-type-btn" data-type="food-forest">Food Forest</button>
     </div>
 
+    <!-- Sign Up Form -->
     <form method="POST" class="auth-form">
       <div class="form-group">
-        <input 
-          type="email" 
-          class="form-control" 
-          id="email" 
-          name="email" 
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
           placeholder="Email address"
           required
         />
       </div>
-      
+
       <div class="form-group">
-        <input 
-          type="text" 
-          class="form-control" 
-          id="firstName" 
-          name="firstName" 
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          name="firstName"
           placeholder="First name"
           required
         />
       </div>
-      
+
+      <!-- Business fields -->
       <div class="form-group business-fields">
-        <input 
-          type="text" 
-          class="form-control" 
-          id="businessName" 
-          name="businessName" 
+        <input
+          type="text"
+          class="form-control"
+          id="businessName"
+          name="businessName"
           placeholder="Business name"
         />
       </div>
-      
+
+      <!-- Food Forest fields (hidden by default) -->
       <div class="form-group forest-fields" style="display: none;">
-        <input 
-          type="text" 
-          class="form-control" 
-          id="forestName" 
-          name="forestName" 
+        <input
+          type="text"
+          class="form-control"
+          id="forestName"
+          name="forestName"
           placeholder="Forest name"
         />
       </div>
-      
+
       <div class="form-group forest-fields" style="display: none;">
-        <input 
-          type="text" 
-          class="form-control" 
-          id="forestLocation" 
-          name="forestLocation" 
+        <input
+          type="text"
+          class="form-control"
+          id="forestLocation"
+          name="forestLocation"
           placeholder="Forest location"
         />
       </div>
-      
+
       <div class="form-group">
-        <input 
-          type="password" 
-          class="form-control" 
-          id="password1" 
-          name="password1" 
+        <input
+          type="password"
+          class="form-control"
+          id="password1"
+          name="password1"
           placeholder="Password"
           required
         />
       </div>
-      
+
       <div class="form-group">
-        <input 
-          type="password" 
-          class="form-control" 
-          id="password2" 
-          name="password2" 
+        <input
+          type="password"
+          class="form-control"
+          id="password2"
+          name="password2"
           placeholder="Confirm password"
           required
         />
       </div>
 
+      <!-- Hidden input to store the selected account_type -->
       <input type="hidden" name="account_type" id="account_type" value="business">
-      
+
       <button type="submit" class="auth-submit-btn">Create Account</button>
     </form>
 
@@ -100,13 +105,19 @@
 
     <div class="social-login">
       <button type="button" class="google-btn">
-        <img src="{{ url_for('static', filename='images/google-icon.png') }}" alt="Google" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'; this.style.width='18px';">
+        <img
+          src="{{ url_for('static', filename='images/google-icon.png') }}"
+          alt="Google"
+          onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'; this.style.width='18px';">
         Google
       </button>
     </div>
 
     <div class="auth-footer">
-      <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+      <p>
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}">Login</a>
+      </p>
     </div>
   </div>
 </div>
@@ -117,19 +128,19 @@
     const accountTypeInput = document.getElementById('account_type');
     const businessFields = document.querySelectorAll('.business-fields');
     const forestFields = document.querySelectorAll('.forest-fields');
-    
+
     accountTypeBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        // Remove active class from all buttons
+        // Remove "active" class from all toggle buttons
         accountTypeBtns.forEach(b => b.classList.remove('active'));
-        
-        // Add active class to clicked button
+
+        // Add "active" class to the clicked button
         this.classList.add('active');
-        
-        // Update hidden input value
+
+        // Update the hidden input value
         accountTypeInput.value = this.dataset.type;
-        
-        // Show/hide appropriate fields
+
+        // Show/hide form fields based on account type
         if (this.dataset.type === 'business') {
           businessFields.forEach(field => field.style.display = 'block');
           forestFields.forEach(field => field.style.display = 'none');

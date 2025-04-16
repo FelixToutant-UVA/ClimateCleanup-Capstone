@@ -43,7 +43,7 @@ def create_database(app):
         print('Created Database!')
 
 def update_database_schema(app):
-    """Update database schema to include new columns"""
+    """Update database schema to include new columns if they don't exist yet."""
     from sqlalchemy import inspect
     from .models import User, CarbonData, Product
     
@@ -103,3 +103,4 @@ def update_database_schema(app):
     os.makedirs('website/static/uploads', exist_ok=True)
     
     print('Database schema updated!')
+

@@ -1,3 +1,4 @@
+# views.py
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
 from .models import Note, CarbonData, Product, User
@@ -138,10 +139,8 @@ def food_forests():
     if location_filter:
         query = query.filter(User.forest_location.ilike(f'%{location_filter}%'))
     
-    # Apply forest type filter if provided
-    # Note: This assumes you have a field for forest type, which might need to be added
-    # For now, we'll skip this filter since the model doesn't have a forest_type field
-    
+    # (Optional) Apply forest type filter if you had a field like `forest_type` on the model
+
     # Apply sorting
     if sort_by == 'newest':
         # Assuming newer forests have higher IDs
@@ -151,11 +150,11 @@ def food_forests():
     elif sort_by == 'size':
         # Join with carbon_data to sort by size
         query = query.join(CarbonData, User.id == CarbonData.user_id, isouter=True)\
-                    .order_by(CarbonData.size_m2.desc())
+                     .order_by(CarbonData.size_m2.desc())
     elif sort_by == 'biodiversity':
         # Join with carbon_data to sort by biodiversity_index
         query = query.join(CarbonData, User.id == CarbonData.user_id, isouter=True)\
-                    .order_by(CarbonData.biodiversity_index.desc())
+                     .order_by(CarbonData.biodiversity_index.desc())
     
     # Execute query
     forests = query.all()
@@ -168,7 +167,7 @@ def food_forests():
         # Calculate metrics if carbon data exists
         metrics = {}
         if carbon_data:
-            metrics['species'] = int(carbon_data.biodiversity_index * 100)  # Approximate number of species
+            metrics['species'] = int(carbon_data.biodiversity_index * 100)  # Approx. number of species
             metrics['acres'] = round(carbon_data.size_m2 / 4047, 1)  # Convert m² to acres
             
             # Calculate carbon sequestration
@@ -176,7 +175,10 @@ def food_forests():
                 area_ha = carbon_data.size_m2 / 10000
                 age = carbon_data.age_years
                 rate_min, rate_max = SEQUESTRATION_RATES[carbon_data.soil_type]
-                metrics['carbon'] = round((area_ha * rate_min * age + area_ha * rate_max * age) / 2, 1)  # Average
+                metrics['carbon'] = round(
+                    (area_ha * rate_min * age + area_ha * rate_max * age) / 2,
+                    1
+                )  # Average
         
         forest_data.append({
             'id': forest.id,
@@ -184,7 +186,7 @@ def food_forests():
             'location': forest.forest_location,
             'image': forest.forest_image or 'images/hero_pears.jpg',
             'metrics': metrics,
-            'type': 'Community'  # Default type, could be stored in the model
+            'type': 'Community'  # Example placeholder
         })
     
     # Get featured forest (first one or None)
@@ -225,11 +227,13 @@ def profile():
                 "unit": "tons CO₂e"
             }
     
-    return render_template("profile.html", 
-                          user=current_user, 
-                          carbon_data=carbon_data, 
-                          carbon_estimate=carbon_estimate,
-                          products=products)
+    return render_template(
+        "profile.html", 
+        user=current_user, 
+        carbon_data=carbon_data, 
+        carbon_estimate=carbon_estimate,
+        products=products
+    )
 
 @views.route('/update-forest', methods=['POST'])
 @login_required
@@ -244,7 +248,8 @@ def update_forest():
         # Update user forest details
         current_user.forest_name = forest_name
         current_user.forest_location = forest_location
-        current_user.account_type = 'food-forest'  # Ensure account type is set
+        # Force account type to 'food-forest' here if you're sure this update is for a forest
+        current_user.account_type = 'food-forest'
         
         # Handle forest image upload
         if 'forestImage' in request.files:
@@ -362,7 +367,7 @@ def forest_detail(forest_id):
     # Get products
     products = Product.query.filter_by(user_id=forest.id).all()
     
-    # Calculate metrics if carbon data exists
+    # Calculate metrics if carbon_data exists
     metrics = {}
     if carbon_data:
         metrics['biodiversity'] = f"+{int(carbon_data.biodiversity_index * 100)}% more species"
@@ -374,7 +379,7 @@ def forest_detail(forest_id):
             rate_min, rate_max = SEQUESTRATION_RATES[carbon_data.soil_type]
             metrics['carbon'] = f"Stores {round((area_ha * rate_min * age + area_ha * rate_max * age) / 2, 1)} tons of CO₂ annually"
         
-        # Water conservation (example calculation)
+        # Example placeholder for water conservation
         metrics['water'] = "Uses 60% less water than conventional farming"
     
     return render_template(
