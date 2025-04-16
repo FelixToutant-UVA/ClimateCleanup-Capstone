@@ -1,0 +1,100 @@
+﻿Meetjaar;WaterbeheerderCode;WaterbeheerderNaam;Namespace;Identificatie;MeetobjectCode;Omschrijving;GeometriePuntX_RD;GeometriePuntY_RD;KRWwatertypeCode;KRWwatertypeOmschrijving;WatergangCategorieCode;WatergangCategorieOmschrijving;HoortbijGeoobjectIdentificatie;Wegingsfactor;LigtInGeoobjectIdentificatie;PublicatieDatumTijd
+2024;27;Waterschap De Dommel;NL27;240011;NL27_240011;;158445.0000;365303.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240013;NL27_240013;BOVEN DOMMEL;157778.0000;379239.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240014;NL27_240014;;161902.0000;368184.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240015;NL27_240015;;161257.0000;381703.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240016;NL27_240016;;163723.0000;390063.0000;M1a;Zoete gebufferde sloten;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240018;NL27_240018;TONGELREEP;161221.0000;371105.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240020;NL27_240020;;163891.0000;397713.0000;M1a;Zoete gebufferde sloten;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240021;NL27_240021;BENEDEN DOMMEL;159858.0000;397414.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240022;NL27_240022;AFWATERINGSKANAAL BOXTEL;151460.0000;401500.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240023;NL27_240023;BENEDEN DOMMEL;150737.0000;399670.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240025;NL27_240025;;149008.0000;408854.0000;R6;Langzaam stromend riviertje op zand/klei;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240026;NL27_240026;OLLANDSE WATERLOOP;156568.0000;398979.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240027;NL27_240027;;155618.0000;398199.0000;M1a;Zoete gebufferde sloten;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240028;NL27_240028;;152928.0000;405182.0000;M1a;Zoete gebufferde sloten;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240031;NL27_240031;BEEKLOOP;155031.0000;366198.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240034;NL27_240034;KEERSOP;155556.0000;370941.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240035;NL27_240035;;156045.0000;378161.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240036;NL27_240036;;157292.0000;374900.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240037;NL27_240037;RUN;153559.0000;375384.0000;R4;Permanente langzaam stromende bovenloop op zand (vervalt per 2022, gebruik liever R4a of b);;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240039;NL27_240039;FORTJELOOP;151144.0000;365561.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240044;NL27_240044;STERKSELSCHE AA;169551.0000;376182.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240045;NL27_240045;;174091.0000;377399.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240047;NL27_240047;;165523.0000;384099.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240048;NL27_240048;STERKSELSCH KANAAL;174544.0000;370285.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240049;NL27_240049;RIELLOOP;169231.0000;377801.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240051;NL27_240051;BOSCHLOOP;170223.0000;367610.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240053;NL27_240053;BUULDER AA;166729.0000;364194.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240055;NL27_240055;STRIJPER AA;164931.0000;366357.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240057;NL27_240057;;168466.0000;376150.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240058;NL27_240058;TUNGELROYSCHE BEEK;171643.0000;360162.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240060;NL27_240060;;154855.0000;378605.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240063;NL27_240063;;162253.0000;391000.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240070;NL27_240070;GOORLOOP;144355.0000;374188.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240071;NL27_240071;KOEVERTSCHE LOOP;148809.0000;396945.0000;M1a;Zoete gebufferde sloten;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240081;NL27_240081;;146257.0000;385922.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240082;NL27_240082;GROOTE BEERZE;144864.0000;375802.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240087;NL27_240087;;149201.0000;397760.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240088;NL27_240088;KLEINE AA (BOXTEL);148190.0000;399428.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240089;NL27_240089;GROOTE BEERZE;143998.0000;378330.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240090;NL27_240090;KNUISTENKOEPELLOOP;150508.0000;397520.0000;R3;Droogvallende langzaam stromende bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240091;NL27_240091;;145085.0000;399908.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240092;NL27_240092;ESSCHE STROOM;145026.0000;400200.0000;R6;Langzaam stromend riviertje op zand/klei;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240095;NL27_240095;ROSEP;142925.0000;396033.0000;R4;Permanente langzaam stromende bovenloop op zand (vervalt per 2022, gebruik liever R4a of b);;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240100;NL27_240100;VAARTLOOP;137340.0000;370105.0000;M1a;Zoete gebufferde sloten;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240102;NL27_240102;REUSEL;138008.0000;381192.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240103;NL27_240103;REUSEL;140842.0000;387730.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240104;NL27_240104;;139268.0000;390634.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240105;NL27_240105;;141654.0000;397694.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240108;NL27_240108;RAAMSLOOP;138746.0000;379729.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240109;NL27_240109;REUSEL;138514.0000;376155.0000;R4;Permanente langzaam stromende bovenloop op zand (vervalt per 2022, gebruik liever R4a of b);;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240111;NL27_240111;ROVERTSCHE LEIJ;133527.0000;386980.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240113;NL27_240113;;130410.0000;388744.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240116;NL27_240116;;135980.0000;395544.0000;R5;Langzaam stromende middenloop/benedenloop op zand;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240119;NL27_240119;VOORSTE STROOM (BENEDEN WILHELMINAKANAAL);141960.0000;398953.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240120;NL27_240120;ZANDLEIJ;135353.0000;402756.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240121;NL27_240121;BROEKLEIJ;144954.0000;404741.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240123;NL27_240123;RAAMSE LOOP;143661.0000;404906.0000;M1a;Zoete gebufferde sloten;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240127;NL27_240127;ZANDLEIJ;141484.0000;405492.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240128;NL27_240128;;143511.0000;408182.0000;M1a;Zoete gebufferde sloten;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240129;NL27_240129;;145780.0000;407481.0000;M1a;Zoete gebufferde sloten;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;240130;NL27_240130;HOOIDONKSCHE BEEK;167784.0000;385366.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241011;NL27_241011;EINDERGATLOOP;154621.0000;360810.0000;R4;Permanente langzaam stromende bovenloop op zand (vervalt per 2022, gebruik liever R4a of b);;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241012;NL27_241012;EINDERGATLOOP;157283.0000;360567.0000;R4;Permanente langzaam stromende bovenloop op zand (vervalt per 2022, gebruik liever R4a of b);;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241015;NL27_241015;BOVEN DOMMEL;157455.0000;360368.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241016;NL27_241016;BOVEN DOMMEL;163383.0000;386006.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241017;NL27_241017;BOVEN DOMMEL;163524.0000;386644.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241018;NL27_241018;BENEDEN DOMMEL;162718.0000;391341.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241019;NL27_241019;BENEDEN DOMMEL;157686.0000;397257.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241030;NL27_241030;KLEINE DOMMEL;168840.0000;378581.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241101;NL27_241101;BUULDER AA;168650.0000;370741.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241103;NL27_241103;OUDE STRIJPER AA;165332.0000;368987.0000;R3;Droogvallende langzaam stromende bovenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241105;NL27_241105;;138349.0000;389608.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241107;NL27_241107;BEERZE;146429.0000;395005.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241111;NL27_241111;BUULDER AA;169596.0000;368903.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;241113;NL27_241113;REUSEL;140551.0000;390790.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242047;NL27_242047;BREUGHELSE BEEK;163430.0000;391210.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242071;NL27_242071;BANISLOOP;147404.0000;395535.0000;R4a;Permanente langzaam stromende laagland bovenloop op zand;B;Secundaire watergang (categorie B);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242100;NL27_242100;BELEVENSCHELOOP;138280.0000;376500.0000;R3;Droogvallende langzaam stromende bovenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242101;NL27_242101;ROUWENBOGTLOOP;140791.0000;376095.0000;R3;Droogvallende langzaam stromende bovenloop op zand;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242110;NL27_242110;RETSCHE LOOP;128460.0000;384685.0000;R4;Permanente langzaam stromende bovenloop op zand (vervalt per 2022, gebruik liever R4a of b);;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242121;NL27_242121;RUYSBOSSCHE WATERLOOP;144967.0000;404658.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242125;NL27_242125;ZANDKANTSCHE LEIJ;136229.0000;404476.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;242127;NL27_242127;ZL 7-1;138092.0000;403381.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;243010;NL27_243010;BOVEN DOMMEL;162721.0000;385385.0000;R6;Langzaam stromend riviertje op zand/klei;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;243015;NL27_243015;BENEDEN DOMMEL;151127.0000;402076.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;243017;NL27_243017;BENEDEN DOMMEL;151162.0000;402446.0000;R6;Langzaam stromend riviertje op zand/klei;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;243020;NL27_243020;;152312.0000;406439.0000;R6;Langzaam stromend riviertje op zand/klei;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;243090;NL27_243090;ESSCHE STROOM;145026.0000;400200.0000;R6;Langzaam stromend riviertje op zand/klei;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;244151;NL27_244151;;155747.0000;385717.0000;M6b;Grote ondiepe kanalen met scheepvaart;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;244171;NL27_244171;;165687.0000;382519.0000;M6a;Grote ondiepe kanalen zonder scheepvaart;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;245014;NL27_245014;HOOGEINDSCHE BEEK;137099.0000;384460.0000;R4;Permanente langzaam stromende bovenloop op zand (vervalt per 2022, gebruik liever R4a of b);;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;245565;NL27_245565;;136844.0000;393049.0000;M20;Matig grote diepe gebufferde meren;O;Overige watergangen;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;245567;NL27_245567;BEEKSE BERGEN MEER ZONE 2;137706.0000;392535.0000;M20;Matig grote diepe gebufferde meren;;;NL27_245565;1;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;249147;NL27_249147;OUDE DUNGENSESLOOT;149436.0000;410321.0000;M1a;Zoete gebufferde sloten;C;Tertiaire watergang (categorie C);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;249150;NL27_249150;DUNGENSE SLOOT;149240.0000;408794.0000;M1a;Zoete gebufferde sloten;C;Tertiaire watergang (categorie C);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;249943;NL27_249943;BOVEN DOMMEL;159237.0000;380449.0000;M3;Gebufferde (regionale) kanalen;A;Primaire watergang (categorie A);;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;249960;NL27_249960;WITTE LOOP;171614.0000;378482.0000;M1a;Zoete gebufferde sloten;;;;;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;254513;NL27_254513;MIDDENPUNT OP DE PLAS (OOSTELIJK DEEL);137183.0000;392904.0000;M20;Matig grote diepe gebufferde meren;;;NL27_245565;1;;2025-04-02T08:06:25+02:00
+2024;27;Waterschap De Dommel;NL27;270042;NL27_270042;TONGELREEP;161126.0000;379984.0000;R5;Langzaam stromende middenloop/benedenloop op zand;;;;;;2025-04-02T08:06:25+02:00
