@@ -25,8 +25,11 @@
       <div class="line"></div>
       <div class="food-forest-content">
         <div class="food-forest-text">
-          <p>Food forests are sustainable, low-maintenance ecosystems that mimic natural forests but are filled with edible plants. It consists of multiple layers all working together to create a resilient system.</p>
-          <p>Food forests require minimal intervention once established, as they're designed to be self-sustaining, just like natural ecosystems.</p>
+          <p style="font-size: 18px;">
+            Food forests are sustainable, low-maintenance ecosystems that mimic natural forests but are filled with edible plants.
+            It consists of multiple layers all working together to create a resilient system.<br>
+            Food forests require minimal intervention once established, as they're designed to be self-sustaining, just like natural ecosystems.
+          </p>
         </div>
       </div>
     </div>
@@ -41,7 +44,10 @@
         </div>
         <h2>Enhancing Biodiversity</h2>
         <div class="line"></div>
-        <p>Food forests create diverse habitats that support a wide range of plants, insects, birds, and other wildlife. By mimicking natural ecosystems, they provide homes for beneficial organisms that help control pests and pollinate plants naturally.</p>
+        <p>
+          Food forests create diverse habitats that support a wide range of plants, insects, birds, and other wildlife.
+          By mimicking natural ecosystems, they provide homes for beneficial organisms that help control pests and pollinate plants naturally.
+        </p>
       </div>
     </div>
   </div>
@@ -55,7 +61,11 @@
         </div>
         <h2>Improving Soil Health</h2>
         <div class="line"></div>
-        <p>The diverse plant species in food forests build soil health through natural processes. Deep-rooted trees bring up nutrients from below, while nitrogen-fixing plants enrich the soil. Fallen leaves create natural mulch that protects soil and feeds beneficial microorganisms.</p>
+        <p>
+          The diverse plant species in food forests build soil health through natural processes.
+          Deep-rooted trees bring up nutrients from below, while nitrogen-fixing plants enrich the soil.
+          Fallen leaves create natural mulch that protects soil and feeds beneficial microorganisms.
+        </p>
       </div>
     </div>
   </div>
@@ -69,7 +79,10 @@
         </div>
         <h2>Carbon Sequestration</h2>
         <div class="line"></div>
-        <p>Food forests are powerful carbon sinks. Trees and perennial plants capture carbon dioxide from the atmosphere and store it in their biomass and in the soil. By establishing food forests, we're creating long-term carbon storage while producing nutritious food.</p>
+        <p>
+          Food forests are powerful carbon sinks. Trees and perennial plants capture carbon dioxide from the atmosphere and store it in their biomass and in the soil.
+          By establishing food forests, we're creating long-term carbon storage while producing nutritious food.
+        </p>
       </div>
     </div>
   </div>
@@ -83,7 +96,10 @@
         </div>
         <h2>Water Conservation</h2>
         <div class="line"></div>
-        <p>The multi-layered structure of food forests helps capture and retain water. Deep tree roots improve soil structure, allowing better water infiltration and reducing runoff. The canopy provides shade, reducing evaporation, while ground covers protect soil moisture.</p>
+        <p>
+          The multi-layered structure of food forests helps capture and retain water. Deep tree roots improve soil structure, allowing better water infiltration and reducing runoff.
+          The canopy provides shade, reducing evaporation, while ground covers protect soil moisture.
+        </p>
       </div>
     </div>
   </div>
@@ -93,7 +109,9 @@
     <div class="content-container">
       <h2>Join Our Community</h2>
       <div class="line"></div>
-      <p>Ready to be part of the sustainable food movement? Explore our network of food forests, connect with forest keepers, or start your own food forest journey today.</p>
+      <p>
+        Ready to be part of the sustainable food movement? Explore our network of food forests, connect with forest keepers, or start your own food forest journey today.
+      </p>
       <div class="cta-buttons">
         <a href="{{ url_for('views.food_forests') }}" class="cta-button">Explore Forests</a>
         <a href="{{ url_for('auth.sign_up') }}" class="cta-button primary">Sign Up</a>
@@ -142,10 +160,7 @@
         // Animate in new section
         gsap.fromTo(
           enteringSection.querySelectorAll('h1, h2, p, .line, .benefit-icon, .cta-buttons, .food-forest-content'),
-          { 
-            opacity: 0, 
-            y: direction === 'down' ? 50 : -50 
-          },
+          { opacity: 0, y: direction === 'down' ? 50 : -50 },
           {
             opacity: 1,
             y: 0,
@@ -156,10 +171,9 @@
           }
         );
         
-        // Change background color
+        // Change background and text color
         const newBgColor = enteringSection.getAttribute("data-bg");
         const newTextColor = enteringSection.getAttribute("data-text-color");
-        
         gsap.to(enteringSection, {
           backgroundColor: newBgColor,
           color: newTextColor,
@@ -167,69 +181,53 @@
           ease: "power2.inOut",
         });
         
-        // Animate line
+        // Animate the line
         const line = enteringSection.querySelector('.line');
         if (line) {
           gsap.fromTo(line,
             { width: "0px" },
-            { 
-              width: "150px", 
-              duration: 1.2, 
-              delay: 0.5,
-              ease: "power2.out" 
-            }
+            { width: "150px", duration: 1.2, delay: 0.5, ease: "power2.out" }
           );
         }
         
-        // Special animation for benefit icons
+        // Animate benefit icons
         const icon = enteringSection.querySelector('.benefit-icon');
         if (icon) {
           gsap.fromTo(icon,
             { scale: 0.5, opacity: 0 },
-            { 
-              scale: 1, 
-              opacity: 1, 
-              duration: 0.8, 
-              delay: 0.6,
-              ease: "back.out(1.7)" 
-            }
+            { scale: 1, opacity: 1, duration: 0.8, delay: 0.6, ease: "back.out(1.7)" }
           );
         }
       },
       
-      // Initialize first section
-      afterLoad: function(origin, destination, direction) {
+      // Initialize animations for the first section
+      afterLoad: function(origin, destination) {
         const section = destination.item;
         const line = section.querySelector('.line');
-        
         if (line && destination.index === 0) {
           gsap.fromTo(line,
             { width: "0px" },
-            { 
-              width: "150px", 
-              duration: 1.2, 
-              delay: 0.5,
-              ease: "power2.out" 
-            }
+            { width: "150px", duration: 1.2, delay: 0.5, ease: "power2.out" }
           );
         }
       }
     });
     
-    // Initialize animations for first section
+    // Initialize animations for the first section
     const firstSection = document.querySelector('#welcome-section');
     gsap.fromTo(
       firstSection.querySelectorAll('h1, p, .line, .cta-buttons'),
       { opacity: 0, y: 30 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        stagger: 0.1, 
-        duration: 0.8, 
-        delay: 0.3,
-        ease: "power2.out" 
-      }
+      { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, delay: 0.3, ease: "power2.out" }
     );
   });
 </script>
 {% endblock %}
+
+{% block footer %}
+<div class="custom-fixed-footer">
+  <p>Your custom fixed footer content for this page.</p>
+</div>
+{% endblock %}
+
+
