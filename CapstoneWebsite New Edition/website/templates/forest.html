@@ -123,6 +123,48 @@
       {% endif %}
     </div>
   </section>
+
+<!-- Harvest Calendar Section -->
+<div class="profile-card harvest-calendar-card">
+  <div class="card-header">
+    <h2>Harvest Calendar</h2>
+  </div>
+  
+  <div class="harvest-calendar">
+    <div class="calendar-header">
+      <div class="product-name"></div>
+      <div class="month-header">Jan</div>
+      <div class="month-header">Feb</div>
+      <div class="month-header">Mar</div>
+      <div class="month-header">Apr</div>
+      <div class="month-header">May</div>
+      <div class="month-header">Jun</div>
+      <div class="month-header">Jul</div>
+      <div class="month-header">Aug</div>
+      <div class="month-header">Sep</div>
+      <div class="month-header">Oct</div>
+      <div class="month-header">Nov</div>
+      <div class="month-header">Dec</div>
+    </div>
+    
+    {% if products %}
+      {% for product in products %}
+        <div class="calendar-row">
+          <div class="product-name">{{ product.name }}</div>
+          <div class="month-grid">
+            {% for month in range(1, 13) %}
+              <div class="month-cell {% if product_harvest_periods and product.id in product_harvest_periods and month in product_harvest_periods[product.id] %}in-season{% endif %}"></div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-products-message">
+        <p>No products added yet. Add products to your inventory to see their harvest calendar.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
 </section>
   
 {% endblock %}

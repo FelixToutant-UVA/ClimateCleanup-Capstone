@@ -210,6 +210,7 @@
   color: #666;
   background: #f9f9f9;
   border-radius: 6px;
+  margin: 1rem;
 }
 
 .product-item {
@@ -396,5 +397,135 @@
 @media (max-width: 480px) {
   .inventory-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+/* Harvest Calendar Styles */
+.harvest-calendar-card {
+  margin-bottom: 2rem;
+}
+
+.harvest-calendar {
+  padding: 1.5rem;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: 150px repeat(12, 1fr);
+  gap: 2px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.month-header {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+  padding: 5px 0;
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: 150px repeat(12, 1fr);
+  gap: 2px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.product-name {
+  font-size: 0.95rem;
+  color: #333;
+  padding-right: 10px;
+}
+
+.month-grid {
+  display: contents;
+}
+
+.month-cell {
+  height: 25px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.month-cell.in-season {
+  background-color: #4caf50;
+}
+
+.edit-calendar-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-calendar-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+/* Month Checkboxes in Modal */
+.month-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.month-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.month-checkbox input[type="checkbox"] {
+  width: auto;
+  margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .calendar-header,
+  .calendar-row {
+    grid-template-columns: 100px repeat(12, 1fr);
+  }
+
+  .month-header {
+    font-size: 0.75rem;
+  }
+
+  .product-name {
+    font-size: 0.85rem;
+  }
+
+  .month-checkboxes {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .calendar-header,
+  .calendar-row {
+    grid-template-columns: 80px repeat(12, 1fr);
+  }
+
+  .month-header {
+    font-size: 0.7rem;
+    transform: rotate(-45deg);
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .month-checkboxes {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

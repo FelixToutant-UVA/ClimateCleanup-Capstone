@@ -20,7 +20,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import User, Note, CarbonData, Product
+    from .models import User, Note, CarbonData, Product, HarvestPeriod
     
     with app.app_context():
         db.create_all()
@@ -45,7 +45,7 @@ def create_database(app):
 def update_database_schema(app):
     """Update database schema to include new columns if they don't exist yet."""
     from sqlalchemy import inspect
-    from .models import User, CarbonData, Product
+    from .models import User, CarbonData, Product, HarvestPeriod
     
     inspector = inspect(db.engine)
     
@@ -99,8 +99,12 @@ def update_database_schema(app):
         Product.__table__.create(db.engine)
         print('Created Product table!')
     
+    # Create HarvestPeriod table if it doesn't exist
+    if 'harvest_period' not in inspector.get_table_names():
+        HarvestPeriod.__table__.create(db.engine)
+        print('Created HarvestPeriod table!')
+    
     # Ensure uploads directory exists
     os.makedirs('website/static/uploads', exist_ok=True)
     
     print('Database schema updated!')
-

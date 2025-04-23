@@ -111,6 +111,147 @@
     </div>
   </div>
   
+  <!-- Harvest Calendar Section -->
+  <div class="profile-card harvest-calendar-card">
+    <div class="card-header">
+      <h2>Harvest Calendar</h2>
+      <div class="card-actions">
+        <button class="edit-calendar-btn"><i class="fas fa-edit"></i> Edit Calendar</button>
+      </div>
+    </div>
+    
+    <div class="harvest-calendar">
+      <div class="calendar-header">
+        <div class="product-name"></div>
+        <div class="month-header">Jan</div>
+        <div class="month-header">Feb</div>
+        <div class="month-header">Mar</div>
+        <div class="month-header">Apr</div>
+        <div class="month-header">May</div>
+        <div class="month-header">Jun</div>
+        <div class="month-header">Jul</div>
+        <div class="month-header">Aug</div>
+        <div class="month-header">Sep</div>
+        <div class="month-header">Oct</div>
+        <div class="month-header">Nov</div>
+        <div class="month-header">Dec</div>
+      </div>
+      
+      {% if products %}
+        {% set harvest_months = {
+          'Pear': [8, 9, 10],
+          'Apple': [9, 10, 11],
+          'Cherry': [6, 7],
+          'Hazelnut': [9, 10],
+          'Raspberry': [6, 7, 8, 9],
+          'Blackberry': [7, 8, 9]
+        } %}
+        
+        {% for product in products %}
+          <div class="calendar-row">
+            <div class="product-name">{{ product.name }}</div>
+            <div class="month-grid">
+              {% if product.name in harvest_months %}
+                {% set product_months = harvest_months[product.name] %}
+              {% else %}
+                {% set product_months = [6, 7, 8] %}  <!-- Default harvest months if not defined -->
+              {% endif %}
+              
+              {% for month in range(1, 13) %}
+                <div class="month-cell {% if month in product_months %}in-season{% endif %}"></div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-products-message">
+          <p>No products added yet. Add products to your inventory to see their harvest calendar.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Edit Harvest Calendar Modal -->
+  <div id="editCalendarModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Edit Harvest Calendar</h2>
+      <form id="editCalendarForm" action="#" method="POST">
+        <div class="form-group">
+          <label>Select Product</label>
+          <select id="calendarProduct" class="form-control">
+            {% if products %}
+              {% for product in products %}
+                <option value="{{ product.id }}">{{ product.name }}</option>
+              {% endfor %}
+            {% else %}
+              <option value="1">Pear</option>
+              <option value="2">Apple</option>
+              <option value="3">Cherry</option>
+              <option value="4">Hazelnut</option>
+            {% endif %}
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Harvest Months</label>
+          <div class="month-checkboxes">
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-1" name="months" value="1">
+              <label for="month-1">Jan</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-2" name="months" value="2">
+              <label for="month-2">Feb</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-3" name="months" value="3">
+              <label for="month-3">Mar</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-4" name="months" value="4">
+              <label for="month-4">Apr</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-5" name="months" value="5">
+              <label for="month-5">May</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-6" name="months" value="6">
+              <label for="month-6">Jun</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-7" name="months" value="7">
+              <label for="month-7">Jul</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-8" name="months" value="8">
+              <label for="month-8">Aug</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-9" name="months" value="9">
+              <label for="month-9">Sep</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-10" name="months" value="10">
+              <label for="month-10">Oct</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-11" name="months" value="11">
+              <label for="month-11">Nov</label>
+            </div>
+            <div class="month-checkbox">
+              <input type="checkbox" id="month-12" name="months" value="12">
+              <label for="month-12">Dec</label>
+            </div>
+          </div>
+        </div>
+        
+        <button type="submit" class="submit-btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Add Product Modal -->
   <div id="addProductModal" class="modal">
     <div class="modal-content">
@@ -328,6 +469,92 @@
       });
     });
     
+    // Edit Harvest Calendar Modal
+    const editCalendarBtn = document.querySelector('.edit-calendar-btn');
+    const editCalendarModal = document.getElementById('editCalendarModal');
+    const closeCalendarModal = editCalendarModal.querySelector('.close-modal');
+    
+    if (editCalendarBtn) {
+      editCalendarBtn.addEventListener('click', function() {
+        editCalendarModal.style.display = 'block';
+        
+        // Initialize checkboxes for the first product
+        if (document.getElementById('calendarProduct')) {
+          const event = new Event('change');
+          document.getElementById('calendarProduct').dispatchEvent(event);
+        }
+      });
+    }
+    
+    if (closeCalendarModal) {
+      closeCalendarModal.addEventListener('click', function() {
+        editCalendarModal.style.display = 'none';
+      });
+    }
+    
+    // Handle calendar form submission
+    const editCalendarForm = document.getElementById('editCalendarForm');
+    if (editCalendarForm) {
+      editCalendarForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get selected product and months
+        const productId = document.getElementById('calendarProduct').value;
+        const selectedMonths = Array.from(document.querySelectorAll('input[name="months"]:checked')).map(cb => cb.value);
+        
+        // Create a form to submit the data to the server
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/update-harvest-calendar';
+        
+        // Add product_id input
+        const productIdInput = document.createElement('input');
+        productIdInput.type = 'hidden';
+        productIdInput.name = 'product_id';
+        productIdInput.value = productId;
+        form.appendChild(productIdInput);
+        
+        // Add selected months inputs
+        selectedMonths.forEach(month => {
+          const monthInput = document.createElement('input');
+          monthInput.type = 'hidden';
+          monthInput.name = 'months';
+          monthInput.value = month;
+          form.appendChild(monthInput);
+        });
+        
+        // Append form to body and submit
+        document.body.appendChild(form);
+        form.submit();
+      });
+    }
+    
+    // When a product is selected in the calendar modal, update the checkboxes
+    const calendarProductSelect = document.getElementById('calendarProduct');
+    if (calendarProductSelect) {
+      calendarProductSelect.addEventListener('change', function() {
+        const productName = this.options[this.selectedIndex].text;
+        const calendarRows = document.querySelectorAll('.calendar-row');
+        
+        // Reset all checkboxes
+        document.querySelectorAll('input[name="months"]').forEach(cb => cb.checked = false);
+        
+        // Find the row for this product
+        for (const row of calendarRows) {
+          if (row.querySelector('.product-name').textContent === productName) {
+            // Get the in-season months
+            const cells = row.querySelectorAll('.month-cell');
+            cells.forEach((cell, index) => {
+              if (cell.classList.contains('in-season')) {
+                document.getElementById(`month-${index + 1}`).checked = true;
+              }
+            });
+            break;
+          }
+        }
+      });
+    }
+    
     // Close modals when clicking outside
     window.addEventListener('click', function(event) {
       if (event.target === addProductModal) {
@@ -338,6 +565,9 @@
       }
       if (event.target === editProductModal) {
         editProductModal.style.display = 'none';
+      }
+      if (event.target === editCalendarModal) {
+        editCalendarModal.style.display = 'none';
       }
     });
   });

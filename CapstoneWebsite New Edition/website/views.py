@@ -1,7 +1,7 @@
 # views.py
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Note, CarbonData, Product, User
+from .models import Note, CarbonData, Product, User, HarvestPeriod
 from . import db
 import json
 import os
@@ -209,6 +209,12 @@ def profile():
     carbon_data = CarbonData.query.filter_by(user_id=current_user.id).first()
     products = Product.query.filter_by(user_id=current_user.id).all()
     
+    # Get harvest periods for each product
+    product_harvest_periods = {}
+    for product in products:
+        harvest_periods = HarvestPeriod.query.filter_by(product_id=product.id).all()
+        product_harvest_periods[product.id] = [period.month for period in harvest_periods]
+    
     # Calculate carbon estimate if data exists
     carbon_estimate = None
     if carbon_data:
@@ -232,7 +238,8 @@ def profile():
         user=current_user, 
         carbon_data=carbon_data, 
         carbon_estimate=carbon_estimate,
-        products=products
+        products=products,
+        product_harvest_periods=product_harvest_periods
     )
 
 @views.route('/update-forest', methods=['POST'])
@@ -307,6 +314,18 @@ def add_product():
         
         db.session.add(new_product)
         db.session.commit()
+        
+        # Add default harvest periods (e.g., summer months)
+        default_months = [6, 7, 8]  # June, July, August
+        for month in default_months:
+            harvest_period = HarvestPeriod(
+                product_id=new_product.id,
+                user_id=current_user.id,
+                month=month
+            )
+            db.session.add(harvest_period)
+        
+        db.session.commit()
         flash('Product added successfully!', category='success')
         
         return redirect(url_for('views.profile'))
@@ -350,11 +369,45 @@ def delete_product(product_id):
         flash('You do not have permission to delete this product.', category='error')
         return redirect(url_for('views.profile'))
     
+    # Delete associated harvest periods first
+    HarvestPeriod.query.filter_by(product_id=product_id).delete()
+    
+    # Then delete the product
     db.session.delete(product)
     db.session.commit()
     flash('Product deleted successfully!', category='success')
     
     return redirect(url_for('views.profile'))
+
+@views.route('/update-harvest-calendar', methods=['POST'])
+@login_required
+def update_harvest_calendar():
+    if request.method == 'POST':
+        product_id = request.form.get('product_id')
+        selected_months = request.form.getlist('months')
+        
+        # Validate product belongs to current user
+        product = Product.query.get_or_404(product_id)
+        if product.user_id != current_user.id:
+            flash('You do not have permission to update this product.', category='error')
+            return redirect(url_for('views.profile'))
+        
+        # Delete existing harvest periods for this product
+        HarvestPeriod.query.filter_by(product_id=product_id).delete()
+        
+        # Add new harvest periods
+        for month in selected_months:
+            harvest_period = HarvestPeriod(
+                product_id=product_id,
+                user_id=current_user.id,
+                month=int(month)
+            )
+            db.session.add(harvest_period)
+        
+        db.session.commit()
+        flash('Harvest calendar updated successfully!', category='success')
+        
+        return redirect(url_for('views.profile'))
 
 @views.route('/forest/<int:forest_id>')
 def forest_detail(forest_id):
@@ -366,6 +419,12 @@ def forest_detail(forest_id):
     
     # Get products
     products = Product.query.filter_by(user_id=forest.id).all()
+    
+    # Get harvest periods for each product
+    product_harvest_periods = {}
+    for product in products:
+        harvest_periods = HarvestPeriod.query.filter_by(product_id=product.id).all()
+        product_harvest_periods[product.id] = [period.month for period in harvest_periods]
     
     # Calculate metrics if carbon_data exists
     metrics = {}
@@ -388,6 +447,7 @@ def forest_detail(forest_id):
         forest=forest,
         carbon_data=carbon_data,
         products=products,
+        product_harvest_periods=product_harvest_periods,
         metrics=metrics
     )
 
@@ -415,11 +475,16 @@ def product_detail(product_id):
     # Get the forest (user)
     forest = User.query.get_or_404(product.user_id)
     
+    # Get harvest periods for this product
+    harvest_periods = HarvestPeriod.query.filter_by(product_id=product.id).all()
+    harvest_months = [period.month for period in harvest_periods]
+    
     return render_template(
         "product_detail.html", 
         user=current_user,
         product=product,
-        forest=forest
+        forest=forest,
+        harvest_months=harvest_months
     )
 
 @views.route('/article')
