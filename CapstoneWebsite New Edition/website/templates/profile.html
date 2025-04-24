@@ -138,27 +138,12 @@
       </div>
       
       {% if products %}
-        {% set harvest_months = {
-          'Pear': [8, 9, 10],
-          'Apple': [9, 10, 11],
-          'Cherry': [6, 7],
-          'Hazelnut': [9, 10],
-          'Raspberry': [6, 7, 8, 9],
-          'Blackberry': [7, 8, 9]
-        } %}
-        
         {% for product in products %}
           <div class="calendar-row">
             <div class="product-name">{{ product.name }}</div>
             <div class="month-grid">
-              {% if product.name in harvest_months %}
-                {% set product_months = harvest_months[product.name] %}
-              {% else %}
-                {% set product_months = [6, 7, 8] %}  <!-- Default harvest months if not defined -->
-              {% endif %}
-              
               {% for month in range(1, 13) %}
-                <div class="month-cell {% if month in product_months %}in-season{% endif %}"></div>
+                <div class="month-cell {% if product_harvest_periods and product.id in product_harvest_periods and month in product_harvest_periods[product.id] %}in-season{% endif %}"></div>
               {% endfor %}
             </div>
           </div>
@@ -270,7 +255,8 @@
         
         <div class="form-group">
           <label for="productImage">Product Image</label>
-          <input type="file" id="productImage" name="productImage" accept="image/*">
+          <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage(this, 'productImagePreview')">
+          <div id="productImagePreview" class="image-preview"></div>
         </div>
         
         <div class="form-group">
@@ -301,7 +287,8 @@
         
         <div class="form-group">
           <label for="editProductImage">Product Image</label>
-          <input type="file" id="editProductImage" name="productImage" accept="image/*">
+          <input type="file" id="editProductImage" name="productImage" accept="image/*" onchange="previewImage(this, 'editProductImagePreview')">
+          <div id="editProductImagePreview" class="image-preview"></div>
           <div id="currentProductImage" class="current-image"></div>
         </div>
         
@@ -532,25 +519,30 @@
     // When a product is selected in the calendar modal, update the checkboxes
     const calendarProductSelect = document.getElementById('calendarProduct');
     if (calendarProductSelect) {
+      // Product harvest periods data from server
+      const productHarvestPeriods = {
+        {% if product_harvest_periods %}
+          {% for product_id, months in product_harvest_periods.items() %}
+            "{{ product_id }}": {{ months|tojson }},
+          {% endfor %}
+        {% endif %}
+      };
+
       calendarProductSelect.addEventListener('change', function() {
-        const productName = this.options[this.selectedIndex].text;
-        const calendarRows = document.querySelectorAll('.calendar-row');
+        const productId = this.value;
         
         // Reset all checkboxes
         document.querySelectorAll('input[name="months"]').forEach(cb => cb.checked = false);
         
-        // Find the row for this product
-        for (const row of calendarRows) {
-          if (row.querySelector('.product-name').textContent === productName) {
-            // Get the in-season months
-            const cells = row.querySelectorAll('.month-cell');
-            cells.forEach((cell, index) => {
-              if (cell.classList.contains('in-season')) {
-                document.getElementById(`month-${index + 1}`).checked = true;
-              }
-            });
-            break;
-          }
+        // Check boxes based on data from server
+        if (productId in productHarvestPeriods) {
+          const months = productHarvestPeriods[productId];
+          months.forEach(month => {
+            const checkbox = document.getElementById(`month-${month}`);
+            if (checkbox) {
+              checkbox.checked = true;
+            }
+          });
         }
       });
     }
@@ -571,6 +563,26 @@
       }
     });
   });
+
+  function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    preview.innerHTML = '';
+    
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '100px';
+        img.style.maxHeight = '100px';
+        img.style.marginTop = '10px';
+        preview.appendChild(img);
+      }
+      
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 </script>
 
 {% endblock %}

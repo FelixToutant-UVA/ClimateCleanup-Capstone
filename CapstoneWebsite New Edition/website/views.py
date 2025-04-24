@@ -308,8 +308,11 @@ def add_product():
             file = request.files['productImage']
             if file and file.filename != '' and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
+                # Ensure the upload directory exists
+                os.makedirs(UPLOAD_FOLDER, exist_ok=True)
                 filepath = os.path.join(UPLOAD_FOLDER, f"product_{current_user.id}_{filename}")
                 file.save(filepath)
+                # Store the relative path that can be used with url_for('static', filename=...)
                 new_product.image = f"uploads/product_{current_user.id}_{filename}"
         
         db.session.add(new_product)
@@ -350,8 +353,11 @@ def edit_product(product_id):
             file = request.files['productImage']
             if file and file.filename != '' and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
+                # Ensure the upload directory exists
+                os.makedirs(UPLOAD_FOLDER, exist_ok=True)
                 filepath = os.path.join(UPLOAD_FOLDER, f"product_{current_user.id}_{filename}")
                 file.save(filepath)
+                # Store the relative path that can be used with url_for('static', filename=...)
                 product.image = f"uploads/product_{current_user.id}_{filename}"
         
         db.session.commit()
@@ -384,7 +390,17 @@ def delete_product(product_id):
 def update_harvest_calendar():
     if request.method == 'POST':
         product_id = request.form.get('product_id')
-        selected_months = request.form.getlist('months')
+        
+        # Handle both single and multiple month selections
+        if request.form.getlist('months'):
+            selected_months = request.form.getlist('months')
+        else:
+            # If months come as a comma-separated string (from fetch API)
+            months_str = request.form.get('months', '')
+            if months_str:
+                selected_months = months_str.split(',')
+            else:
+                selected_months = []
         
         # Validate product belongs to current user
         product = Product.query.get_or_404(product_id)
@@ -397,15 +413,24 @@ def update_harvest_calendar():
         
         # Add new harvest periods
         for month in selected_months:
-            harvest_period = HarvestPeriod(
-                product_id=product_id,
-                user_id=current_user.id,
-                month=int(month)
-            )
-            db.session.add(harvest_period)
+            try:
+                month_int = int(month)
+                if 1 <= month_int <= 12:  # Validate month is between 1-12
+                    harvest_period = HarvestPeriod(
+                        product_id=product_id,
+                        user_id=current_user.id,
+                        month=month_int
+                    )
+                    db.session.add(harvest_period)
+            except ValueError:
+                continue  # Skip invalid values
         
         db.session.commit()
         flash('Harvest calendar updated successfully!', category='success')
+        
+        # If it's an AJAX request, return JSON response
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True})
         
         return redirect(url_for('views.profile'))
 

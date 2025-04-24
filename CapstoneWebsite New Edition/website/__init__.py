@@ -22,6 +22,9 @@ def create_app():
 
     from .models import User, Note, CarbonData, Product, HarvestPeriod
     
+    # Ensure uploads directory exists
+    os.makedirs(os.path.join('website', 'static', 'uploads'), exist_ok=True)
+    
     with app.app_context():
         db.create_all()
         update_database_schema(app)
