@@ -80,45 +80,43 @@
   </div>
 
   <!-- Harvest Calendar Section -->
-  <section class="harvest-calendar-section">
-    <h2>Harvest Calendar</h2>
-    <div class="harvest-calendar-container">
+  <section class="profile-card harvest-calendar-card">
+    <div class="card-header">
+      <h2>Harvest Calendar</h2>
+    </div>
+    <div class="harvest-calendar">
       <div class="calendar-header">
-        <div class="product-column">Product</div>
-        <div class="months-row">
-          <div class="month-header">Jan</div>
-          <div class="month-header">Feb</div>
-          <div class="month-header">Mar</div>
-          <div class="month-header">Apr</div>
-          <div class="month-header">May</div>
-          <div class="month-header">Jun</div>
-          <div class="month-header">Jul</div>
-          <div class="month-header">Aug</div>
-          <div class="month-header">Sep</div>
-          <div class="month-header">Oct</div>
-          <div class="month-header">Nov</div>
-          <div class="month-header">Dec</div>
-        </div>
+        <div class="product-name"></div>
+        <div class="month-header">Jan</div>
+        <div class="month-header">Feb</div>
+        <div class="month-header">Mar</div>
+        <div class="month-header">Apr</div>
+        <div class="month-header">May</div>
+        <div class="month-header">Jun</div>
+        <div class="month-header">Jul</div>
+        <div class="month-header">Aug</div>
+        <div class="month-header">Sep</div>
+        <div class="month-header">Oct</div>
+        <div class="month-header">Nov</div>
+        <div class="month-header">Dec</div>
       </div>
       
-      <div class="calendar-body">
-        {% if products %}
-          {% for product in products %}
-            <div class="calendar-row">
-              <div class="product-column">{{ product.name }}</div>
-              <div class="months-row">
-                {% for month in range(1, 13) %}
-                  <div class="month-cell {% if product_harvest_periods and product.id in product_harvest_periods and month in product_harvest_periods[product.id] %}in-season{% endif %}"></div>
-                {% endfor %}
-              </div>
+      {% if products %}
+        {% for product in products %}
+          <div class="calendar-row">
+            <div class="product-name">{{ product.name }}</div>
+            <div class="month-grid">
+              {% for month in range(1, 13) %}
+                <div class="month-cell {% if product_harvest_periods and product.id in product_harvest_periods and month in product_harvest_periods[product.id] %}in-season{% endif %}"></div>
+              {% endfor %}
             </div>
-          {% endfor %}
-        {% else %}
-          <div class="no-products-message">
-            <p>No products available for harvest calendar display.</p>
           </div>
-        {% endif %}
-      </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-products-message">
+          <p>No products available for harvest calendar display.</p>
+        </div>
+      {% endif %}
       
       <div class="calendar-legend">
         <div class="legend-item">
@@ -134,8 +132,10 @@
   </section>
 
   <!-- Forest Metrics Section -->
-  <section class="forest-metrics">
-    <h2>Forest Impact</h2>
+  <section class="profile-card forest-metrics-card">
+    <div class="card-header">
+      <h2>Forest Impact</h2>
+    </div>
     <div class="metrics-grid">
       <div class="metric-card">
         <i class="fas fa-leaf"></i>
@@ -156,25 +156,29 @@
   </section>
 
   <!-- Forest Story Section -->
-  <section class="forest-story">
-    <div class="story-content">
+  <section class="profile-card forest-story-card">
+    <div class="card-header">
       <h2>Our Story</h2>
-      <p>This food forest was established in {{ carbon_data.age_years|default('2018') if carbon_data else '2018' }} with the goal of creating a sustainable, regenerative food production system that works with nature rather than against it. Our forest mimics natural ecosystems while producing abundant, nutritious food.</p>
-      <p>Unlike conventional agriculture, our food forest:</p>
-      <ul>
-        <li>Requires no pesticides or synthetic fertilizers</li>
-        <li>Builds soil health naturally</li>
-        <li>Creates habitat for beneficial wildlife</li>
-        <li>Produces food with higher nutritional value</li>
-      </ul>
-      <a href="{{ url_for('views.article') }}" class="learn-more-link">Learn more about the benefits of food forests</a>
     </div>
-    <div class="story-image">
-      {% if forest and forest.forest_image %}
-        <img src="{{ url_for('static', filename=forest.forest_image) }}" alt="Food forest landscape" />
-      {% else %}
-        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Food forest landscape" />
-      {% endif %}
+    <div class="forest-story-content">
+      <div class="story-text">
+        <p>This food forest was established in {{ carbon_data.age_years|default('2018') if carbon_data else '2018' }} with the goal of creating a sustainable, regenerative food production system that works with nature rather than against it. Our forest mimics natural ecosystems while producing abundant, nutritious food.</p>
+        <p>Unlike conventional agriculture, our food forest:</p>
+        <ul>
+          <li>Requires no pesticides or synthetic fertilizers</li>
+          <li>Builds soil health naturally</li>
+          <li>Creates habitat for beneficial wildlife</li>
+          <li>Produces food with higher nutritional value</li>
+        </ul>
+        <a href="{{ url_for('views.article') }}" class="learn-more-link">Learn more about the benefits of food forests</a>
+      </div>
+      <div class="story-image">
+        {% if forest and forest.forest_image %}
+          <img src="{{ url_for('static', filename=forest.forest_image) }}" alt="Food forest landscape" />
+        {% else %}
+          <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Food forest landscape" />
+        {% endif %}
+      </div>
     </div>
   </section>
 </section>
