@@ -79,6 +79,60 @@
     {% endif %}
   </div>
 
+  <!-- Harvest Calendar Section -->
+  <section class="harvest-calendar-section">
+    <h2>Harvest Calendar</h2>
+    <div class="harvest-calendar-container">
+      <div class="calendar-header">
+        <div class="product-column">Product</div>
+        <div class="months-row">
+          <div class="month-header">Jan</div>
+          <div class="month-header">Feb</div>
+          <div class="month-header">Mar</div>
+          <div class="month-header">Apr</div>
+          <div class="month-header">May</div>
+          <div class="month-header">Jun</div>
+          <div class="month-header">Jul</div>
+          <div class="month-header">Aug</div>
+          <div class="month-header">Sep</div>
+          <div class="month-header">Oct</div>
+          <div class="month-header">Nov</div>
+          <div class="month-header">Dec</div>
+        </div>
+      </div>
+      
+      <div class="calendar-body">
+        {% if products %}
+          {% for product in products %}
+            <div class="calendar-row">
+              <div class="product-column">{{ product.name }}</div>
+              <div class="months-row">
+                {% for month in range(1, 13) %}
+                  <div class="month-cell {% if product_harvest_periods and product.id in product_harvest_periods and month in product_harvest_periods[product.id] %}in-season{% endif %}"></div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-products-message">
+            <p>No products available for harvest calendar display.</p>
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="calendar-legend">
+        <div class="legend-item">
+          <div class="legend-color in-season"></div>
+          <span>In Season</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color"></div>
+          <span>Not in Season</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Forest Metrics Section -->
   <section class="forest-metrics">
     <h2>Forest Impact</h2>
@@ -123,48 +177,151 @@
       {% endif %}
     </div>
   </section>
-
-<!-- Harvest Calendar Section -->
-<div class="profile-card harvest-calendar-card">
-  <div class="card-header">
-    <h2>Harvest Calendar</h2>
-  </div>
-  
-  <div class="harvest-calendar">
-    <div class="calendar-header">
-      <div class="product-name"></div>
-      <div class="month-header">Jan</div>
-      <div class="month-header">Feb</div>
-      <div class="month-header">Mar</div>
-      <div class="month-header">Apr</div>
-      <div class="month-header">May</div>
-      <div class="month-header">Jun</div>
-      <div class="month-header">Jul</div>
-      <div class="month-header">Aug</div>
-      <div class="month-header">Sep</div>
-      <div class="month-header">Oct</div>
-      <div class="month-header">Nov</div>
-      <div class="month-header">Dec</div>
-    </div>
-    
-    {% if products %}
-      {% for product in products %}
-        <div class="calendar-row">
-          <div class="product-name">{{ product.name }}</div>
-          <div class="month-grid">
-            {% for month in range(1, 13) %}
-              <div class="month-cell {% if product_harvest_periods and product.id in product_harvest_periods and month in product_harvest_periods[product.id] %}in-season{% endif %}"></div>
-            {% endfor %}
-          </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      <div class="no-products-message">
-        <p>No products added yet. Add products to your inventory to see their harvest calendar.</p>
-      </div>
-    {% endif %}
-  </div>
-</div>
 </section>
   
+{% endblock %}
+
+{% block head %}
+<style>
+  /* Harvest Calendar Styles */
+  .harvest-calendar-section {
+    margin: 3rem 0;
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .harvest-calendar-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .harvest-calendar-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .calendar-header {
+    display: flex;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .product-column {
+    width: 150px;
+    padding: 0.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .months-row {
+    display: flex;
+    flex: 1;
+  }
+  
+  .month-header {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    color: #555;
+  }
+  
+  .calendar-body {
+    margin-bottom: 1.5rem;
+  }
+  
+  .calendar-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  
+  .month-cell {
+    flex: 1;
+    height: 30px;
+    background-color: #f0f0f0;
+    margin: 0 1px;
+    border-radius: 4px;
+  }
+  
+  .month-cell.in-season {
+    background-color: #4caf50;
+  }
+  
+  .calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+  
+  .legend-color.in-season {
+    background-color: #4caf50;
+  }
+  
+  .no-products-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    background: #f0f0f0;
+    border-radius: 6px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .product-column {
+      width: 100px;
+    }
+    
+    .month-header {
+      font-size: 0.7rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .calendar-header {
+      flex-direction: column;
+    }
+    
+    .product-column {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    
+    .calendar-row {
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
+    }
+    
+    .months-row {
+      width: 100%;
+    }
+    
+    .month-header {
+      transform: rotate(-45deg);
+      height: 40px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+  }
+</style>
 {% endblock %}
