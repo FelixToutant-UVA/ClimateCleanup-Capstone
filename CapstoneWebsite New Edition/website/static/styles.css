@@ -528,6 +528,8 @@ footer p {
 }
 
 .search-container button {
+  border-radius: 4px;
+  margin-right: 0.1rem;
   background: #2e7d32;
   color: #fff;
   border: none;
