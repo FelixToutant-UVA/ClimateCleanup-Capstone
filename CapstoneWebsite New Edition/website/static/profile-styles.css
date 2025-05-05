@@ -109,6 +109,7 @@
 .tab-button {
   background: #fff;
   border: 1px solid #333;
+  color:#333;
   padding: 0.3rem 0.6rem;
   cursor: pointer;
   font-size: 0.85rem;
@@ -116,7 +117,8 @@
 }
 
 .tab-button:hover {
-  background: #ddd;
+  background: #333;
+  color: whitesmoke;
 }
 
 .metrics-grid {
@@ -219,6 +221,9 @@
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s, box-shadow 0.3s;
+  margin:auto;
+  align-content: center;
+  justify-content: center;
 }
 
 .product-item:hover {
