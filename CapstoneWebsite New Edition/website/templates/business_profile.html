@@ -2,32 +2,60 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='profile-styles.css') }}">
 {% endblock %}
+
 {% block content %}
 
 <div class="profile-container">
-  <!-- Top Section: Business Details -->
-  <div class="profile-top-section">
+  <div class="profile-content">
     <!-- Business Details Card -->
-    <div class="profile-card business-details-card">
-      <h2>Business Details</h2>
-      <div class="business-details-content">
-        <div class="business-image">
-          {% if user.business_image %}
-            <img src="{{ url_for('static', filename=user.business_image) }}" alt="Business Image">
-          {% else %}
-            <img src="{{ url_for('static', filename='images/default_business.jpg') }}" alt="Business Image">
-          {% endif %}
-        </div>
-        <div class="business-info">
-          <h3>{{ user.business_name|default('Business Name') }}</h3>
-          <p class="business-location">{{ user.business_location|default('Location') }}</p>
-          <div class="business-actions">
-            <button class="edit-business-btn"><i class="fas fa-edit"></i> Edit Details</button>
-          </div>
-        </div>
+    <div class="business-details-card">
+      <h2>Business details</h2>
+      <div class="business-image">
+        {% if user.business_image %}
+          <img src="{{ url_for('static', filename=user.business_image) }}" alt="Business Image">
+        {% else %}
+          <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Business Image">
+        {% endif %}
       </div>
+      <p>Location: {{ user.business_location|default('Amsterdam, Netherlands') }}</p>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section">
+      <h2>About</h2>
+      <p class="subtitle">Subheading for description or instructions</p>
+      <p>Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look:</p>
+      <p>
+        Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect 
+        nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely 
+        queen tempor eiusmod irure. Exclusively Izakaya charming Scandinavian impeccable aute quality of life soft 
+        power pariatur Melbourne occaecat discerning. Qui wardrobe aliqua, at Porter destination Toto remarkable officia Helsinki excepteur Basset hound. Zürich 
+        sleepy perfect consectetur.
+      </p>
+    </div>
+  </div>
+
+  <!-- Food Forests Nearby Section -->
+  <div class="food-forests-section">
+    <h2>Food-Forests Nearby</h2>
+    <div class="forests-grid">
+      {% if nearby_forests %}
+        {% for forest in nearby_forests %}
+          <div class="forest-card">
+            <h3>{{ forest.name }}</h3>
+            <img src="{{ url_for('static', filename=forest.image) }}" alt="{{ forest.name }}" class="forest-image">
+            <p>{{ forest.location }}</p>
+            <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="explore-btn">Explore</a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-forests-message">
+          <p>No food forests found nearby. Check back later as our community grows!</p>
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>
-
 {% endblock %}
+
+{% block footer %}{% endblock %}

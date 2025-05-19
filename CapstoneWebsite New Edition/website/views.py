@@ -535,5 +535,19 @@ def business_profile():
         flash('Unauthorized access.', category='error')
         return redirect(url_for('views.profile'))
 
+    # Query for food forests (users with account_type='food-forest')
+    nearby_forests = User.query.filter_by(account_type='food-forest').limit(6).all()
+    
+    # Get carbon data for each forest
+    forest_data = []
+    for forest in nearby_forests:
+        carbon_data = CarbonData.query.filter_by(user_id=forest.id).first()
+        
+        forest_data.append({
+            'id': forest.id,
+            'name': forest.forest_name or f"Food Forest #{forest.id}",
+            'location': forest.forest_location or "Location not specified",
+            'image': forest.forest_image or 'images/hero_pears.jpg'
+        })
 
-    return render_template('business_profile.html', user=current_user)
+    return render_template('business_profile.html', user=current_user, nearby_forests=forest_data)

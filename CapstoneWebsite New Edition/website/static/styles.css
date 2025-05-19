@@ -2859,3 +2859,172 @@ footer .topic-column h4 {
   font-size: 0.9rem;
   color: black;
 }
+
+/* Add the business profile styles at the end of the file */
+
+/* BUSINESS PROFILE STYLES */
+body.business-profile-page {
+  background-color: #1a1a1a;
+}
+
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background-color: white;
+}
+
+.profile-header {
+  background-color: #000;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.profile-nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.profile-nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.sign-out-btn {
+  background-color: white;
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.profile-content {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.business-details-card {
+  background-color: #f0f0f0;
+  padding: 1.5rem;
+  border-radius: 4px;
+  width: 30%;
+}
+
+.business-details-card h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.business-image {
+  border: 2px solid #4a90e2;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.business-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.about-section {
+  flex: 1;
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.about-section .subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.food-forests-section {
+  background-color: #f0f0f0;
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-top: 2rem;
+}
+
+.food-forests-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.forests-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 4px;
+}
+
+.forest-card {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.forest-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.forest-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.explore-btn {
+  background-color: #000;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+/* Responsive adjustments for business profile */
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+  }
+
+  .business-details-card {
+    width: 100%;
+  }
+
+  .forests-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-nav {
+    gap: 1rem;
+  }
+
+  .forests-grid {
+    grid-template-columns: 1fr;
+  }
+}
