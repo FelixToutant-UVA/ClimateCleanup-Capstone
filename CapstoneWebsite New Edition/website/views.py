@@ -128,12 +128,16 @@ def food_forests():
     
     # Apply search if provided
     if search_query:
+        search = f"%{search_query}%"
         query = query.filter(
             or_(
-                User.forest_name.ilike(f'%{search_query}%'),
-                User.forest_location.ilike(f'%{search_query}%')
+                User.forest_name.ilike(search),
+                User.forest_location.ilike(search),
+                User.products.any(Product.name.ilike(search)),
+                User.products.any(Product.description.ilike(search))
             )
         )
+
     
     # Apply location filter if provided
     if location_filter:
