@@ -57,12 +57,7 @@
       </div>
     </div>
 
-    <!-- value-breakdown chart AFTER all costs -->
-    <div class="value-breakdown">
-      <div class="chart-container">
-        <canvas id="supermarketChart"></canvas>
-      </div>
-    </div>
+    
   </div>
 
   <!-- Food-Forest Column -->
@@ -100,12 +95,6 @@
       </div>
     </div>
 
-    <!-- value-breakdown chart AFTER all benefits / costs -->
-    <div class="value-breakdown">
-      <div class="chart-container">
-        <canvas id="foodforestChart"></canvas>
-      </div>
-    </div>
   </div>
 
 </div>
@@ -159,161 +148,66 @@
   </article>
 </div>
 
-<!-- Chart.js Library -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- JavaScript for the slider functionality -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Base values per kg
-    const baseValues = {
-      supermarket: {
-        price: 2.05,
-        biodiversityCost: 0.45,
-        carbonCost: 0.90,
-        waterCost: 0.50
-      },
-      foodForest: {
-        price: 3.55,
-      }
-    };
-
-    // Initialize charts
-    let supermarketChart, foodforestChart;
-    
-    function initCharts() {
-      // Supermarket chart
-      const supermarketCtx = document.getElementById('supermarketChart').getContext('2d');
-      supermarketChart = new Chart(supermarketCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Production', 'Biodiversity Loss', 'Carbon Emissions', 'Water Usage'],
-          datasets: [{
-            data: [baseValues.supermarket.price, 
-                  baseValues.supermarket.biodiversityCost, 
-                  baseValues.supermarket.carbonCost, 
-                  baseValues.supermarket.waterCost],
-            backgroundColor: [
-              '#4CAF50',
-              '#FF5722',
-              '#2196F3',
-              '#9C27B0'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false
-            }
-          }
-        }
-      });
-      
-      // food-forest chart
-      const foodforestCtx = document
-            .getElementById('foodforestChart')
-            .getContext('2d');
-
-      foodforestChart = new Chart(foodforestCtx, {
-        type: 'doughnut',
-        data: {
-          labels: [
-            'Production',
-            'Biodiversity Gain',
-            'Carbon Sequestration',
-            'Water Benefits'
-          ],
-          datasets: [{
-            data: [
-              baseValues.foodForest.price,  // production slice
-              0, 0, 0                       // the three “benefit” slices
-            ],
-            backgroundColor: [
-              '#4CAF50', '#8BC34A', '#03A9F4', '#00BCD4'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } }
-        }
-      });
+document.addEventListener('DOMContentLoaded', function () {
+  /* ---------- CONSTANTS ---------- */
+  const baseValues = {
+    supermarket: {
+      price: 2.05,
+      biodiversityCost: 0.45,
+      carbonCost: 0.90,
+      waterCost: 0.50
+    },
+    foodForest: {
+      price: 3.55        // <- only figure we still need
     }
-    
-    // Initialize charts
-    initCharts();
-    
-    // Format number with commas
-    function formatNumber(num) {
-      return new Intl.NumberFormat('en-US').format(num);
-    }
-    
-    // Update all values based on amount
-function updateValues(amount) {
-  /* ---------- 1 . show the chosen kg amount ---------- */
-  document.getElementById('current-amount').textContent = amount;
+  };
 
-  /* ---------- 2 . SUPERMARKET calculations ---------- */
-  const supermarketPrice           = baseValues.supermarket.price;            // € / kg
-  const supermarketBiodiversityCost = baseValues.supermarket.biodiversityCost;
-  const supermarketCarbonCost       = baseValues.supermarket.carbonCost;
-  const supermarketWaterCost        = baseValues.supermarket.waterCost;
+  /* ---------- HELPERS ---------- */
+  function formatNumber (num) {
+    return new Intl.NumberFormat('en-US').format(num);
+  }
 
-  const supermarketPurchaseValue = supermarketPrice * amount; // € paid
-  const supermarketTrueCost      =
-    (supermarketPrice + supermarketBiodiversityCost +
-     supermarketCarbonCost + supermarketWaterCost) * amount;
+  /* ---------- MAIN UPDATE ---------- */
+  function updateValues (amount) {
+    // 1. show kg
+    document.getElementById('current-amount').textContent = amount;
 
-  /* ---------- 3 . FOOD-FOREST calculations ---------- */
-  const foodforestPricePerKg   = baseValues.foodForest.price;  // € / kg
-  const foodforestPurchaseCost = foodforestPricePerKg * amount;
-  const foodforestTrueCost     = foodforestPurchaseCost;       // no add-ons now
+    // 2. supermarket maths
+    const sp       = baseValues.supermarket;
+    const spValue  = sp.price * amount;
+    const spTrue   = (sp.price + sp.biodiversityCost + sp.carbonCost + sp.waterCost) * amount;
 
-  /* ---------- 4 . WRITE numbers to the DOM ---------- */
-  // Supermarket blocks
-  document.getElementById('supermarket-price').textContent            = supermarketPrice.toFixed(2);
-  document.getElementById('supermarket-biodiversity-cost').textContent= supermarketBiodiversityCost.toFixed(2);
-  document.getElementById('supermarket-carbon-cost').textContent      = supermarketCarbonCost.toFixed(2);
-  document.getElementById('supermarket-water-cost').textContent       = supermarketWaterCost.toFixed(2);
-  document.getElementById('supermarket-purchase-value').textContent   = formatNumber(supermarketPurchaseValue.toFixed(0));
-  document.getElementById('supermarket-true-cost').textContent        = formatNumber(supermarketTrueCost.toFixed(0));
+    // 3. food-forest maths
+    const ffPrice  = baseValues.foodForest.price;
+    const ffValue  = ffPrice * amount;
+    const ffTrue   = ffValue;   // no externalities
 
-  // Food-forest blocks
-  document.getElementById('foodforest-price').textContent          = foodforestPricePerKg.toFixed(2);
-  document.getElementById('foodforest-purchase-value').textContent = formatNumber(foodforestPurchaseCost.toFixed(0));
-  document.getElementById('foodforest-true-cost').textContent      = formatNumber(foodforestTrueCost.toFixed(0));
+    // 4. DOM updates – supermarket
+    document.getElementById('supermarket-price'           ).textContent = sp.price.toFixed(2);
+    document.getElementById('supermarket-biodiversity-cost').textContent = sp.biodiversityCost.toFixed(2);
+    document.getElementById('supermarket-carbon-cost'     ).textContent = sp.carbonCost.toFixed(2);
+    document.getElementById('supermarket-water-cost'      ).textContent = sp.waterCost.toFixed(2);
+    document.getElementById('supermarket-purchase-value'  ).textContent = formatNumber(spValue.toFixed(0));
+    document.getElementById('supermarket-true-cost'       ).textContent = formatNumber(spTrue.toFixed(0));
 
-  /* ---------- 5 . REFRESH the charts ---------- */
-  supermarketChart.data.datasets[0].data = [
-    supermarketPrice,
-    supermarketBiodiversityCost,
-    supermarketCarbonCost,
-    supermarketWaterCost
-  ];
-  supermarketChart.update();
+    // 5. DOM updates – food forest
+    document.getElementById('foodforest-price'            ).textContent = ffPrice.toFixed(2);
+    document.getElementById('foodforest-purchase-value'   ).textContent = formatNumber(ffValue.toFixed(0));
+    document.getElementById('foodforest-true-cost'        ).textContent = formatNumber(ffTrue.toFixed(0));
+  }
 
-  foodforestChart.data.datasets[0].data = [
-    foodforestPricePerKg, 0, 0, 0   // only production slice is non-zero
-  ];
-  foodforestChart.update();
-}
-    
-    // Get slider element
-    const slider = document.getElementById('amountSlider');
-    
-    // Update values when slider changes
-    slider.addEventListener('input', function() {
-      updateValues(parseInt(this.value));
-    });
-    
-    // Initialize with default value
-    updateValues(parseInt(slider.value));
-  });
+  /* ---------- SLIDER HOOK ---------- */
+  const slider = document.getElementById('amountSlider');
+  slider.addEventListener('input', () => updateValues(parseInt(slider.value, 10)));
+
+  /* ---------- FIRST LOAD ---------- */
+  updateValues(parseInt(slider.value, 10));
+});
 </script>
+
 
 <style>
   /* Additional styles for the comparison tool */
