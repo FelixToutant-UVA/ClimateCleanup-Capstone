@@ -1,0 +1,166 @@
+/* Article page styles */
+.article-container {
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-md;
+}
+
+.comparison-article {
+  background: white;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  box-shadow: $box-shadow-lg;
+  
+  .article-header {
+    padding: $spacing-xl;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    
+    h1 {
+      font-size: $font-size-xxlarge;
+      margin-bottom: $spacing-md;
+      color: $color-text;
+    }
+    
+    .article-subtitle {
+      font-size: 1.1rem;
+      color: $color-text-light;
+      line-height: 1.6;
+    }
+  }
+  
+  .visual-comparison {
+    padding: $spacing-xl;
+    background: $color-background-light;
+    
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: $spacing-xl;
+      margin-bottom: $spacing-xl;
+      
+      @include respond-to(md) {
+        grid-template-columns: 1fr;
+      }
+      
+      .comparison-column {
+        background: white;
+        padding: $spacing-xl;
+        border-radius: $border-radius-lg;
+        box-shadow: $box-shadow-sm;
+        
+        h2 {
+          font-size: $font-size-large;
+          margin-bottom: $spacing-lg;
+          text-align: center;
+          color: $color-text;
+        }
+        
+        &.supermarket {
+          border-top: 4px solid $color-error;
+        }
+        
+        &.food-forest {
+          border-top: 4px solid $color-primary;
+        }
+      }
+    }
+    
+    .amount-slider {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: $spacing-md;
+        color: $color-text;
+      }
+      
+      .current-amount {
+        font-size: $font-size-large;
+        font-weight: 500;
+        margin-bottom: $spacing-md;
+        color: $color-text;
+      }
+      
+      .slider {
+        width: 100%;
+        height: 8px;
+        background: #ddd;
+        border-radius: $border-radius-sm;
+        outline: none;
+        -webkit-appearance: none;
+        
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 20px;
+          height: 20px;
+          background: $color-primary;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  
+  .detailed-explanation {
+    padding: $spacing-xl;
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: $spacing-xl;
+      color: $color-text;
+      text-align: center;
+    }
+    
+    .explanation-block {
+      margin-bottom: 2.5rem;
+      
+      h3 {
+        font-size: 1.3rem;
+        margin-bottom: $spacing-md;
+        color: $color-primary;
+      }
+      
+      p {
+        margin-bottom: $spacing-md;
+        line-height: 1.6;
+        color: $color-text-light;
+      }
+      
+      ul {
+        padding-left: $spacing-lg;
+        margin-bottom: $spacing-md;
+        
+        li {
+          margin-bottom: $spacing-sm;
+          line-height: 1.6;
+          color: $color-text-light;
+        }
+      }
+    }
+  }
+  
+  .article-cta {
+    padding: $spacing-xl;
+    background: #e8f5e9;
+    text-align: center;
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: $spacing-md;
+      color: $color-primary;
+    }
+    
+    p {
+      margin-bottom: $spacing-xl;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      color: $color-text-light;
+      line-height: 1.6;
+    }
+  }
+}

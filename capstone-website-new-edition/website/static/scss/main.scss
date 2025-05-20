@@ -1,0 +1,30 @@
+// Main SCSS file that imports all partials
+
+// Variables
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+// Base styles
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/utilities';
+
+// Layout
+@import 'layout/navbar';
+@import 'layout/footer';
+@import 'layout/grid';
+
+// Components
+@import 'components/buttons';
+@import 'components/cards'; 
+@import 'components/forms';
+@import 'components/modals';
+
+// Pages
+@import 'pages/home';
+@import 'pages/forest';
+@import 'pages/profile';
+@import 'pages/business';
+@import 'pages/auth';
+@import 'pages/article';
+@import 'pages/product';

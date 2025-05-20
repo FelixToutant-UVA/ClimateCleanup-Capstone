@@ -1,0 +1,61 @@
+/* Typography styles */
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: $spacing-sm;
+  font-weight: 600;
+  line-height: 1.2;
+  color: $color-text;
+}
+
+h1 {
+  font-size: $font-size-xxlarge;
+  
+  @include respond-to(md) {
+    font-size: $font-size-xlarge;
+  }
+}
+
+h2 {
+  font-size: $font-size-xlarge;
+  
+  @include respond-to(md) {
+    font-size: $font-size-large;
+  }
+}
+
+h3 {
+  font-size: $font-size-large;
+  
+  @include respond-to(md) {
+    font-size: $font-size-medium;
+  }
+}
+
+p {
+  margin-bottom: $spacing-md;
+}
+
+.subtitle {
+  color: $color-text-light;
+  font-size: $font-size-medium;
+  margin-bottom: $spacing-lg;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-primary {
+  color: $color-primary;
+}
+
+.text-secondary {
+  color: $color-secondary;
+}
+
+.text-muted {
+  color: $color-text-light;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Climate Cleanup{% endblock %}</title>
+    <!-- CSS compiled from Sass/SCSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <!-- External libraries -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Add block for page-specific CSS -->
+    {% block head %}{% endblock %}
+  </head>
+  <body{% block body_class %}{% endblock %}>
+    <!-- Sticky Navbar -->
+    <header>
+      <nav class="navbar">
+        <div class="nav-left">
+          <a href="/" class="brand">Climate Cleanup</a>
+        </div>
+        <ul class="nav-right">
+          <li><a href="/">Home</a></li>
+          <li><a href="/food_forests">Food Forests</a></li>
+          <li><a href="/about_us">About Us</a></li>
+          <li><a href="/metrics">Metrics</a></li>
+          {% if current_user.is_authenticated %}
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/logout">Logout</a></li>
+          {% else %}
+            <li><a href="/login">Login</a></li>
+            <li>
+              <a href="/sign_up" class="signup-btn">Sign Up</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div
+      class="alert alert-{{ 'danger' if category == 'error' else 'success' }}"
+    >
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <!-- Main Content -->
+    <main>{% block content %}{% endblock %}</main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>&copy; 2023 Climate Cleanup. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const mapEl = document.getElementById("map");
+        if (mapEl) {
+          const myMap = L.map("map").setView([52.1326, 5.2913], 7);
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "© OpenStreetMap contributors",
+          }).addTo(myMap);
+          // Example: L.marker([52.0907, 5.1214]).addTo(myMap).bindPopup('Example Marker');
+        }
+      });
+    </script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

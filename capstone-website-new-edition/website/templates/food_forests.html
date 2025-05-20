@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- MAIN WRAPPER FOR THIS PAGE -->
+<div class="food-forest-library">
+
+  <!-- Hero Banner Section -->
+  <section class="forest-library-hero">
+    <div class="forest-hero-content">
+      <h1>Discover Food Forests</h1>
+      <p>Connect with sustainable ecosystems in your community and beyond</p>
+    </div>
+  </section>
+
+  <!-- Search and Filter Section -->
+  <section class="search-filter-section">
+    <form id="searchFilterForm" method="GET" action="{{ url_for('views.food_forests') }}">
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" name="search" placeholder="Search by name, location, or plant type..." value="{{ search_query }}"/>
+        <button type="submit">Search</button>
+      </div>
+      
+      <div class="filter-options">
+        <div class="filter-group">
+          <label>Location</label>
+          <select name="location" onchange="this.form.submit()">
+            <option value="">All Locations</option>
+            <option value="urban" {% if location_filter == 'urban' %}selected{% endif %}>Urban</option>
+            <option value="suburban" {% if location_filter == 'suburban' %}selected{% endif %}>Suburban</option>
+            <option value="rural" {% if location_filter == 'rural' %}selected{% endif %}>Rural</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Forest Type</label>
+          <select name="forest_type" onchange="this.form.submit()">
+            <option value="">All Types</option>
+            <option value="community" {% if forest_type == 'community' %}selected{% endif %}>Community</option>
+            <option value="private" {% if forest_type == 'private' %}selected{% endif %}>Private</option>
+            <option value="educational" {% if forest_type == 'educational' %}selected{% endif %}>Educational</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select name="sort_by" onchange="this.form.submit()">
+            <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
+            <option value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest</option>
+            <option value="size" {% if sort_by == 'size' %}selected{% endif %}>Size (Largest)</option>
+            <option value="biodiversity" {% if sort_by == 'biodiversity' %}selected{% endif %}>Biodiversity</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  {% if featured_forest %}
+  <!-- Featured Forest Section -->
+  <section class="featured-forest">
+    <div class="featured-badge">
+      <i class="fas fa-star"></i> Featured
+    </div>
+    <div class="featured-content">
+      <div class="featured-image">
+        <img src="{{ url_for('static', filename=featured_forest.image) }}" alt="{{ featured_forest.name }}" />
+      </div>
+      <div class="featured-details">
+        <span class="forest-category">{{ featured_forest.type }} Forest</span>
+        <h2>{{ featured_forest.name }}</h2>
+        <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ featured_forest.location }}</p>
+        <p class="forest-description">
+          A thriving food forest managed by the community. Home to various plant species including fruit trees, berries, herbs, and native plants that support local wildlife.
+        </p>
+        <div class="forest-metrics">
+          {% if featured_forest.metrics.species %}
+          <div class="metric">
+            <i class="fas fa-tree"></i>
+            <span>{{ featured_forest.metrics.species }}+ Species</span>
+          </div>
+          {% endif %}
+          
+          {% if featured_forest.metrics.acres %}
+          <div class="metric">
+            <i class="fas fa-leaf"></i>
+            <span>{{ featured_forest.metrics.acres }} Acres</span>
+          </div>
+          {% endif %}
+          
+          {% if featured_forest.metrics.carbon %}
+          <div class="metric">
+            <i class="fas fa-cloud"></i>
+            <span>{{ featured_forest.metrics.carbon }}t CO₂/year</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="featured-actions">
+          <a href="{{ url_for('views.forest_detail', forest_id=featured_forest.id) }}" class="cta-button">Explore Forest</a>
+          <a href="#" class="secondary-link"><i class="fas fa-calendar-alt"></i> Events</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Forest Categories Section -->
+  <section class="forest-categories">
+    <h2>Browse by Category</h2>
+    <div class="category-tabs">
+      <button class="category-tab active" data-category="all">All Forests</button>
+      <button class="category-tab" data-category="community">Community</button>
+      <button class="category-tab" data-category="educational">Educational</button>
+      <button class="category-tab" data-category="urban">Urban</button>
+      <button class="category-tab" data-category="rural">Rural</button>
+    </div>
+  </section>
+
+  <!-- Forest Grid Section -->
+  <section class="forest-grid">
+    {% if forests %}
+      {% for forest in forests %}
+        <div class="forest-card" data-category="{{ forest.type|lower }}">
+          <div class="forest-card-image">
+            <img src="{{ url_for('static', filename=forest.image) }}" alt="{{ forest.name }}" />
+            <div class="forest-card-badge">{{ forest.type }}</div>
+          </div>
+          <div class="forest-card-content">
+            <h3>{{ forest.name }}</h3>
+            <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ forest.location }}</p>
+            <p class="forest-description">
+              A sustainable food forest with a focus on biodiversity and community engagement.
+            </p>
+            <div class="forest-card-metrics">
+              {% if forest.metrics.species %}
+              <span><i class="fas fa-tree"></i> {{ forest.metrics.species }} Species</span>
+              {% endif %}
+              
+              {% if forest.metrics.acres %}
+              <span><i class="fas fa-leaf"></i> {{ forest.metrics.acres }} Acres</span>
+              {% endif %}
+            </div>
+            <div class="forest-card-actions">
+              <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="forest-card-button">Explore</a>
+              <button class="forest-card-favorite"><i class="far fa-heart"></i></button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-forests-message">
+        <p>No food forests found matching your criteria. Try adjusting your search or filters.</p>
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- Map View Toggle -->
+  <section class="view-toggle">
+    <button class="view-button active"><i class="fas fa-th-large"></i> Grid View</button>
+    <button class="view-button"><i class="fas fa-map-marked-alt"></i> Map View</button>
+  </section>
+
+  <!-- Map Container (hidden by default) -->
+  <section class="map-container" style="display: none;">
+    <div id="forests-map"></div>
+  </section>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button class="pagination-button"><i class="fas fa-chevron-left"></i></button>
+    <button class="pagination-button active">1</button>
+    <button class="pagination-button">2</button>
+    <button class="pagination-button">3</button>
+    <span class="pagination-ellipsis">...</span>
+    <button class="pagination-button">8</button>
+    <button class="pagination-button"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <!-- Join the Network CTA -->
+  <section class="join-network">
+    <div class="join-network-content">
+      <div class="join-network-text">
+        <h2>Have a Food Forest?</h2>
+        <p>Join our network to connect with other forest keepers, share knowledge, and contribute to our growing database of sustainable food ecosystems.</p>
+      </div>
+      <div class="join-network-action">
+        <a href="{{ url_for('auth.sign_up') }}" class="cta-button primary">Add Your Forest</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- JavaScript for interactive elements -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // View toggle functionality
+    const gridViewBtn = document.querySelector('.view-button:nth-child(1)');
+    const mapViewBtn = document.querySelector('.view-button:nth-child(2)');
+    const forestGrid = document.querySelector('.forest-grid');
+    const mapContainer = document.querySelector('.map-container');
+    
+    gridViewBtn.addEventListener('click', function() {
+      forestGrid.style.display = 'grid';
+      mapContainer.style.display = 'none';
+      gridViewBtn.classList.add('active');
+      mapViewBtn.classList.remove('active');
+    });
+    
+    mapViewBtn.addEventListener('click', function() {
+      forestGrid.style.display = 'none';
+      mapContainer.style.display = 'block';
+      mapViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+      
+      // Initialize map if it hasn't been already
+      if (!window.forestsMapInitialized) {
+        // Check if Leaflet is available
+        if (typeof L !== 'undefined') {
+          const forestsMap = L.map('forests-map').setView([52.1326, 5.2913], 7);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(forestsMap);
+          
+          // Add markers for each forest
+          {% for forest in forests %}
+            L.marker([52.3676 + {{ loop.index0 }} * 0.1, 4.9041 + {{ loop.index0 }} * 0.1]).addTo(forestsMap)
+              .bindPopup('<b>{{ forest.name }}</b><br>{{ forest.location }}<br><a href="{{ url_for("views.forest_detail", forest_id=forest.id) }}">View Details</a>');
+          {% endfor %}
+          
+          window.forestsMapInitialized = true;
+        } else {
+          console.error('Leaflet library not loaded');
+        }
+      }
+    });
+    
+    // Category tabs functionality
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const forestCards = document.querySelectorAll('.forest-card');
+    
+    categoryTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Update active tab
+        categoryTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        
+        const category = this.dataset.category;
+        
+        // Filter forest cards
+        forestCards.forEach(card => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+    
+    // Favorite button functionality
+    const favoriteButtons = document.querySelectorAll('.forest-card-favorite');
+    favoriteButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('far')) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+          icon.style.color = '#e74c3c';
+        } else {
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+          icon.style.color = '';
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

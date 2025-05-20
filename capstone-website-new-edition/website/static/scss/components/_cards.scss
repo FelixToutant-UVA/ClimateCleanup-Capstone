@@ -1,0 +1,247 @@
+/* Card styles */
+.profile-card {
+  @include card;
+  margin-bottom: $spacing-xl;
+}
+
+.forest-card {
+  @include card;
+  transition: transform 0.3s, box-shadow 0.3s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $box-shadow-lg;
+  }
+  
+  &-image {
+    position: relative;
+    height: 200px;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    &-badge {
+      position: absolute;
+      top: $spacing-md;
+      right: $spacing-md;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-small;
+    }
+  }
+  
+  &-content {
+    padding: $spacing-lg;
+    
+    h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: $color-text;
+    }
+    
+    .forest-location {
+      font-size: $font-size-small;
+      color: $color-text-light;
+      margin-bottom: 0.8rem;
+    }
+    
+    .forest-description {
+      font-size: 0.95rem;
+      color: $color-text-light;
+      margin-bottom: $spacing-md;
+      line-height: 1.5;
+    }
+  }
+  
+  &-metrics {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spacing-md;
+    font-size: $font-size-small;
+    color: $color-text-light;
+    
+    i {
+      color: $color-primary;
+      margin-right: 0.3rem;
+    }
+  }
+  
+  &-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.featured-forest {
+  position: relative;
+  background: #e8f5e9;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  margin-bottom: $spacing-xl;
+  box-shadow: $box-shadow-lg;
+  
+  .featured-badge {
+    position: absolute;
+    top: $spacing-md;
+    left: $spacing-md;
+    background: $color-warning;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: $font-size-small;
+    font-weight: 500;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .featured-content {
+    display: flex;
+    flex-wrap: wrap;
+    
+    .featured-image {
+      flex: 1;
+      min-width: 300px;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+    
+    .featured-details {
+      flex: 1;
+      min-width: 300px;
+      padding: $spacing-xl;
+      
+      .forest-category {
+        display: inline-block;
+        background: rgba($color-primary, 0.1);
+        color: $color-primary;
+        padding: 0.3rem 0.6rem;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-small;
+        font-weight: 500;
+        margin-bottom: 0.8rem;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: $color-text;
+      }
+      
+      .forest-metrics {
+        display: flex;
+        gap: $spacing-lg;
+        margin-bottom: $spacing-lg;
+        
+        .metric {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          
+          i {
+            color: $color-primary;
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+  }
+  
+  @include respond-to(md) {
+    .featured-content {
+      flex-direction: column;
+    }
+  }
+}
+
+.auth-card {
+  background: white;
+  border-radius: $border-radius-lg;
+  box-shadow: $box-shadow-lg;
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+}
+
+.forest-metrics-card,
+.harvest-calendar-card,
+.forest-story-card {
+  margin-bottom: $spacing-xl;
+  
+  .card-header {
+    padding: $spacing-lg;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
+    
+    h2 {
+      margin: 0;
+      font-size: $font-size-large;
+      color: $color-text;
+    }
+  }
+}
+
+.product-card {
+  @include card;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $box-shadow-lg;
+  }
+  
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  h3, h4 {
+    margin: $spacing-md 0 $spacing-sm;
+    color: $color-text;
+  }
+  
+  p {
+    margin-bottom: $spacing-md;
+    color: $color-text-light;
+  }
+}
+
+.metric-card {
+  background: white;
+  padding: $spacing-xl;
+  border-radius: $border-radius-lg;
+  text-align: center;
+  box-shadow: $box-shadow-sm;
+  
+  i {
+    font-size: 2.5rem;
+    color: $color-primary;
+    margin-bottom: $spacing-md;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    color: $color-text;
+  }
+  
+  p {
+    color: $color-text-light;
+    line-height: 1.5;
+  }
+}

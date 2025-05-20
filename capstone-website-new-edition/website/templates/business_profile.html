@@ -2,6 +2,16 @@
 {% block body_class %}business-profile-page{% endblock %}
 
 {% block content %}
+<div class="profile-header">
+  <h1>Profile Page</h1>
+  <div class="profile-nav">
+    <a href="{{ url_for('views.home') }}">Compear</a>
+    <a href="{{ url_for('views.food_forests') }}">Food Forests</a>
+    <a href="{{ url_for('views.about_us') }}">About Us</a>
+    <a href="{{ url_for('auth.logout') }}" class="sign-out-btn">Sign out</a>
+  </div>
+</div>
+
 <div class="profile-container">
   <div class="profile-content">
     <!-- Business Details Card -->
@@ -100,4 +110,3 @@
 {% endblock %}
 
 {% block footer %}{% endblock %}
-

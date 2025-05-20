@@ -1,0 +1,31 @@
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: $spacing-lg;
+  background: $color-primary;
+  color: white;
+  margin-top: $spacing-xl;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  
+  p {
+    margin: 0;
+    font-size: $font-size-small;
+  }
+}
+
+.custom-fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 1000;
+  
+  p {
+    margin: 0;
+    font-size: $font-size-small;
+    color: black;
+  }
+}

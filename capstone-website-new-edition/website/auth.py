@@ -97,4 +97,3 @@ def sign_up():
                 return redirect(url_for('views.profile'))
 
     return render_template("sign_up.html", user=current_user)
-

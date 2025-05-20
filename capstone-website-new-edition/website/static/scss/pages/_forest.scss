@@ -1,0 +1,431 @@
+/* Forest page styles */
+.forest-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/static/images/hero_pears.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  
+  &-content {
+    max-width: 800px;
+    padding: $spacing-xl;
+    
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: $spacing-sm;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      
+      @include respond-to(md) {
+        font-size: 2.5rem;
+      }
+    }
+    
+    .forest-location {
+      font-size: 1.2rem;
+      margin-bottom: $spacing-xl;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero-btn {
+      background: $color-primary;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: $border-radius-sm;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+      
+      &:hover {
+        background: $color-primary-dark;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
+.inventory-container {
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-md;
+  
+  h2 {
+    font-size: $font-size-xlarge;
+    margin-bottom: $spacing-xl;
+    text-align: center;
+    color: $color-text;
+  }
+  
+  .inventory-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.featured-product {
+  display: flex;
+  flex-wrap: wrap;
+  background: $color-background-light;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  box-shadow: $box-shadow-md;
+  
+  img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  &-info {
+    flex: 1;
+    min-width: 300px;
+    padding: $spacing-xl;
+    
+    h3 {
+      font-size: 1.8rem;
+      margin-bottom: $spacing-md;
+      color: $color-primary;
+    }
+    
+    p {
+      margin-bottom: $spacing-lg;
+      line-height: 1.6;
+      color: $color-text-light;
+    }
+  }
+  
+  @include respond-to(md) {
+    flex-direction: column;
+  }
+}
+
+.harvest-calendar {
+  padding: $spacing-lg;
+  background-color: white;
+  
+  .calendar-header {
+    display: grid;
+    grid-template-columns: 150px repeat(12, 1fr);
+    gap: 4px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    background-color: #f5f5f5;
+    border-radius: $border-radius-md;
+    padding: 8px 0;
+  }
+  
+  .month-header {
+    text-align: center;
+    font-size: $font-size-small;
+    color: $color-text-light;
+    padding: 8px 0;
+  }
+  
+  .calendar-row {
+    display: grid;
+    grid-template-columns: 150px repeat(12, 1fr);
+    gap: 4px;
+    margin-bottom: 10px;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+  }
+  
+  .product-name {
+    font-size: $font-size-base;
+    color: $color-text;
+    padding: 8px 0;
+    font-weight: 500;
+  }
+  
+  .month-grid {
+    display: contents;
+  }
+  
+  .month-cell {
+    height: 30px;
+    background-color: #f0f0f0;
+    border-radius: $border-radius-sm;
+    transition: all 0.2s ease;
+    
+    &.in-season {
+      background-color: $color-primary-light;
+      box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+    }
+  }
+  
+  .calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-xl;
+    margin-top: $spacing-lg;
+    padding-top: $spacing-md;
+    border-top: 1px solid #f0f0f0;
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+    }
+    
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      background-color: #f0f0f0;
+      border-radius: $border-radius-sm;
+      
+      &.in-season {
+        background-color: $color-primary-light;
+      }
+    }
+  }
+  
+  @include respond-to(md) {
+    .calendar-header,
+    .calendar-row {
+      grid-template-columns: 100px repeat(12, 1fr);
+    }
+    
+    .month-header {
+      font-size: 0.75rem;
+    }
+    
+    .product-name {
+      font-size: 0.85rem;
+    }
+  }
+  
+  @include respond-to(sm) {
+    .calendar-header,
+    .calendar-row {
+      grid-template-columns: 80px repeat(12, 1fr);
+    }
+    
+    .month-header {
+      font-size: 0.7rem;
+      transform: rotate(-45deg);
+      height: 40px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+  }
+}
+
+.forest-metrics-card {
+  .metrics-grid {
+    padding: $spacing-lg;
+  }
+}
+
+.forest-story-card {
+  .forest-story-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xl;
+    padding: $spacing-lg;
+    
+    .story-text {
+      flex: 1;
+      min-width: 300px;
+      
+      p {
+        margin-bottom: $spacing-lg;
+        line-height: 1.6;
+        color: $color-text-light;
+      }
+      
+      ul {
+        margin-bottom: $spacing-lg;
+        padding-left: $spacing-lg;
+        
+        li {
+          margin-bottom: $spacing-sm;
+          color: $color-text-light;
+          line-height: 1.5;
+        }
+      }
+      
+      .learn-more-link {
+        color: $color-primary;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-block;
+        transition: color 0.3s;
+        margin-top: $spacing-sm;
+        
+        &:hover {
+          color: $color-primary-dark;
+          text-decoration: underline;
+        }
+      }
+    }
+    
+    .story-image {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: $border-radius-lg;
+        box-shadow: $box-shadow-md;
+      }
+    }
+  }
+  
+  @include respond-to(md) {
+    .forest-story-content {
+      flex-direction: column;
+      
+      .story-image {
+        order: -1;
+      }
+    }
+  }
+}
+
+.forest-library-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/static/images/hero_pears.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 5rem 2rem;
+  margin-bottom: $spacing-xl;
+  border-radius: $border-radius-lg;
+  
+  .forest-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    
+    h1 {
+      font-size: 3rem;
+      margin-bottom: $spacing-md;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    p {
+      font-size: 1.2rem;
+      margin-bottom: $spacing-lg;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  @include respond-to(md) {
+    padding: 3rem 1rem;
+    
+    .forest-hero-content h1 {
+      font-size: 2.2rem;
+    }
+  }
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+}
+
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xl;
+  
+  &-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    background: none;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: all 0.3s;
+    
+    &:hover {
+      background: #f0f0f0;
+    }
+    
+    &.active {
+      background: $color-primary;
+      color: white;
+      border-color: $color-primary;
+    }
+  }
+  
+  &-ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.join-network {
+  background: linear-gradient(to right, $color-primary, $color-primary-dark);
+  color: white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  margin-bottom: $spacing-xl;
+  
+  &-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-xl;
+    
+    .join-network-text {
+      flex: 2;
+      min-width: 300px;
+      
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: $spacing-sm;
+      }
+      
+      p {
+        line-height: 1.6;
+        opacity: 0.9;
+      }
+    }
+    
+    .join-network-action {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  
+  @include respond-to(md) {
+    &-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}
