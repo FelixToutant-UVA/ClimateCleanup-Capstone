@@ -54,6 +54,16 @@ def metrics():
             carbon_data.soil_type,
             carbon_data.biodiversity_index
         )
+    else:
+        # Provide default values when carbon_data is None
+        carbon_estimate = {
+            "min": 15,
+            "max": 30,
+            "unit": "tons CO₂e",
+            "annual_min": 2.1,
+            "annual_max": 4.2,
+            "annual_unit": "tons CO₂e/year"
+        }
 
     return render_template(
         "metrics.html",

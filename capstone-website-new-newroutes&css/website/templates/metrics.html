@@ -24,12 +24,12 @@
     <div class="metrics-summary">
       <div class="metric-summary-card">
         <h3>Size (ha)</h3>
-        <p class="metric-value">{{ (carbon_data.size_m2 / 10000)|round(1)|default('7') }}</p>
+        <p class="metric-value">{{ (carbon_data.size_m2 / 10000)|round(1) if carbon_data else '7' }}</p>
       </div>
 
       <div class="metric-summary-card">
         <h3>Soil type</h3>
-        <p class="metric-value">{{ carbon_data.soil_type|default('Zandgrond') }}</p>
+        <p class="metric-value">{{ carbon_data.soil_type if carbon_data else 'Zandgrond' }}</p>
       </div>
 
       <div class="metric-summary-card">
@@ -44,7 +44,7 @@
 
       <div class="metric-summary-card">
         <h3>Food forest age</h3>
-        <p class="metric-value">{{ carbon_data.age_years|default('7') }}</p>
+        <p class="metric-value">{{ carbon_data.age_years if carbon_data else '7' }}</p>
       </div>
     </div>
 
