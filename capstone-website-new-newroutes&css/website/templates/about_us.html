@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="about-page-wrapper">
+
+  <!-- Main 2-column layout -->
+  <div class="about-content">
+    <!-- Left Column: heading, subheading, body text, and form -->
+    <div class="about-left">
+      <h1>About Us</h1>
+      <h2 class="about-subtitle">Subheading for description or instructions</h2>
+      
+      <!-- Write about who we are and our partnership with Climate Cleanup -->
+      <p>
+        Body text for your whole article or post. We’ll put in some lorem ipsum to show how a filled-out page might look:
+        <br><br>
+        Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect 
+        nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely 
+        queen tempor eiusmod irure...
+      </p>
+
+      <h2>Get in touch</h2>
+      <form class="contact-form">
+        <div class="input-row">
+          <div class="form-group">
+            <label for="firstname">First name</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Jane">
+          </div>
+          <div class="form-group">
+            <label for="lastname">Last name</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Smitherton">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="email@janesfakedomain.net">
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Enter your question or message"></textarea>
+        </div>
+
+        <button type="submit" class="submit-button">Submit</button>
+      </form>
+    </div>
+
+    <!-- Right Column: main portrait or image -->
+    <div class="about-right">
+      <!-- Replace with real image URL or file -->
+      <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Person portrait">
+    </div>
+  </div>
+</div>
+
+{% endblock %}

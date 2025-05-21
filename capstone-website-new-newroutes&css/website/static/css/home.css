@@ -1,0 +1,534 @@
+/* HOME PAGE STYLES - Landing page and fullpage sections */
+
+/* LANDING SECTION */
+.landing-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.landing-section h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.landing-section .subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* HERO-metrics SECTION */
+.hero-metrics {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.hero-metrics .hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-metrics .hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-metrics .hero-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+}
+
+.hero-metrics .hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-metrics .hero-text p {
+  font-size: 1.2rem;
+}
+
+/* METRICS SECTION */
+.metrics-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.metrics-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* WHY US SECTION */
+.why-us-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+}
+
+.why-us-header h3 {
+  font-size: 1.5rem;
+}
+
+.why-us-header a {
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+}
+
+.why-us-header a:hover {
+  text-decoration: underline;
+}
+
+.why-us-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.why-us-card {
+  flex: 1;
+  min-width: 200px;
+  background: #f9f9f9;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+}
+
+.why-us-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.why-us-card h4 {
+  margin-bottom: 0.5rem;
+}
+
+.why-us-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.why-us-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.why-us-content p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* CLIMATE CLEANUP SECTION */
+.climate-cleanup {
+  background: #f5f5f5;
+  padding: 1.5rem;
+}
+
+.climate-cleanup h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.climate-cleanup h4 {
+  font-size: 1.1rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.climate-cleanup p {
+  margin-bottom: 1rem;
+}
+
+.climate-cta {
+  margin-top: 1rem;
+}
+
+.climate-cta button {
+  background: #000;
+  color: #fff;
+  border: none;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.climate-cta button:hover {
+  background: #333;
+}
+
+/* FULLPAGE SECTIONS */
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  font-size: 3rem;
+  overflow: hidden;
+  position: relative;
+  transition: background-color 0.5s;
+}
+
+#section1 {
+  background: url("/static/images/fresh-vegetables.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #dcf5f2;
+  color: #000;
+  position: relative;
+}
+
+#section1 .overlay {
+  background: rgba(255, 255, 255, 0.75);
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  text-align: center;
+}
+
+.line {
+  width: 150px;
+  height: 4px;
+  background: currentColor;
+  margin: 2rem auto;
+  transition: width 0.5s;
+}
+
+/* Content container for sections */
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+/* Welcome section styling */
+#welcome-section {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.welcome-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.welcome-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Food forest section styling */
+.food-forest-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.food-forest-text {
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
+}
+
+.food-forest-text p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.food-forest-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.food-forest-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Benefit sections styling */
+.benefit-section {
+  text-align: center;
+}
+
+.benefit-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.benefit-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.benefit-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.benefit-content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* ARTICLE PAGE STYLES */
+.article-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.comparison-article {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.article-header {
+  padding: 3rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.article-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.visual-comparison {
+  padding: 2rem;
+  background: #f9f9f9;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.comparison-column {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-column h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.detailed-explanation {
+  padding: 3rem;
+}
+
+.detailed-explanation h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #333;
+  text-align: center;
+}
+
+.explanation-block {
+  margin-bottom: 2.5rem;
+}
+
+.explanation-block h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+}
+
+.explanation-block p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.explanation-block ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.explanation-block li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.article-cta {
+  padding: 3rem;
+  background: #e8f5e9;
+  text-align: center;
+}
+
+.article-cta h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+}
+
+.article-cta p {
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ABOUT PAGE STYLES */
+.about-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background: #fff;
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.about-left {
+  flex: 1 1 400px;
+}
+
+.about-left h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.about-subtitle {
+  font-weight: normal;
+  font-size: 1.1rem;
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+.about-left p {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.about-right {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.about-right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .welcome-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+  }
+
+  .benefit-icon {
+    font-size: 3rem;
+  }
+
+  .benefit-content h2 {
+    font-size: 2rem;
+  }
+
+  .benefit-content p {
+    font-size: 1rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-button {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+  }
+
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,60 +1,189 @@
 {% extends "base.html" %}
+
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='about-styles.css') }}">
+<style>
+/* About Us Page Styles */
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.about-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.about-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.about-text {
+  flex: 2;
+  min-width: 300px;
+}
+
+.about-text p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.about-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-section {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.contact-section h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.contact-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #2e7d32;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+textarea.form-control {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  grid-column: span 2;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background: #1b5e20;
+}
+
+@media (max-width: 768px) {
+  .contact-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+  
+  .submit-btn {
+    grid-column: span 1;
+  }
+}
+</style>
 {% endblock %}
+
 {% block content %}
-
-<div class="about-page-wrapper">
-
-  <!-- Main 2-column layout -->
+<div class="about-container">
+  <div class="about-header">
+    <h1>About Us</h1>
+    <p>Subheading for description or instructions</p>
+  </div>
+  
   <div class="about-content">
-    <!-- Left Column: heading, subheading, body text, and form -->
-    <div class="about-left">
-      <h1>About Us</h1>
-      <h2 class="about-subtitle">Subheading for description or instructions</h2>
+    <div class="about-text">
+      <p>Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look:</p>
       
-      <!-- Write about who we are and our partnership with Climate Cleanup -->
-      <p>
-        Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look:
-        <br><br>
-        Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect 
-        nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely 
-        queen tempor eiusmod irure...
-      </p>
-
-      <h2>Get in touch</h2>
-      <form class="contact-form">
-        <div class="input-row">
-          <div class="form-group">
-            <label for="firstname">First name</label>
-            <input type="text" id="firstname" name="firstname" placeholder="Jane">
-          </div>
-          <div class="form-group">
-            <label for="lastname">Last name</label>
-            <input type="text" id="lastname" name="lastname" placeholder="Smitherton">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="email" id="email" name="email" placeholder="email@janesfakedomain.net">
-        </div>
-
-        <div class="form-group">
-          <label for="message">Your message</label>
-          <textarea id="message" name="message" rows="4" placeholder="Enter your question or message"></textarea>
-        </div>
-
-        <button type="submit" class="submit-button">Submit</button>
-      </form>
+      <p>Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely queen tempor eiusmod irure...</p>
     </div>
-
-    <!-- Right Column: main portrait or image -->
-    <div class="about-right">
-      <!-- Replace with real image URL or file -->
+    
+    <div class="about-image">
       <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Person portrait">
     </div>
   </div>
+  
+  <div class="contact-section">
+    <h2>Get in touch</h2>
+    <form class="contact-form" action="#" method="POST">
+      <div class="form-group">
+        <label for="firstName">First name</label>
+        <input type="text" id="firstName" name="firstName" class="form-control" value="Jane">
+      </div>
+      
+      <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input type="text" id="lastName" name="lastName" class="form-control" value="Smitherton">
+      </div>
+      
+      <div class="form-group full-width">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" class="form-control" value="email@janesfakedomain.net">
+      </div>
+      
+      <div class="form-group full-width">
+        <label for="message">Your message</label>
+        <textarea id="message" name="message" class="form-control" placeholder="Enter your question or message"></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+  </div>
 </div>
-
 {% endblock %}
