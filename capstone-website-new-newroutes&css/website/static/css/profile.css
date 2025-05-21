@@ -219,6 +219,15 @@
   width: 100%; /* Ensure it takes full width of its grid cell */
   display: flex;
   flex-direction: column;
+  position: relative; /* Add position relative for better hover effect */
+  top: 0; /* Starting position */
+  transition: all 0.3s ease; /* Smooth transition for all properties */
+}
+
+.product-item:hover {
+  transform: translateY(-8px); /* Increase the lift effect from 5px to 8px */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); /* Deeper, more pronounced shadow */
+  z-index: 5; /* Ensure it appears above other items when hovering */
 }
 
 .inventory-grid {
