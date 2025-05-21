@@ -1,0 +1,113 @@
+/* ABOUT.CSS - Styles for about page */
+
+.about-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+  background: var(--white);
+}
+
+/* 2-Column Layout: Left text + Right image */
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xl);
+}
+
+/* Left Column: Heading, text, form */
+.about-left {
+  flex: 1 1 400px;
+}
+
+.about-left h1 {
+  font-size: var(--font-size-xxl);
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-primary);
+}
+
+.about-subtitle {
+  font-weight: normal;
+  font-size: var(--font-size-lg);
+  color: var(--gray-500);
+  margin-bottom: var(--spacing-xl);
+}
+
+.about-left p {
+  line-height: 1.6;
+  margin-bottom: var(--spacing-xl);
+  color: var(--text-secondary);
+}
+
+/* Right Column: Large image */
+.about-right {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.about-right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-md);
+}
+
+/* Contact Form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.input-row {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group label {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: var(--spacing-xs);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--border-radius-md);
+}
+
+/* Submit button styling */
+.submit-button {
+  background: var(--text-primary);
+  color: var(--white);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  transition: background var(--transition-normal);
+}
+
+.submit-button:hover {
+  background: var(--gray-700);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+  }
+
+  .about-right {
+    order: -1;
+    margin-bottom: var(--spacing-lg);
+  }
+}

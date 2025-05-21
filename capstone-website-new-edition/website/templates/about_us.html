@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='about-styles.css') }}">
+{% endblock %}
 {% block content %}
 
 <div class="about-page-wrapper">
@@ -12,7 +15,7 @@
       
       <!-- Write about who we are and our partnership with Climate Cleanup -->
       <p>
-        Body text for your whole article or post. We’ll put in some lorem ipsum to show how a filled-out page might look:
+        Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look:
         <br><br>
         Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect 
         nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely 

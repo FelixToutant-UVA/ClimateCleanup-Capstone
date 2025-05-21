@@ -1,4 +1,151 @@
 {% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/forest.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='forest-styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='profile-styles.css') }}">
+<style>
+  /* Harvest Calendar Styles */
+  .harvest-calendar-section {
+    margin: 3rem 0;
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .harvest-calendar-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .harvest-calendar-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .calendar-header {
+    display: flex;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .product-column {
+    width: 150px;
+    padding: 0.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .months-row {
+    display: flex;
+    flex: 1;
+  }
+  
+  .month-header {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    color: #555;
+  }
+  
+  .calendar-body {
+    margin-bottom: 1.5rem;
+  }
+  
+  .calendar-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  
+  .month-cell {
+    flex: 1;
+    height: 30px;
+    background-color: #f0f0f0;
+    margin: 0 1px;
+    border-radius: 4px;
+  }
+  
+  .month-cell.in-season {
+    background-color: #4caf50;
+  }
+  
+  .calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+  
+  .legend-color.in-season {
+    background-color: #4caf50;
+  }
+  
+  .no-products-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    background: #f0f0f0;
+    border-radius: 6px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .product-column {
+      width: 100px;
+    }
+    
+    .month-header {
+      font-size: 0.7rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .calendar-header {
+      flex-direction: column;
+    }
+    
+    .product-column {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    
+    .calendar-row {
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
+    }
+    
+    .months-row {
+      width: 100%;
+    }
+    
+    .month-header {
+      transform: rotate(-45deg);
+      height: 40px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+  }
+</style>
+{% endblock %}
 {% block content %}
 
 <!-- HERO SECTION -->
@@ -183,149 +330,4 @@
   </section>
 </section>
   
-{% endblock %}
-
-{% block head %}
-<style>
-  /* Harvest Calendar Styles */
-  .harvest-calendar-section {
-    margin: 3rem 0;
-    background: #f9f9f9;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
-  
-  .harvest-calendar-section h2 {
-    margin-bottom: 1.5rem;
-    color: #333;
-    text-align: center;
-  }
-  
-  .harvest-calendar-container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  
-  .calendar-header {
-    display: flex;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-  
-  .product-column {
-    width: 150px;
-    padding: 0.5rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .months-row {
-    display: flex;
-    flex: 1;
-  }
-  
-  .month-header {
-    flex: 1;
-    text-align: center;
-    padding: 0.5rem 0;
-    font-size: 0.85rem;
-    color: #555;
-  }
-  
-  .calendar-body {
-    margin-bottom: 1.5rem;
-  }
-  
-  .calendar-row {
-    display: flex;
-    margin-bottom: 0.5rem;
-    align-items: center;
-  }
-  
-  .month-cell {
-    flex: 1;
-    height: 30px;
-    background-color: #f0f0f0;
-    margin: 0 1px;
-    border-radius: 4px;
-  }
-  
-  .month-cell.in-season {
-    background-color: #4caf50;
-  }
-  
-  .calendar-legend {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .legend-color {
-    width: 20px;
-    height: 20px;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-  }
-  
-  .legend-color.in-season {
-    background-color: #4caf50;
-  }
-  
-  .no-products-message {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    background: #f0f0f0;
-    border-radius: 6px;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .product-column {
-      width: 100px;
-    }
-    
-    .month-header {
-      font-size: 0.7rem;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .calendar-header {
-      flex-direction: column;
-    }
-    
-    .product-column {
-      width: 100%;
-      margin-bottom: 0.5rem;
-    }
-    
-    .calendar-row {
-      flex-direction: column;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 1rem;
-    }
-    
-    .months-row {
-      width: 100%;
-    }
-    
-    .month-header {
-      transform: rotate(-45deg);
-      height: 40px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-  }
-</style>
 {% endblock %}

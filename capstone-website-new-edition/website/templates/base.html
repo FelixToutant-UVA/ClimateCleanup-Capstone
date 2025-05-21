@@ -2,46 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Climate Cleanup{% endblock %}</title>
-    <!-- CSS compiled from Sass/SCSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Compear{% endblock %}</title>
+    <!-- Original CSS file - keep this until we fully migrate -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    
     <!-- External libraries -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <!-- Add block for page-specific CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    
+    <!-- Page-specific styles will be included in individual templates -->
     {% block head %}{% endblock %}
   </head>
-  <body{% block body_class %}{% endblock %}>
+  <body>
     <!-- Sticky Navbar -->
     <header>
       <nav class="navbar">
         <div class="nav-left">
-          <a href="/" class="brand">Climate Cleanup</a>
+          <a href="/" class="brand">
+            <i class="fas fa-leaf"></i> Compear
+          </a>
         </div>
         <ul class="nav-right">
-          <li><a href="/">Home</a></li>
-          <li><a href="/food_forests">Food Forests</a></li>
-          <li><a href="/about_us">About Us</a></li>
-          <li><a href="/metrics">Metrics</a></li>
-          {% if current_user.is_authenticated %}
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/logout">Logout</a></li>
+          <li>
+            <a href="{{ url_for('views.food_forests') }}">Food Forests</a>
+          </li>
+          <li><a href="{{ url_for('views.about_us') }}">About Us</a></li>
+
+          {% if user.is_authenticated %}
+            {% if user.account_type == 'business' %}
+              <li><a href="{{ url_for('views.business_profile') }}">Business Profile</a></li>
+            {% else %}
+              <li><a href="{{ url_for('views.profile') }}">Forest Profile</a></li>
+            {% endif %}
+
+          <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
           {% else %}
-            <li><a href="/login">Login</a></li>
-            <li>
-              <a href="/sign_up" class="signup-btn">Sign Up</a>
-            </li>
+          <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+          <li>
+            <a href="{{ url_for('auth.sign_up') }}" class="signup-btn"
+              >Sign Up</a
+            >
+          </li>
           {% endif %}
         </ul>
       </nav>
@@ -62,12 +65,14 @@
 
     <!-- Footer -->
     <footer class="site-footer">
-      <p>&copy; 2023 Climate Cleanup. All rights reserved.</p>
+      {% block footer %}
+      <p>&copy; 2025 Compear. All rights reserved.</p>
+      {% endblock %}
     </footer>
 
     <!-- Scripts -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const mapEl = document.getElementById("map");

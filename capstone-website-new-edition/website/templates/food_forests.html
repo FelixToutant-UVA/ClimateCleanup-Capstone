@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% block head %}
+<!-- Keep using the original CSS file for now -->
+<link rel="stylesheet" href="{{ url_for('static', filename='forest-styles.css') }}">
+{% endblock %}
 {% block content %}
 
 <!-- MAIN WRAPPER FOR THIS PAGE -->
@@ -54,55 +58,7 @@
       </div>
     </form>
   </section>
-
-  {% if featured_forest %}
-  <!-- Featured Forest Section -->
-  <section class="featured-forest">
-    <div class="featured-badge">
-      <i class="fas fa-star"></i> Featured
-    </div>
-    <div class="featured-content">
-      <div class="featured-image">
-        <img src="{{ url_for('static', filename=featured_forest.image) }}" alt="{{ featured_forest.name }}" />
-      </div>
-      <div class="featured-details">
-        <span class="forest-category">{{ featured_forest.type }} Forest</span>
-        <h2>{{ featured_forest.name }}</h2>
-        <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ featured_forest.location }}</p>
-        <p class="forest-description">
-          A thriving food forest managed by the community. Home to various plant species including fruit trees, berries, herbs, and native plants that support local wildlife.
-        </p>
-        <div class="forest-metrics">
-          {% if featured_forest.metrics.species %}
-          <div class="metric">
-            <i class="fas fa-tree"></i>
-            <span>{{ featured_forest.metrics.species }}+ Species</span>
-          </div>
-          {% endif %}
-          
-          {% if featured_forest.metrics.acres %}
-          <div class="metric">
-            <i class="fas fa-leaf"></i>
-            <span>{{ featured_forest.metrics.acres }} Acres</span>
-          </div>
-          {% endif %}
-          
-          {% if featured_forest.metrics.carbon %}
-          <div class="metric">
-            <i class="fas fa-cloud"></i>
-            <span>{{ featured_forest.metrics.carbon }}t CO₂/year</span>
-          </div>
-          {% endif %}
-        </div>
-        <div class="featured-actions">
-          <a href="{{ url_for('views.forest_detail', forest_id=featured_forest.id) }}" class="cta-button">Explore Forest</a>
-          <a href="#" class="secondary-link"><i class="fas fa-calendar-alt"></i> Events</a>
-        </div>
-      </div>
-    </div>
-  </section>
-  {% endif %}
-
+  
   <!-- Forest Categories Section -->
   <section class="forest-categories">
     <h2>Browse by Category</h2>
@@ -113,6 +69,17 @@
       <button class="category-tab" data-category="urban">Urban</button>
       <button class="category-tab" data-category="rural">Rural</button>
     </div>
+  </section>
+
+  <!-- Map View Toggle -->
+  <section class="view-toggle">
+    <button class="view-button active"><i class="fas fa-th-large"></i> Grid View</button>
+    <button class="view-button"><i class="fas fa-map-marked-alt"></i> Map View</button>
+  </section>
+
+  <!-- Map Container (hidden by default) -->
+  <section class="map-container" style="display: none;">
+    <div id="forests-map"></div>
   </section>
 
   <!-- Forest Grid Section -->
@@ -151,17 +118,6 @@
         <p>No food forests found matching your criteria. Try adjusting your search or filters.</p>
       </div>
     {% endif %}
-  </section>
-
-  <!-- Map View Toggle -->
-  <section class="view-toggle">
-    <button class="view-button active"><i class="fas fa-th-large"></i> Grid View</button>
-    <button class="view-button"><i class="fas fa-map-marked-alt"></i> Map View</button>
-  </section>
-
-  <!-- Map Container (hidden by default) -->
-  <section class="map-container" style="display: none;">
-    <div id="forests-map"></div>
   </section>
 
   <!-- Pagination -->

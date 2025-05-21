@@ -1,6 +1,163 @@
-/* Forest Page Specific Styles */
+/* Forest Styles CSS */
 
-/* Harvest Calendar Styles */
+/* Forest Profile Specific Styles */
+.forest-profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.forest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.forest-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.forest-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.forest-action-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  transition: background 0.3s;
+}
+
+.forest-action-btn:hover {
+  background: #1b5e20;
+}
+
+/* Forest Details Card */
+.forest-details-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.forest-details-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 1.5rem;
+}
+
+.forest-image-container {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.forest-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.forest-info {
+  flex: 2;
+  min-width: 300px;
+}
+
+.forest-info h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.forest-info p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.forest-location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.forest-location i {
+  color: #2e7d32;
+}
+
+.forest-type {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* Forest Metrics Card */
+.forest-metrics-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.metric-card {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+}
+
+.metric-card i {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.metric-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+.metric-card p {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Harvest Calendar Card */
 .harvest-calendar-card {
   background: white;
   border-radius: 8px;
@@ -27,6 +184,7 @@
 .harvest-calendar {
   padding: 1.5rem;
   background-color: white;
+  overflow-x: auto;
 }
 
 .calendar-header {
@@ -116,84 +274,45 @@
   margin: 1rem;
 }
 
-/* Common card styling for all sections */
-.profile-card {
+/* Forest Story Card */
+.forest-story-card {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  margin-bottom: 3rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
   overflow: hidden;
 }
 
-/* Forest Metrics Card */
-.forest-metrics-card .metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 1.5rem;
-}
-
-.forest-metrics-card .metric-card {
-  background: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
-}
-
-.forest-metrics-card .metric-card:hover {
-  transform: translateY(-5px);
-}
-
-.forest-metrics-card .metric-card i {
-  font-size: 2.5rem;
-  color: #2e7d32;
-  margin-bottom: 1rem;
-}
-
-.forest-metrics-card .metric-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.8rem;
-  color: #333;
-}
-
-.forest-metrics-card .metric-card p {
-  color: #555;
-  line-height: 1.5;
-}
-
-/* Forest Story Card */
-.forest-story-card .forest-story-content {
+.forest-story-content {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   padding: 1.5rem;
 }
 
-.forest-story-card .story-text {
+.story-text {
   flex: 1;
   min-width: 300px;
 }
 
-.forest-story-card .story-text p {
+.story-text p {
   margin-bottom: 1.5rem;
   line-height: 1.6;
   color: #555;
 }
 
-.forest-story-card .story-text ul {
+.story-text ul {
   margin-bottom: 1.5rem;
   padding-left: 1.5rem;
 }
 
-.forest-story-card .story-text li {
+.story-text li {
   margin-bottom: 0.5rem;
   color: #555;
   line-height: 1.5;
 }
 
-.forest-story-card .learn-more-link {
+.learn-more-link {
   color: #2e7d32;
   text-decoration: none;
   font-weight: 500;
@@ -202,12 +321,12 @@
   margin-top: 0.5rem;
 }
 
-.forest-story-card .learn-more-link:hover {
+.learn-more-link:hover {
   color: #1b5e20;
   text-decoration: underline;
 }
 
-.forest-story-card .story-image {
+.story-image {
   flex: 1;
   min-width: 300px;
   display: flex;
@@ -215,7 +334,7 @@
   justify-content: center;
 }
 
-.forest-story-card .story-image img {
+.story-image img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
@@ -224,6 +343,14 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .forest-details-content {
+    flex-direction: column;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
   .calendar-header,
   .calendar-row {
     grid-template-columns: 100px repeat(12, 1fr);
@@ -233,20 +360,12 @@
     font-size: 0.75rem;
   }
 
-  .product-name {
-    font-size: 0.9rem;
-  }
-
-  .forest-story-card .forest-story-content {
+  .forest-story-content {
     flex-direction: column;
   }
 
-  .forest-story-card .story-image {
+  .story-image {
     order: -1; /* Move image above text on mobile */
-  }
-
-  .forest-metrics-card .metrics-grid {
-    grid-template-columns: 1fr;
   }
 }
 
