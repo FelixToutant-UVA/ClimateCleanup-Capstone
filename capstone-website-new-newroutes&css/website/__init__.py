@@ -15,7 +15,37 @@ def create_app():
     db.init_app(app)
 
     # Ensure CSS directory exists
-    os.makedirs(os.path.join('website', 'static', 'css'), exist_ok=True)
+    css_dir = os.path.join('website', 'static', 'css')
+    os.makedirs(css_dir, exist_ok=True)
+    
+    # Copy CSS files to the correct location
+    from shutil import copyfile
+    
+    # Define CSS files to copy
+    css_files = [
+        ('website/static/css/base.css', 'base.css'),
+        ('website/static/css/components.css', 'components.css'),
+        ('website/static/css/home.css', 'home.css'),
+        ('website/static/css/forest.css', 'forest.css'),
+        ('website/static/css/auth.css', 'auth.css'),
+        ('website/static/css/profile.css', 'profile.css')
+    ]
+    
+    # Copy each CSS file
+    for src, dest in css_files:
+        dest_path = os.path.join(css_dir, dest)
+        try:
+            # Create the file if it doesn't exist
+            if not os.path.exists(src):
+                with open(src, 'w') as f:
+                    f.write('/* CSS file created by app initialization */')
+                print(f"Created empty CSS file: {src}")
+            
+            # Copy the file
+            copyfile(src, dest_path)
+            print(f"Copied {src} to {dest_path}")
+        except Exception as e:
+            print(f"Error copying CSS file {src}: {e}")
     
     from .views import views
     from .auth import auth
@@ -30,7 +60,8 @@ def create_app():
     from .routes.profile_routes import profile_bp
     from .routes.general_routes import general_bp
 
-    app.register_blueprint(metrics_bp, url_prefix='/api/metrics')
+    # Register blueprints with correct URL prefixes
+    app.register_blueprint(metrics_bp, url_prefix='/metrics')  # Changed from /api/metrics
     app.register_blueprint(forest_bp, url_prefix='/api/forest')
     app.register_blueprint(product_bp, url_prefix='/api/product')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')

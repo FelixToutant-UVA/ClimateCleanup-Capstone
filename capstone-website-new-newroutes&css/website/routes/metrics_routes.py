@@ -65,12 +65,17 @@ def metrics():
             "annual_unit": "tons CO₂e/year"
         }
 
+    # Print debug information
+    print("Rendering metrics.html template")
+    print(f"CSS files should be loaded from: {url_for('static', filename='css/profile.css')}")
+
     return render_template(
         "metrics.html",
         user=current_user,
         carbon_data=carbon_data,
         carbon_estimate=carbon_estimate,
         biodiversity_index=carbon_data.biodiversity_index if carbon_data else 0.75,
+        water_stored="3,671",
         show_form=request.args.get("form")
     )
 
