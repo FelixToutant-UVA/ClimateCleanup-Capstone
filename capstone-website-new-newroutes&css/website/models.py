@@ -32,6 +32,8 @@ class User(db.Model, UserMixin):
     carbon_data = db.relationship('CarbonData', backref='user', uselist=False)
     products = db.relationship('Product', backref='user', lazy=True)
     harvest_periods = db.relationship('HarvestPeriod', backref='user', lazy=True)
+    metrics_history = db.relationship('MetricsHistory', backref='user', lazy=True)
+
 
 class CarbonData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -58,3 +60,15 @@ class HarvestPeriod(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     month = db.Column(db.Integer, nullable=False)  # 1-12 for Jan-Dec
     date_added = db.Column(db.DateTime(timezone=True), default=func.now())
+
+class MetricsHistory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    size_m2 = db.Column(db.Float)
+    soil_type = db.Column(db.String(100))
+    age_years = db.Column(db.Integer)
+    biodiversity_index = db.Column(db.Float, default=0.75)
+    carbon_sequestration = db.Column(db.Float)  # Calculated value
+    water_stored = db.Column(db.Float)  # Calculated value
+    date_recorded = db.Column(db.DateTime(timezone=True), default=func.now())
+

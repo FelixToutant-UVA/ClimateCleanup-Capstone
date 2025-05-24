@@ -190,3 +190,32 @@ def calculate_water_savings(size_m2, forest_age, soil_type):
         "total_savings": round(total_savings, 2),
         "unit": "cubic meters"
     }
+
+def calculate_water_storage(size_m2, soil_type, age_years):
+    """
+    Calculate water storage capacity based on forest parameters.
+    
+    Args:
+        size_m2 (float): Size of the food forest in square meters
+        soil_type (str): Type of soil
+        age_years (int): Age of the forest
+        
+    Returns:
+        float: Water storage in cubic meters
+    """
+    # Base water storage per square meter by soil type (cubic meters)
+    base_storage = {
+        "Zandgrond": 0.15,  # Sandy soil - lower retention
+        "Kleigrond": 0.25,  # Clay soil - higher retention
+        "Veengrond": 0.35,  # Peat soil - highest retention
+        "Loess": 0.20       # Loess - moderate retention
+    }
+    
+    # Age multiplier (older forests store more water)
+    age_multiplier = min(1 + (age_years * 0.1), 2.0)  # Cap at 2x
+    
+    # Calculate total storage
+    storage_per_m2 = base_storage.get(soil_type, 0.20)
+    total_storage = size_m2 * storage_per_m2 * age_multiplier
+    
+    return round(total_storage, 2)

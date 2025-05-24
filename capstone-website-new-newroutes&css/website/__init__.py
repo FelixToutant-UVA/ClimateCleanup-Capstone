@@ -160,6 +160,13 @@ def update_database_schema(app):
         HarvestPeriod.__table__.create(db.engine)
         print('Created HarvestPeriod table!')
     
+    # Create MetricsHistory table if it doesn't exist
+    if 'metrics_history' not in inspector.get_table_names():
+        from .models import MetricsHistory
+        MetricsHistory.__table__.create(db.engine)
+        print('Created MetricsHistory table!')
+
+        
     # Ensure uploads directory exists
     os.makedirs('website/static/uploads', exist_ok=True)
     

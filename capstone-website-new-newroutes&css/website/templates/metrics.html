@@ -58,6 +58,28 @@
   gap: 0.5rem;
 }
 
+.time-range-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.time-btn {
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.time-btn.active {
+  background: #2e7d32;
+  color: white;
+  border-color: #2e7d32;
+}
+
 .metrics-summary {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -152,6 +174,13 @@
   height: 300px;
 }
 
+.no-data-message {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
 /* Modal Styles */
 .modal {
   display: none;
@@ -238,8 +267,16 @@
   <!-- Metrics Dashboard -->
   <div class="metrics-dashboard">
     <div class="dashboard-header">
-      <h2>Metrics</h2>
-      <button class="edit-btn" id="editMetricsBtn"><i class="fas fa-edit"></i> Edit</button>
+      <h2>Metrics Dashboard</h2>
+      <button class="edit-btn" id="editMetricsBtn"><i class="fas fa-edit"></i> Update Metrics</button>
+    </div>
+
+    <!-- Time Range Selector -->
+    <div class="time-range-selector">
+      <button class="time-btn active" data-days="30">Last 30 Days</button>
+      <button class="time-btn" data-days="90">Last 3 Months</button>
+      <button class="time-btn" data-days="365">Last Year</button>
+      <button class="time-btn" data-days="all">All Time</button>
     </div>
 
     <!-- Metrics Summary Cards -->
@@ -256,7 +293,7 @@
 
       <div class="metric-summary-card">
         <h3>Water Stored</h3>
-        <p class="metric-value">{{ water_stored|default('3,671') }} <span class="unit">cm³</span></p>
+        <p class="metric-value">{{ water_stored|default('3,671') }} <span class="unit">m³</span></p>
       </div>
 
       <div class="metric-summary-card">
@@ -266,54 +303,64 @@
 
       <div class="metric-summary-card">
         <h3>Food forest age</h3>
-        <p class="metric-value">{{ carbon_data.age_years if carbon_data else '7' }}</p>
+        <p class="metric-value">{{ carbon_data.age_years if carbon_data else '7' }} <span class="unit">years</span></p>
       </div>
     </div>
 
     <!-- Charts Section -->
     <div class="metrics-charts">
-      <!-- Carbon Capture Chart -->
+      <!-- Carbon Sequestration Trend -->
       <div class="chart-card">
         <div class="chart-header">
-          <h3>Carbon Capture</h3>
+          <h3>Carbon Sequestration Trend</h3>
           <div class="chart-legend">
-            <span class="legend-item"><span class="legend-color co2"></span> CO₂ sequestration</span>
-            <span class="legend-item"><span class="legend-color this-year"></span> This year</span>
-            <span class="legend-item"><span class="legend-color last-year"></span> Last year</span>
+            <span class="legend-item"><span class="legend-color co2"></span> CO₂ Sequestration (tons)</span>
           </div>
         </div>
         <div class="chart-container">
-          <canvas id="carbonCaptureChart"></canvas>
+          <canvas id="carbonTrendChart"></canvas>
+          <div id="carbonNoData" class="no-data-message" style="display: none;">
+            No historical data available. Update your metrics to start tracking trends.
+          </div>
         </div>
       </div>
 
-      <!-- Water Usage Chart -->
+      <!-- Water Storage Trend -->
       <div class="chart-card">
         <div class="chart-header">
-          <h3>Water usage by crop (approximate)</h3>
+          <h3>Water Storage Capacity</h3>
         </div>
         <div class="chart-container">
-          <canvas id="waterUsageChart"></canvas>
+          <canvas id="waterTrendChart"></canvas>
+          <div id="waterNoData" class="no-data-message" style="display: none;">
+            No historical data available. Update your metrics to start tracking trends.
+          </div>
         </div>
       </div>
 
-      <!-- Nitrogen Usage Chart -->
+      <!-- Biodiversity Index Trend -->
       <div class="chart-card">
         <div class="chart-header">
-          <h3>Nitrogen usage per product (approximate)</h3>
+          <h3>Biodiversity Index Over Time</h3>
         </div>
         <div class="chart-container">
-          <canvas id="nitrogenUsageChart"></canvas>
+          <canvas id="biodiversityTrendChart"></canvas>
+          <div id="biodiversityNoData" class="no-data-message" style="display: none;">
+            No historical data available. Update your metrics to start tracking trends.
+          </div>
         </div>
       </div>
 
-      <!-- Biodiversity Index Chart -->
+      <!-- Forest Size Trend -->
       <div class="chart-card">
         <div class="chart-header">
-          <h3>Biodiversity index (per Month)</h3>
+          <h3>Forest Size (Hectares)</h3>
         </div>
         <div class="chart-container">
-          <canvas id="biodiversityChart"></canvas>
+          <canvas id="sizeTrendChart"></canvas>
+          <div id="sizeNoData" class="no-data-message" style="display: none;">
+            No historical data available. Update your metrics to start tracking trends.
+          </div>
         </div>
       </div>
     </div>
@@ -323,7 +370,8 @@
   <div id="editMetricsModal" class="modal">
     <div class="modal-content">
       <span class="close-modal">&times;</span>
-      <h2>Edit Forest Metrics</h2>
+      <h2>Update Forest Metrics</h2>
+      <p style="color: #666; margin-bottom: 1.5rem;">Each update will be saved to track your forest's progress over time.</p>
       <form id="editMetricsForm" method="POST" action="{{ url_for('views.metrics') }}">
         <div class="form-group">
           <label for="size">Size (square meters)</label>
@@ -334,9 +382,9 @@
           <label for="soil">Soil Type</label>
           <select id="soil" name="soil" required>
             <option value="" disabled>Select Soil Type</option>
-            <option value="Zandgrond" {% if carbon_data and carbon_data.soil_type == 'Zandgrond' %}selected{% endif %}>Zandgrond</option>
-            <option value="Kleigrond" {% if carbon_data and carbon_data.soil_type == 'Kleigrond' %}selected{% endif %}>Kleigrond</option>
-            <option value="Veengrond" {% if carbon_data and carbon_data.soil_type == 'Veengrond' %}selected{% endif %}>Veengrond</option>
+            <option value="Zandgrond" {% if carbon_data and carbon_data.soil_type == 'Zandgrond' %}selected{% endif %}>Zandgrond (Sandy)</option>
+            <option value="Kleigrond" {% if carbon_data and carbon_data.soil_type == 'Kleigrond' %}selected{% endif %}>Kleigrond (Clay)</option>
+            <option value="Veengrond" {% if carbon_data and carbon_data.soil_type == 'Veengrond' %}selected{% endif %}>Veengrond (Peat)</option>
             <option value="Loess" {% if carbon_data and carbon_data.soil_type == 'Loess' %}selected{% endif %}>Loess</option>
           </select>
         </div>
@@ -347,11 +395,12 @@
         </div>
         
         <div class="form-group">
-          <label for="biodiversity_index">Biodiversity Index (0-10)</label>
-          <input type="number" id="biodiversity_index" name="biodiversity_index" min="0" max="10" step="0.1" value="{{ biodiversity_index|default('0.75') }}">
+          <label for="biodiversity_index">Biodiversity Index (0-1)</label>
+          <input type="number" id="biodiversity_index" name="biodiversity_index" min="0" max="1" step="0.01" value="{{ biodiversity_index|default('0.75') }}">
+          <small style="color: #666;">Higher values indicate greater species diversity</small>
         </div>
         
-        <button type="submit" class="submit-btn">Save Changes</button>
+        <button type="submit" class="submit-btn">Save Metrics Update</button>
       </form>
     </div>
   </div>
@@ -361,164 +410,217 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Edit Metrics Modal
-    const editMetricsBtn = document.getElementById('editMetricsBtn');
-    const editMetricsModal = document.getElementById('editMetricsModal');
-    const closeMetricsModal = editMetricsModal.querySelector('.close-modal');
-    
-    editMetricsBtn.addEventListener('click', function() {
-      editMetricsModal.style.display = 'block';
-    });
-    
-    closeMetricsModal.addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', function() {
+  let currentTimeRange = 30;
+  let charts = {};
+
+  // Edit Metrics Modal
+  const editMetricsBtn = document.getElementById('editMetricsBtn');
+  const editMetricsModal = document.getElementById('editMetricsModal');
+  const closeMetricsModal = editMetricsModal.querySelector('.close-modal');
+  
+  editMetricsBtn.addEventListener('click', function() {
+    editMetricsModal.style.display = 'block';
+  });
+  
+  closeMetricsModal.addEventListener('click', function() {
+    editMetricsModal.style.display = 'none';
+  });
+  
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === editMetricsModal) {
       editMetricsModal.style.display = 'none';
+    }
+  });
+
+  // Time range selector
+  const timeButtons = document.querySelectorAll('.time-btn');
+  timeButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      timeButtons.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      const days = this.dataset.days;
+      currentTimeRange = days === 'all' ? 9999 : parseInt(days);
+      loadMetricsData();
     });
+  });
+
+  // Load and display metrics data
+  function loadMetricsData() {
+    const url = `/metrics/api/metrics-data?days=${currentTimeRange}`;
     
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-      if (event.target === editMetricsModal) {
-        editMetricsModal.style.display = 'none';
-      }
-    });
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        updateCharts(data);
+      })
+      .catch(error => {
+        console.error('Error loading metrics data:', error);
+        showNoDataMessages();
+      });
+  }
+
+  function updateCharts(data) {
+    const hasData = data.labels && data.labels.length > 0;
     
-    // Carbon Capture Chart
-    const carbonCtx = document.getElementById('carbonCaptureChart').getContext('2d');
-    const carbonChart = new Chart(carbonCtx, {
+    if (!hasData) {
+      showNoDataMessages();
+      return;
+    }
+
+    hideNoDataMessages();
+
+    // Carbon Sequestration Trend Chart
+    updateChart('carbonTrendChart', {
       type: 'line',
       data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: data.labels,
         datasets: [{
           label: 'CO₂ Sequestration (tons)',
-          data: [2.1, 2.3, 2.5, 2.8, 3.2, 3.5, 3.7, 3.6, 3.4, 3.1, 2.8, 2.5],
+          data: data.carbon_data,
           borderColor: '#4CAF50',
           backgroundColor: 'rgba(76, 175, 80, 0.1)',
           tension: 0.4,
           fill: true
         }]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'CO₂ (tons)'
-            }
-          }
-        }
-      }
+      options: getChartOptions('CO₂ (tons)')
     });
-    
-    // Water Usage Chart
-    const waterCtx = document.getElementById('waterUsageChart').getContext('2d');
-    const waterChart = new Chart(waterCtx, {
-      type: 'bar',
+
+    // Water Storage Trend Chart
+    updateChart('waterTrendChart', {
+      type: 'line',
       data: {
-        labels: ['Apple', 'Pear', 'Cherry', 'Cucumber', 'Tomato', 'Other'],
+        labels: data.labels,
         datasets: [{
-          label: 'Water Usage (liters)',
-          data: [250, 350, 180, 420, 280, 150],
-          backgroundColor: [
-            'rgba(156, 204, 101, 0.7)',
-            'rgba(33, 150, 243, 0.7)',
-            'rgba(156, 39, 176, 0.7)',
-            'rgba(255, 152, 0, 0.7)',
-            'rgba(233, 30, 99, 0.7)',
-            'rgba(158, 158, 158, 0.7)'
-          ],
-          borderColor: [
-            'rgb(156, 204, 101)',
-            'rgb(33, 150, 243)',
-            'rgb(156, 39, 176)',
-            'rgb(255, 152, 0)',
-            'rgb(233, 30, 99)',
-            'rgb(158, 158, 158)'
-          ],
-          borderWidth: 1
+          label: 'Water Storage (m³)',
+          data: data.water_data,
+          borderColor: '#2196F3',
+          backgroundColor: 'rgba(33, 150, 243, 0.1)',
+          tension: 0.4,
+          fill: true
         }]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Water (liters)'
-            }
-          }
-        }
-      }
+      options: getChartOptions('Water (m³)')
     });
-    
-    // Nitrogen Usage Chart
-    const nitrogenCtx = document.getElementById('nitrogenUsageChart').getContext('2d');
-    const nitrogenChart = new Chart(nitrogenCtx, {
-      type: 'doughnut',
+
+    // Biodiversity Index Trend Chart
+    updateChart('biodiversityTrendChart', {
+      type: 'line',
       data: {
-        labels: ['Apple', 'Pear', 'Cherry', 'Cucumber'],
-        datasets: [{
-          label: 'Nitrogen Usage (%)',
-          data: [25, 35, 15, 25],
-          backgroundColor: [
-            'rgba(156, 204, 101, 0.7)',
-            'rgba(33, 150, 243, 0.7)',
-            'rgba(156, 39, 176, 0.7)',
-            'rgba(255, 152, 0, 0.7)'
-          ],
-          borderColor: [
-            'rgb(156, 204, 101)',
-            'rgb(33, 150, 243)',
-            'rgb(156, 39, 176)',
-            'rgb(255, 152, 0)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'right',
-          }
-        }
-      }
-    });
-    
-    // Biodiversity Index Chart
-    const biodiversityCtx = document.getElementById('biodiversityChart').getContext('2d');
-    const biodiversityChart = new Chart(biodiversityCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: data.labels,
         datasets: [{
           label: 'Biodiversity Index',
-          data: [0.6, 0.7, 0.9, 1.2, 1.5, 1.7, 1.8, 1.7, 1.5, 1.2, 0.9, 0.7],
-          backgroundColor: 'rgba(76, 175, 80, 0.7)',
-          borderColor: 'rgb(76, 175, 80)',
+          data: data.biodiversity_data,
+          borderColor: '#FF9800',
+          backgroundColor: 'rgba(255, 152, 0, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: getChartOptions('Index')
+    });
+
+    // Forest Size Trend Chart
+    updateChart('sizeTrendChart', {
+      type: 'bar',
+      data: {
+        labels: data.labels,
+        datasets: [{
+          label: 'Forest Size (ha)',
+          data: data.size_data,
+          backgroundColor: 'rgba(156, 39, 176, 0.7)',
+          borderColor: 'rgb(156, 39, 176)',
           borderWidth: 1
         }]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Index'
-            }
+      options: getChartOptions('Size (ha)')
+    });
+  }
+
+  function updateChart(canvasId, config) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+
+    // Destroy existing chart if it exists
+    if (charts[canvasId]) {
+      charts[canvasId].destroy();
+    }
+
+    // Create new chart
+    charts[canvasId] = new Chart(ctx.getContext('2d'), config);
+  }
+
+  function getChartOptions(yAxisLabel) {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      },
+      plugins: {
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          titleColor: 'white',
+          bodyColor: 'white',
+          borderColor: '#ddd',
+          borderWidth: 1
+        },
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+            text: 'Date'
+          }
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: yAxisLabel
           }
         }
       }
-    });
-  });
+    };
+  }
+
+  function showNoDataMessages() {
+    document.getElementById('carbonNoData').style.display = 'block';
+    document.getElementById('waterNoData').style.display = 'block';
+    document.getElementById('biodiversityNoData').style.display = 'block';
+    document.getElementById('sizeNoData').style.display = 'block';
+    
+    // Hide chart canvases
+    document.getElementById('carbonTrendChart').style.display = 'none';
+    document.getElementById('waterTrendChart').style.display = 'none';
+    document.getElementById('biodiversityTrendChart').style.display = 'none';
+    document.getElementById('sizeTrendChart').style.display = 'none';
+  }
+
+  function hideNoDataMessages() {
+    document.getElementById('carbonNoData').style.display = 'none';
+    document.getElementById('waterNoData').style.display = 'none';
+    document.getElementById('biodiversityNoData').style.display = 'none';
+    document.getElementById('sizeNoData').style.display = 'none';
+    
+    // Show chart canvases
+    document.getElementById('carbonTrendChart').style.display = 'block';
+    document.getElementById('waterTrendChart').style.display = 'block';
+    document.getElementById('biodiversityTrendChart').style.display = 'block';
+    document.getElementById('sizeTrendChart').style.display = 'block';
+  }
+
+  // Initial load
+  loadMetricsData();
+});
 </script>
 
 {% endblock %}
