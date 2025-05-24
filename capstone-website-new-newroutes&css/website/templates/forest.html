@@ -14,6 +14,92 @@
     <a href="{{ url_for('views.article') }}" class="hero-btn">Learn More</a>
   </div>
 </section>
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <div class="contact-container">
+    <h2>Get in Touch</h2>
+    <p>Interested in our products or visiting our food forest? We'd love to hear from you!</p>
+    
+    {% if forest and forest.contact_visible and (forest.contact_email or forest.contact_phone) %}
+      <button class="contact-btn" id="contactOwnerBtn">
+        <i class="fas fa-envelope"></i> Contact Forest Owner
+      </button>
+    {% else %}
+      <p class="no-contact-info">Contact information not available at this time.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Contact {{ forest.forest_name if forest else 'Forest Owner' }}</h2>
+    <div class="contact-info">
+      {% if forest and forest.contact_email %}
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <strong>Email:</strong>
+            <a href="mailto:{{ forest.contact_email }}">{{ forest.contact_email }}</a>
+          </div>
+        </div>
+      {% endif %}
+      
+      {% if forest and forest.contact_phone %}
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <div>
+            <strong>Phone:</strong>
+            <a href="tel:{{ forest.contact_phone }}">{{ forest.contact_phone }}</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="contact-actions">
+      {% if forest and forest.contact_email %}
+        <a href="mailto:{{ forest.contact_email }}?subject=Inquiry about {{ forest.forest_name }}" class="contact-action-btn primary">
+          <i class="fas fa-envelope"></i> Send Email
+        </a>
+      {% endif %}
+      
+      {% if forest and forest.contact_phone %}
+        <a href="tel:{{ forest.contact_phone }}" class="contact-action-btn secondary">
+          <i class="fas fa-phone"></i> Call Now
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Contact Modal
+  const contactBtn = document.getElementById('contactOwnerBtn');
+  const contactModal = document.getElementById('contactModal');
+  const closeContactModal = contactModal.querySelector('.close-modal');
+  
+  if (contactBtn) {
+    contactBtn.addEventListener('click', function() {
+      contactModal.style.display = 'block';
+    });
+  }
+  
+  if (closeContactModal) {
+    closeContactModal.addEventListener('click', function() {
+      contactModal.style.display = 'none';
+    });
+  }
+  
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === contactModal) {
+      contactModal.style.display = 'none';
+    }
+  });
+});
+</script>
 
 <!-- INVENTORY SECTION -->
 <section class="inventory-container">

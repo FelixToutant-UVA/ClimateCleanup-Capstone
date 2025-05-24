@@ -69,10 +69,16 @@ def update_forest():
         soil_type = request.form.get('soilType')
         forest_age = request.form.get('forestAge')
         forest_size = request.form.get('forestSize')
+        contact_email = request.form.get('contactEmail')
+        contact_phone = request.form.get('contactPhone')
+        contact_visible = request.form.get('contactVisible') == 'on'
         
         # Update user forest details
         current_user.forest_name = forest_name
         current_user.forest_location = forest_location
+        current_user.contact_email = contact_email
+        current_user.contact_phone = contact_phone
+        current_user.contact_visible = contact_visible
         # Force account type to 'food-forest' here if you're sure this update is for a forest
         current_user.account_type = 'food-forest'
         

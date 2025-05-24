@@ -26,6 +26,9 @@ class User(db.Model, UserMixin):
     forest_name = db.Column(db.String(150))
     forest_location = db.Column(db.String(150))
     forest_image = db.Column(db.String(255))  # Path to forest image
+    contact_email = db.Column(db.String(150))  # Contact email for customers
+    contact_phone = db.Column(db.String(50))   # Contact phone for customers
+    contact_visible = db.Column(db.Boolean, default=True)  # Whether to show contact info
 
     # Relationships
     notes = db.relationship('Note', backref='user', lazy=True)

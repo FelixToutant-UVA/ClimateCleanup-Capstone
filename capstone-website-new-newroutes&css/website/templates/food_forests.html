@@ -79,6 +79,7 @@
   </section>
 
   <!-- Forest Grid Section -->
+  <!-- Forest Grid Section -->
   <section class="forest-grid">
     {% if forests %}
       {% for forest in forests %}
@@ -104,6 +105,9 @@
             </div>
             <div class="forest-card-actions">
               <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="forest-card-button">Explore</a>
+              <button class="forest-card-contact" data-forest-id="{{ forest.id }}" data-forest-name="{{ forest.name }}">
+                <i class="fas fa-envelope"></i>
+              </button>
               <button class="forest-card-favorite"><i class="far fa-heart"></i></button>
             </div>
           </div>
@@ -150,6 +154,17 @@
       </div>
     </div>
   </section>
+</div>
+
+<!-- Contact Modal for Forest Cards -->
+<div id="forestContactModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2 id="contactModalTitle">Contact Forest Owner</h2>
+    <div id="contactModalContent">
+      <p>Loading contact information...</p>
+    </div>
+  </div>
 </div>
 
 <!-- JavaScript for interactive elements -->
@@ -236,6 +251,102 @@
       });
     });
   });
+
+  // Contact modal functionality
+  // Contact functionality for forest cards
+    const contactButtons = document.querySelectorAll('.forest-card-contact');
+    const forestContactModal = document.getElementById('forestContactModal');
+    const closeForestContactModal = forestContactModal.querySelector('.close-modal');
+
+    contactButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const forestId = this.getAttribute('data-forest-id');
+        const forestName = this.getAttribute('data-forest-name');
+        
+        document.getElementById('contactModalTitle').textContent = `Contact ${forestName}`;
+        
+        // Fetch contact information
+        fetch(`/api/forest/contact/${forestId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              let contactHTML = '<div class="contact-info">';
+              
+              if (data.email) {
+                contactHTML += `
+                  <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                      <strong>Email:</strong>
+                      <a href="mailto:${data.email}">${data.email}</a>
+                    </div>
+                  </div>
+                `;
+              }
+              
+              if (data.phone) {
+                contactHTML += `
+                  <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                      <strong>Phone:</strong>
+                      <a href="tel:${data.phone}">${data.phone}</a>
+                    </div>
+                  </div>
+                `;
+              }
+              
+              contactHTML += '</div><div class="contact-actions">';
+              
+              if (data.email) {
+                contactHTML += `
+                  <a href="mailto:${data.email}?subject=Inquiry about ${forestName}" class="contact-action-btn primary">
+                    <i class="fas fa-envelope"></i> Send Email
+                  </a>
+                `;
+              }
+              
+              if (data.phone) {
+                contactHTML += `
+                  <a href="tel:${data.phone}" class="contact-action-btn secondary">
+                    <i class="fas fa-phone"></i> Call Now
+                  </a>
+                `;
+              }
+              
+              contactHTML += '</div>';
+              
+              if (!data.email && !data.phone) {
+                contactHTML = '<p>Contact information not available for this forest.</p>';
+              }
+              
+              document.getElementById('contactModalContent').innerHTML = contactHTML;
+            } else {
+              document.getElementById('contactModalContent').innerHTML = '<p>Contact information not available.</p>';
+            }
+            
+            forestContactModal.style.display = 'block';
+          })
+          .catch(error => {
+            console.error('Error fetching contact info:', error);
+            document.getElementById('contactModalContent').innerHTML = '<p>Error loading contact information.</p>';
+            forestContactModal.style.display = 'block';
+          });
+      });
+    });
+
+    closeForestContactModal.addEventListener('click', function() {
+      forestContactModal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === forestContactModal) {
+        forestContactModal.style.display = 'none';
+      }
+    });
+  });
+  
 </script>
 
 {% endblock %}

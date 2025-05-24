@@ -1101,3 +1101,160 @@
     height: 25px;
   }
 }
+
+/* Contact Section Styles */
+.contact-section {
+  background: #f9f9f9;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.contact-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.contact-section p {
+  margin-bottom: 2rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.contact-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.contact-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+.no-contact-info {
+  color: #999;
+  font-style: italic;
+}
+
+/* Contact Modal Styles */
+.contact-info {
+  margin: 1.5rem 0;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.contact-item i {
+  color: #2e7d32;
+  font-size: 1.2rem;
+  width: 20px;
+  text-align: center;
+}
+
+.contact-item a {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-item a:hover {
+  text-decoration: underline;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.contact-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.contact-action-btn.primary {
+  background: #2e7d32;
+  color: white;
+}
+
+.contact-action-btn.primary:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+.contact-action-btn.secondary {
+  background: white;
+  color: #2e7d32;
+  border: 2px solid #2e7d32;
+}
+
+.contact-action-btn.secondary:hover {
+  background: #2e7d32;
+  color: white;
+}
+
+/* Forest Card Contact Button */
+.forest-card-contact {
+  background: none;
+  border: none;
+  color: #2e7d32;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.forest-card-contact:hover {
+  background: rgba(46, 125, 50, 0.1);
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .contact-actions {
+    flex-direction: column;
+  }
+
+  .contact-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .contact-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}

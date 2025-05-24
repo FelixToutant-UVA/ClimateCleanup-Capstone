@@ -125,6 +125,15 @@ def update_database_schema(app):
             
             if 'forest_image' not in columns:
                 conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_image VARCHAR(255)'))
+            if 'contact_email' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_email VARCHAR(150)'))
+            
+            if 'contact_phone' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_phone VARCHAR(50)'))
+            
+            if 'contact_visible' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_visible BOOLEAN DEFAULT 1'))
+            
             
             conn.commit()
     
@@ -166,7 +175,7 @@ def update_database_schema(app):
         MetricsHistory.__table__.create(db.engine)
         print('Created MetricsHistory table!')
 
-        
+
     # Ensure uploads directory exists
     os.makedirs('website/static/uploads', exist_ok=True)
     

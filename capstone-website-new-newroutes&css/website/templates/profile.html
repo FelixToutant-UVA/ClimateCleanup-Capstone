@@ -348,6 +348,25 @@
           <label for="forestSize">Size (square meters)</label>
           <input type="number" id="forestSize" name="forestSize" value="{{ carbon_data.size_m2|default('20000') }}" required>
         </div>
+        <div class="form-group">
+          <label for="contactEmail">Contact Email (for customers)</label>
+          <input type="email" id="contactEmail" name="contactEmail" value="{{ user.contact_email|default('') }}" placeholder="your@email.com">
+          <small style="color: #666;">Email address customers can use to contact you</small>
+        </div>
+
+        <div class="form-group">
+          <label for="contactPhone">Contact Phone (for customers)</label>
+          <input type="tel" id="contactPhone" name="contactPhone" value="{{ user.contact_phone|default('') }}" placeholder="+31 6 12345678">
+          <small style="color: #666;">Phone number customers can use to contact you</small>
+        </div>
+
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="contactVisible" name="contactVisible" {% if user.contact_visible %}checked{% endif %} style="width: auto;">
+            Make contact information visible to customers
+          </label>
+          <small style="color: #666;">Uncheck to hide your contact information from the public</small>
+        </div>
         
         <button type="submit" class="submit-btn">Save Changes</button>
       </form>
