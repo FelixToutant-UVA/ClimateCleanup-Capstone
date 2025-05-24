@@ -21,31 +21,23 @@ def create_app():
     # Copy CSS files to the correct location
     from shutil import copyfile
     
-    # Define CSS files to copy
+    # Ensure CSS files exist
     css_files = [
-        ('website/static/css/base.css', 'base.css'),
-        ('website/static/css/components.css', 'components.css'),
-        ('website/static/css/home.css', 'home.css'),
-        ('website/static/css/forest.css', 'forest.css'),
-        ('website/static/css/auth.css', 'auth.css'),
-        ('website/static/css/profile.css', 'profile.css')
+        'base.css',
+        'components.css', 
+        'home.css',
+        'forest.css',
+        'auth.css',
+        'profile.css'
     ]
-    
-    # Copy each CSS file
-    for src, dest in css_files:
-        dest_path = os.path.join(css_dir, dest)
-        try:
-            # Create the file if it doesn't exist
-            if not os.path.exists(src):
-                with open(src, 'w') as f:
-                    f.write('/* CSS file created by app initialization */')
-                print(f"Created empty CSS file: {src}")
-            
-            # Copy the file
-            copyfile(src, dest_path)
-            print(f"Copied {src} to {dest_path}")
-        except Exception as e:
-            print(f"Error copying CSS file {src}: {e}")
+
+    # Create CSS files if they don't exist
+    for css_file in css_files:
+        css_path = os.path.join(css_dir, css_file)
+        if not os.path.exists(css_path):
+            with open(css_path, 'w') as f:
+                f.write('/* CSS file created by app initialization */')
+            print(f"Created CSS file: {css_path}")
     
     from .views import views
     from .auth import auth
