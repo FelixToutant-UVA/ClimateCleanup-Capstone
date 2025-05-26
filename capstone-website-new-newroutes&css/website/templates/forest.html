@@ -122,10 +122,65 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
+  // Message Modal
+  const messageBtn = document.getElementById('messageOwnerBtn');
+  const messageModal = document.getElementById('messageModal');
+  const closeMessageModal = messageModal.querySelector('.close-modal');
+  const messageForm = document.getElementById('messageForm');
+
+  if (messageBtn) {
+    messageBtn.addEventListener('click', function() {
+      messageModal.style.display = 'block';
+    });
+  }
+
+  if (closeMessageModal) {
+    closeMessageModal.addEventListener('click', function() {
+      messageModal.style.display = 'none';
+    });
+  }
+
+  if (messageForm) {
+    messageForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const subject = document.getElementById('messageSubject').value;
+      const content = document.getElementById('messageContent').value;
+      
+      fetch(`/send-message/{{ forest.id if forest else '1' }}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: subject,
+          content: content
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Message sent successfully!');
+          messageModal.style.display = 'none';
+          messageForm.reset();
+        } else {
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error sending message');
+      });
+    });
+  }
+  
   // Close modal when clicking outside
   window.addEventListener('click', function(event) {
     if (event.target === contactModal) {
       contactModal.style.display = 'none';
+    }
+    if (event.target === messageModal) {
+      messageModal.style.display = 'none';
     }
   });
 
@@ -307,54 +362,62 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   </section>
 
-  <!-- Forest Metrics Section -->
-  <section class="profile-card forest-metrics-card">
-    <div class="card-header">
-      <h2>Forest Impact</h2>
+  <!-- Forest Impact Section - Improved Design -->
+  <section class="forest-impact-section">
+    <div class="impact-header">
+      <h2>Environmental Impact</h2>
+      <p>See how this food forest contributes to a healthier planet</p>
     </div>
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <i class="fas fa-leaf"></i>
-        <h3>Biodiversity</h3>
-        <p>{{ metrics.biodiversity|default('+45% more species compared to conventional farms') }}</p>
+    
+    <div class="impact-grid">
+      <div class="impact-card biodiversity">
+        <div class="impact-icon">
+          <i class="fas fa-leaf"></i>
+        </div>
+        <div class="impact-content">
+          <h3>Biodiversity Enhancement</h3>
+          <div class="impact-value">{{ metrics.biodiversity|default('+45% more species') }}</div>
+          <p>Compared to conventional farms, creating habitat for beneficial wildlife</p>
+        </div>
       </div>
-      <div class="metric-card">
-        <i class="fas fa-cloud"></i>
-        <h3>Carbon Sequestration</h3>
-        <p>{{ metrics.carbon|default('Stores 12 tons of CO₂ annually') }}</p>
+      
+      <div class="impact-card carbon">
+        <div class="impact-icon">
+          <i class="fas fa-cloud"></i>
+        </div>
+        <div class="impact-content">
+          <h3>Carbon Sequestration</h3>
+          <div class="impact-value">{{ metrics.carbon|default('12 tons CO₂/year') }}</div>
+          <p>Actively removing carbon dioxide from the atmosphere through natural processes</p>
+        </div>
       </div>
-      <div class="metric-card">
-        <i class="fas fa-tint"></i>
-        <h3>Water Conservation</h3>
-        <p>{{ metrics.water|default('Uses 60% less water than conventional farming') }}</p>
+      
+      <div class="impact-card water">
+        <div class="impact-icon">
+          <i class="fas fa-tint"></i>
+        </div>
+        <div class="impact-content">
+          <h3>Water Conservation</h3>
+          <div class="impact-value">{{ metrics.water|default('60% less water usage') }}</div>
+          <p>Efficient water use through natural soil structure and mulching systems</p>
+        </div>
+      </div>
+      
+      <div class="impact-card soil">
+        <div class="impact-icon">
+          <i class="fas fa-seedling"></i>
+        </div>
+        <div class="impact-content">
+          <h3>Soil Health</h3>
+          <div class="impact-value">Regenerative</div>
+          <p>Building soil health naturally through diverse plant communities and organic matter</p>
+        </div>
       </div>
     </div>
-  </section>
-
-  <!-- Forest Story Section -->
-  <section class="profile-card forest-story-card">
-    <div class="card-header">
-      <h2>Our Story</h2>
-    </div>
-    <div class="forest-story-content">
-      <div class="story-text">
-        <p>This food forest was established in {{ carbon_data.age_years|default('2018') if carbon_data else '2018' }} with the goal of creating a sustainable, regenerative food production system that works with nature rather than against it. Our forest mimics natural ecosystems while producing abundant, nutritious food.</p>
-        <p>Unlike conventional agriculture, our food forest:</p>
-        <ul>
-          <li>Requires no pesticides or synthetic fertilizers</li>
-          <li>Builds soil health naturally</li>
-          <li>Creates habitat for beneficial wildlife</li>
-          <li>Produces food with higher nutritional value</li>
-        </ul>
-        <a href="{{ url_for('views.article') }}" class="learn-more-link">Learn more about the benefits of food forests</a>
-      </div>
-      <div class="story-image">
-        {% if forest and forest.forest_image %}
-          <img src="{{ url_for('static', filename=forest.forest_image) }}" alt="Food forest landscape" />
-        {% else %}
-          <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Food forest landscape" />
-        {% endif %}
-      </div>
+    
+    <div class="impact-cta">
+      <p>Learn more about the science behind food forests and their environmental benefits</p>
+      <a href="{{ url_for('views.article') }}" class="impact-learn-more">Explore the Research</a>
     </div>
   </section>
 </section>
@@ -363,147 +426,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 {% block head %}
 <style>
-  /* Harvest Calendar Styles */
-  .harvest-calendar-section {
-    margin: 3rem 0;
-    background: #f9f9f9;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
-  
-  .harvest-calendar-section h2 {
-    margin-bottom: 1.5rem;
-    color: #333;
-    text-align: center;
-  }
-  
-  .harvest-calendar-container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  
-  .calendar-header {
-    display: flex;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-  
-  .product-column {
-    width: 150px;
-    padding: 0.5rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .months-row {
-    display: flex;
-    flex: 1;
-  }
-  
-  .month-header {
-    flex: 1;
-    text-align: center;
-    padding: 0.5rem 0;
-    font-size: 0.85rem;
-    color: #555;
-  }
-  
-  .calendar-body {
-    margin-bottom: 1.5rem;
-  }
-  
-  .calendar-row {
-    display: flex;
-    margin-bottom: 0.5rem;
-    align-items: center;
-  }
-  
-  .month-cell {
-    flex: 1;
-    height: 30px;
-    background-color: #f0f0f0;
-    margin: 0 1px;
-    border-radius: 4px;
-  }
-  
-  .month-cell.in-season {
-    background-color: #4caf50;
-  }
-  
-  .calendar-legend {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .legend-color {
-    width: 20px;
-    height: 20px;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-  }
-  
-  .legend-color.in-season {
-    background-color: #4caf50;
-  }
-  
-  .no-products-message {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    background: #f0f0f0;
-    border-radius: 6px;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .product-column {
-      width: 100px;
-    }
-    
-    .month-header {
-      font-size: 0.7rem;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .calendar-header {
-      flex-direction: column;
-    }
-    
-    .product-column {
-      width: 100%;
-      margin-bottom: 0.5rem;
-    }
-    
-    .calendar-row {
-      flex-direction: column;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 1rem;
-    }
-    
-    .months-row {
-      width: 100%;
-    }
-    
-    .month-header {
-      transform: rotate(-45deg);
-      height: 40px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-  }
-
   /* Contact Section Styles */
   .contact-section {
     background: #f8f9fa;
@@ -527,8 +449,8 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-bottom: 30px;
   }
 
-  .contact-btn {
-    background-color: #007bff;
+  .contact-btn, .message-btn {
+    background-color: #2e7d32;
     color: white;
     padding: 12px 25px;
     border: none;
@@ -536,10 +458,14 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    margin: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  .contact-btn:hover {
-    background-color: #0056b3;
+  .contact-btn:hover, .message-btn:hover {
+    background-color: #1b5e20;
   }
 
   .no-contact-info {
@@ -549,24 +475,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* Modal Styles */
   .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
   }
 
   .modal-content {
     position: relative;
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%;
     max-width: 600px;
     border-radius: 10px;
   }
@@ -753,6 +679,163 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-left: 0.2rem;
   }
 
+  /* Forest Impact Section - Improved Design */
+  .forest-impact-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 4rem 2rem;
+    margin: 3rem 0;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .impact-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .impact-header h2 {
+    font-size: 2.5rem;
+    color: #2e7d32;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .impact-header p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .impact-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .impact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4CAF50, #2e7d32);
+  }
+
+  .impact-card.biodiversity::before {
+    background: linear-gradient(90deg, #4CAF50, #66BB6A);
+  }
+
+  .impact-card.carbon::before {
+    background: linear-gradient(90deg, #2196F3, #42A5F5);
+  }
+
+  .impact-card.water::before {
+    background: linear-gradient(90deg, #00BCD4, #26C6DA);
+  }
+
+  .impact-card.soil::before {
+    background: linear-gradient(90deg, #8BC34A, #9CCC65);
+  }
+
+  .impact-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .impact-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: white;
+  }
+
+  .biodiversity .impact-icon {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+  }
+
+  .carbon .impact-icon {
+    background: linear-gradient(135deg, #2196F3, #42A5F5);
+  }
+
+  .water .impact-icon {
+    background: linear-gradient(135deg, #00BCD4, #26C6DA);
+  }
+
+  .soil .impact-icon {
+    background: linear-gradient(135deg, #8BC34A, #9CCC65);
+  }
+
+  .impact-content h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+  }
+
+  .impact-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .impact-content p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .impact-cta {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .impact-cta p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .impact-learn-more {
+    display: inline-block;
+    background: linear-gradient(135deg, #2e7d32, #4CAF50);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+  }
+
+  .impact-learn-more:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+    background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  }
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .forest-actions {
@@ -762,6 +845,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     .like-btn {
       justify-content: center;
+    }
+
+    .impact-header h2 {
+      font-size: 2rem;
+    }
+
+    .impact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .forest-impact-section {
+      padding: 2rem 1rem;
     }
   }
 </style>
