@@ -23,6 +23,14 @@
           <p class="forest-location">{{ user.forest_location|default('Location') }}</p>
           <div class="forest-actions">
             <button class="edit-forest-btn"><i class="fas fa-edit"></i> Edit Details</button>
+            <button class="like-forest-btn" id="likeForestBtn" data-forest-id="{{ user.id }}">
+              <i class="far fa-heart"></i> <span class="like-count">0</span>
+            </button>
+            {% if user.messages_enabled %}
+            <button class="message-forest-btn" id="messageForestBtn">
+              <i class="fas fa-comment"></i> Message
+            </button>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -391,10 +399,48 @@
       <h2>Liked Forests</h2>
     </div>
     <div class="liked-forests-grid">
-      <!-- This will be populated with liked forests -->
+    {% if liked_forests %}
+      {% for forest in liked_forests %}
+        <div class="forest-card">
+          <div class="forest-card-image">
+            <img src="{{ url_for('static', filename=forest.forest_image) if forest.forest_image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ forest.forest_name }}" />
+          </div>
+          <div class="forest-card-content">
+            <h3>{{ forest.forest_name }}</h3>
+            <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ forest.forest_location }}</p>
+            <div class="forest-card-actions">
+              <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="forest-card-button">Visit Forest</a>
+              <button class="unlike-forest-btn" data-forest-id="{{ forest.id }}">
+                <i class="fas fa-heart-broken"></i> Unlike
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
       <div class="no-likes-message">
         <p>You haven't liked any forests yet. Explore our <a href="{{ url_for('views.food_forests') }}">food forest directory</a> to discover amazing sustainable farms!</p>
       </div>
+    {% endif %}
+  </div>
+</div>
+
+  <!-- Message Modal -->
+  <div id="messageModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Send Message</h2>
+      <form id="messageForm">
+        <div class="form-group">
+          <label for="messageSubject">Subject</label>
+          <input type="text" id="messageSubject" name="subject" placeholder="Enter message subject">
+        </div>
+        <div class="form-group">
+          <label for="messageContent">Message</label>
+          <textarea id="messageContent" name="content" rows="5" placeholder="Enter your message..." required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
     </div>
   </div>
 </div>
@@ -603,6 +649,123 @@
         editCalendarModal.style.display = 'none';
       }
     });
+
+    // Like functionality
+    const likeForestBtn = document.getElementById('likeForestBtn');
+    if (likeForestBtn) {
+      likeForestBtn.addEventListener('click', function() {
+        const forestId = this.getAttribute('data-forest-id');
+        
+        fetch(`/api/forest/like/${forestId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const icon = this.querySelector('i');
+            const countSpan = this.querySelector('.like-count');
+            
+            if (data.liked) {
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              icon.style.color = '#e74c3c';
+            } else {
+              icon.classList.remove('fas');
+              icon.classList.add('far');
+              icon.style.color = '';
+            }
+            
+            countSpan.textContent = data.likes_count;
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+      
+      // Load initial like status
+      fetch(`/api/forest/like-status/{{ user.id }}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const icon = likeForestBtn.querySelector('i');
+            const countSpan = likeForestBtn.querySelector('.like-count');
+            
+            if (data.liked) {
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              icon.style.color = '#e74c3c';
+            }
+            
+            countSpan.textContent = data.likes_count;
+          }
+        })
+        .catch(error => {
+          console.error('Error loading like status:', error);
+        });
+    }
+
+    // Message functionality
+    const messageForestBtn = document.getElementById('messageForestBtn');
+    const messageModal = document.getElementById('messageModal');
+    const closeMessageModal = messageModal.querySelector('.close-modal');
+    const messageForm = document.getElementById('messageForm');
+
+    if (messageForestBtn) {
+      messageForestBtn.addEventListener('click', function() {
+        messageModal.style.display = 'block';
+      });
+    }
+
+    if (closeMessageModal) {
+      closeMessageModal.addEventListener('click', function() {
+        messageModal.style.display = 'none';
+      });
+    }
+
+    if (messageForm) {
+      messageForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const subject = document.getElementById('messageSubject').value;
+        const content = document.getElementById('messageContent').value;
+        
+        fetch(`/api/forest/message/{{ user.id }}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subject: subject,
+            content: content
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Message sent successfully!');
+            messageModal.style.display = 'none';
+            messageForm.reset();
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error sending message');
+        });
+      });
+    }
+
+    // Close message modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === messageModal) {
+        messageModal.style.display = 'none';
+      }
+    });
   });
 
   function previewImage(input, previewId) {
@@ -624,6 +787,43 @@
       reader.readAsDataURL(input.files[0]);
     }
   }
+
+// Unlike functionality for liked forests
+const unlikeButtons = document.querySelectorAll('.unlike-forest-btn');
+unlikeButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    const forestId = this.getAttribute('data-forest-id');
+    
+    if (confirm('Are you sure you want to unlike this forest?')) {
+      fetch(`/api/forest/like/${forestId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && !data.liked) {
+          // Remove the forest card from the liked forests section
+          this.closest('.forest-card').remove();
+          
+          // Check if no more liked forests
+          const remainingCards = document.querySelectorAll('.liked-forests-grid .forest-card');
+          if (remainingCards.length === 0) {
+            document.querySelector('.liked-forests-grid').innerHTML = `
+              <div class="no-likes-message">
+                <p>You haven't liked any forests yet. Explore our <a href="/food-forests">food forest directory</a> to discover amazing sustainable farms!</p>
+              </div>
+            `;
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  });
+});
 </script>
 
 {% endblock %}

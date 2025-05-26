@@ -18,6 +18,11 @@ def create_app():
     css_dir = os.path.join('website', 'static', 'css')
     os.makedirs(css_dir, exist_ok=True)
     
+    # Ensure uploads directory exists with correct path
+    uploads_dir = os.path.join(app.static_folder, 'uploads')
+    os.makedirs(uploads_dir, exist_ok=True)
+    print(f"Upload directory created at: {uploads_dir}")
+    
     from .views import views
     from .auth import auth
 
@@ -38,10 +43,11 @@ def create_app():
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
     app.register_blueprint(general_bp, url_prefix='/api/general')
 
+    # Register like routes that need to be accessible from main views
+    from .routes.forest_routes import register_like_routes
+    register_like_routes(app)
+
     from .models import User, Note, CarbonData, Product, HarvestPeriod
-    
-    # Ensure uploads directory exists
-    os.makedirs(os.path.join('website', 'static', 'uploads'), exist_ok=True)
     
     with app.app_context():
         db.create_all()
@@ -125,6 +131,16 @@ def update_database_schema(app):
             if 'forest_country' not in columns:
                 conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_country VARCHAR(100)'))
 
+            # Add coordinate fields
+            if 'forest_latitude' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_latitude FLOAT'))
+            if 'forest_longitude' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_longitude FLOAT'))
+            if 'business_latitude' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_latitude FLOAT'))
+            if 'business_longitude' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_longitude FLOAT'))
+
             if 'messages_enabled' not in columns:
                 conn.execute(db.text('ALTER TABLE user ADD COLUMN messages_enabled BOOLEAN DEFAULT 1'))
             
@@ -179,8 +195,5 @@ def update_database_schema(app):
         from .models import Message
         Message.__table__.create(db.engine)
         print('Created Message table!')
-    
-    # Ensure uploads directory exists
-    os.makedirs('website/static/uploads', exist_ok=True)
     
     print('Database schema updated!')

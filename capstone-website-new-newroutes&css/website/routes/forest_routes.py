@@ -63,10 +63,19 @@ def food_forests():
 
     forests = forests_paginated.items
     
-    # Get carbon data for each forest
+    # Get carbon data and coordinates for each forest
     forest_data = []
-    for forest in forests:
+    for i, forest in enumerate(forests):
         carbon_data = CarbonData.query.filter_by(user_id=forest.id).first()
+        
+        # Use simple fallback coordinates for Amsterdam area
+        base_lat = 52.3676
+        base_lng = 4.9041
+        # Add small random offset for each forest
+        coordinates = (
+            base_lat + (i * 0.01) + ((i % 3) * 0.005),
+            base_lng + (i * 0.01) + ((i % 2) * 0.008)
+        )
         
         # Calculate metrics if carbon data exists
         metrics = {}
@@ -91,7 +100,8 @@ def food_forests():
             'location': forest.forest_location,
             'image': forest.forest_image or 'images/hero_pears.jpg',
             'metrics': metrics,
-            'type': 'Community'  # Example placeholder
+            'type': 'Community',  # Example placeholder
+            'coordinates': coordinates
         })
     
     # Get featured forest (first one or None)
@@ -106,12 +116,7 @@ def food_forests():
         location_filter=location_filter,
         forest_type=forest_type,
         sort_by=sort_by,
-        page=forests_paginated.page,
-        total_pages=forests_paginated.pages,
-        has_prev=forests_paginated.has_prev,
-        has_next=forests_paginated.has_next,
-        prev_num=forests_paginated.prev_num,
-        next_num=forests_paginated.next_num
+        pagination=forests_paginated
     )
 
 @forest_bp.route('/forest/<int:forest_id>')
@@ -200,52 +205,94 @@ def get_contact_info(forest_id):
     
     return jsonify(contact_data)
 
-@forest_bp.route('/like/<int:forest_id>', methods=['POST'])
-@login_required
-def toggle_like(forest_id):
-    """Toggle like status for a forest."""
-    forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
+# These routes need to be accessible from the main views blueprint
+def register_like_routes(app):
+    """Register like routes that can be accessed from main views"""
     
-    existing_like = ForestLike.query.filter_by(user_id=current_user.id, forest_id=forest_id).first()
-    
-    if existing_like:
-        db.session.delete(existing_like)
-        liked = False
-    else:
-        new_like = ForestLike(user_id=current_user.id, forest_id=forest_id)
-        db.session.add(new_like)
-        liked = True
-    
-    db.session.commit()
-    
-    # Get total likes count
-    likes_count = ForestLike.query.filter_by(forest_id=forest_id).count()
-    
-    return jsonify({'success': True, 'liked': liked, 'likes_count': likes_count})
+    @app.route('/like-forest/<int:forest_id>', methods=['POST'])
+    @login_required
+    def like_forest(forest_id):
+        """Toggle like status for a forest."""
+        print(f"Like request received for forest {forest_id} by user {current_user.id}")
+        
+        forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
+        if not forest:
+            print(f"Forest {forest_id} not found")
+            return jsonify({'success': False, 'message': 'Forest not found'}), 404
+        
+        existing_like = ForestLike.query.filter_by(user_id=current_user.id, forest_id=forest_id).first()
+        
+        try:
+            if existing_like:
+                db.session.delete(existing_like)
+                liked = False
+                print(f"Removed like for forest {forest_id}")
+            else:
+                new_like = ForestLike(user_id=current_user.id, forest_id=forest_id)
+                db.session.add(new_like)
+                liked = True
+                print(f"Added like for forest {forest_id}")
+            
+            db.session.commit()
+            
+            # Get total likes count
+            likes_count = ForestLike.query.filter_by(forest_id=forest_id).count()
+            print(f"Total likes for forest {forest_id}: {likes_count}")
+            
+            return jsonify({'success': True, 'liked': liked, 'likes_count': likes_count})
+            
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error toggling like: {e}")
+            return jsonify({'success': False, 'message': 'Database error'}), 500
 
-@forest_bp.route('/message/<int:forest_id>', methods=['POST'])
-@login_required  
-def send_message(forest_id):
-    """Send a message to a forest owner."""
-    forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
-    
-    if not forest.messages_enabled:
-        return jsonify({'success': False, 'message': 'This forest owner is not accepting messages'})
-    
-    subject = request.json.get('subject', '')
-    content = request.json.get('content', '')
-    
-    if not content:
-        return jsonify({'success': False, 'message': 'Message content is required'})
-    
-    message = Message(
-        sender_id=current_user.id,
-        recipient_id=forest_id,
-        subject=subject,
-        content=content
-    )
-    
-    db.session.add(message)
-    db.session.commit()
-    
-    return jsonify({'success': True, 'message': 'Message sent successfully'})
+    @app.route('/like-status/<int:forest_id>')
+    @login_required
+    def get_like_status(forest_id):
+        """Get like status for a forest."""
+        forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
+        if not forest:
+            return jsonify({'success': False, 'message': 'Forest not found'}), 404
+        
+        existing_like = ForestLike.query.filter_by(user_id=current_user.id, forest_id=forest_id).first()
+        likes_count = ForestLike.query.filter_by(forest_id=forest_id).count()
+        
+        return jsonify({
+            'success': True, 
+            'liked': existing_like is not None,
+            'likes_count': likes_count
+        })
+
+    @app.route('/send-message/<int:forest_id>', methods=['POST'])
+    @login_required  
+    def send_message(forest_id):
+        """Send a message to a forest owner."""
+        forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
+        if not forest:
+            return jsonify({'success': False, 'message': 'Forest not found'}), 404
+        
+        if not forest.messages_enabled:
+            return jsonify({'success': False, 'message': 'This forest owner is not accepting messages'})
+        
+        data = request.get_json()
+        subject = data.get('subject', '') if data else ''
+        content = data.get('content', '') if data else ''
+        
+        if not content:
+            return jsonify({'success': False, 'message': 'Message content is required'})
+        
+        message = Message(
+            sender_id=current_user.id,
+            recipient_id=forest_id,
+            subject=subject,
+            content=content
+        )
+        
+        try:
+            db.session.add(message)
+            db.session.commit()
+            return jsonify({'success': True, 'message': 'Message sent successfully'})
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error sending message: {e}")
+            return jsonify({'success': False, 'message': 'Database error'}), 500

@@ -42,6 +42,12 @@ class User(db.Model, UserMixin):
     forest_postal_code = db.Column(db.String(20))
     forest_country = db.Column(db.String(100))
 
+    # Exact coordinates for mapping
+    forest_latitude = db.Column(db.Float)
+    forest_longitude = db.Column(db.Float)
+    business_latitude = db.Column(db.Float)
+    business_longitude = db.Column(db.Float)
+
     # Messaging and likes
     messages_enabled = db.Column(db.Boolean, default=True)
 

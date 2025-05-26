@@ -82,7 +82,7 @@
   <section class="forest-grid">
     {% if forests %}
       {% for forest in forests %}
-        <div class="forest-card" data-category="{{ forest.type|lower }}">
+        <div class="forest-card" data-category="{{ forest.type|lower }}" data-forest-id="{{ forest.id }}">
           <div class="forest-card-image">
             <img src="{{ url_for('static', filename=forest.image) }}" alt="{{ forest.name }}" />
             <div class="forest-card-badge">{{ forest.type }}</div>
@@ -107,7 +107,7 @@
               <button class="forest-card-contact" data-forest-id="{{ forest.id }}" data-forest-name="{{ forest.name }}">
                 <i class="fas fa-envelope"></i>
               </button>
-              <button class="forest-card-favorite"><i class="far fa-heart"></i></button>
+              <button class="forest-card-favorite" data-forest-id="{{ forest.id }}"><i class="far fa-heart"></i></button>
             </div>
           </div>
         </div>
@@ -119,41 +119,27 @@
     {% endif %}
   </section>
 
-  <!-- Map View Toggle 
-  <section class="view-toggle">
-    <button class="view-button active"><i class="fas fa-th-large"></i> Grid View</button>
-    <button class="view-button"><i class="fas fa-map-marked-alt"></i> Map View</button>
-  </section>
-
-  Map Container (hidden by default) 
-  <section class="map-container" style="display: none;">
-    <div id="forests-map"></div>
-  </section>-->
-
   <!-- Pagination -->
   <div class="pagination">
-    {% if total_pages > 1 %}
-      {% if has_prev %}
-        <a href="{{ url_for('views.food_forests', page=prev_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">
-          <i class="fas fa-chevron-left"></i>
-        </a>
+    {% if pagination.pages > 1 %}
+      {% if pagination.has_prev %}
+        <a href="{{ url_for('views.food_forests', page=pagination.prev_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">&laquo;</a>
       {% endif %}
       
-      {% for page_num in range(1, total_pages + 1) %}
-        {% if page_num <= 3 or page_num > total_pages - 3 or (page_num >= page - 1 and page_num <= page + 1) %}
-          <a href="{{ url_for('views.food_forests', page=page_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" 
-             class="pagination-button {% if page == page_num %}active{% endif %}">{{ page_num }}</a>
-        {% elif page_num == 4 and page > 6 %}
-          <span class="pagination-ellipsis">...</span>
-        {% elif page_num == total_pages - 3 and page < total_pages - 5 %}
+      {% for page_num in pagination.iter_pages() %}
+        {% if page_num %}
+          {% if page_num != pagination.page %}
+            <a href="{{ url_for('views.food_forests', page=page_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">{{ page_num }}</a>
+          {% else %}
+            <span class="pagination-button active">{{ page_num }}</span>
+          {% endif %}
+        {% else %}
           <span class="pagination-ellipsis">...</span>
         {% endif %}
       {% endfor %}
       
-      {% if has_next %}
-        <a href="{{ url_for('views.food_forests', page=next_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">
-          <i class="fas fa-chevron-right"></i>
-        </a>
+      {% if pagination.has_next %}
+        <a href="{{ url_for('views.food_forests', page=pagination.next_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">&raquo;</a>
       {% endif %}
     {% endif %}
   </div>
@@ -209,16 +195,47 @@
       if (!window.forestsMapInitialized) {
         // Check if Leaflet is available
         if (typeof L !== 'undefined') {
-          const forestsMap = L.map('forests-map').setView([52.1326, 5.2913], 7);
+          // Center map on Amsterdam
+          const forestsMap = L.map('forests-map').setView([52.3676, 4.9041], 12);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
           }).addTo(forestsMap);
 
-          // Add markers for each forest
-          {% for forest in forests %}
-            L.marker([52.3676 + {{ loop.index0 }} * 0.1, 4.9041 + {{ loop.index0 }} * 0.1]).addTo(forestsMap)
-              .bindPopup('<b>{{ forest.name }}</b><br>{{ forest.location }}<br><a href="{{ url_for("views.forest_detail", forest_id=forest.id) }}">View Details</a>');
-          {% endfor %}
+          // Add markers for each forest using actual coordinates
+          const forestLocations = [
+            {% for forest in forests %}
+              {
+                id: {{ forest.id }},
+                name: "{{ forest.name }}",
+                location: "{{ forest.location }}",
+                lat: {{ forest.coordinates[0] }},
+                lng: {{ forest.coordinates[1] }},
+                url: "{{ url_for('views.forest_detail', forest_id=forest.id) }}"
+              }{% if not loop.last %},{% endif %}
+            {% endfor %}
+          ];
+
+          forestLocations.forEach(function(forest) {
+            const marker = L.marker([forest.lat, forest.lng]).addTo(forestsMap);
+            marker.bindPopup(`
+              <div style="text-align: center; min-width: 200px;">
+                <h3 style="margin: 0 0 8px 0; color: #2e7d32;">${forest.name}</h3>
+                <p style="margin: 0 0 8px 0; color: #666;"><i class="fas fa-map-marker-alt"></i> ${forest.location}</p>
+                <a href="${forest.url}" 
+                   style="display: inline-block; background: #2e7d32; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 14px;">
+                  View Details
+                </a>
+              </div>
+            `);
+          });
+
+          // Fit map to show all markers if there are any
+          if (forestLocations.length > 0) {
+            const group = new L.featureGroup(forestsMap._layers);
+            if (Object.keys(group._layers).length > 0) {
+              forestsMap.fitBounds(group.getBounds().pad(0.1));
+            }
+          }
 
           window.forestsMapInitialized = true;
         } else {
@@ -250,23 +267,6 @@
       });
     });
     
-    // Favorite button functionality
-    const favoriteButtons = document.querySelectorAll('.forest-card-favorite');
-    favoriteButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const icon = this.querySelector('i');
-        if (icon.classList.contains('far')) {
-          icon.classList.remove('far');
-          icon.classList.add('fas');
-          icon.style.color = '#e74c3c';
-        } else {
-          icon.classList.remove('fas');
-          icon.classList.add('far');
-          icon.style.color = '';
-        }
-      });
-    });
-
     // Contact functionality for forest cards
     const contactButtons = document.querySelectorAll('.forest-card-contact');
     const forestContactModal = document.getElementById('forestContactModal');
@@ -357,6 +357,61 @@
     window.addEventListener('click', function(event) {
       if (event.target === forestContactModal) {
         forestContactModal.style.display = 'none';
+      }
+    });
+
+    // Favorite button functionality - FIXED ENDPOINTS
+    const favoriteButtons = document.querySelectorAll('.forest-card-favorite');
+    favoriteButtons.forEach(button => {
+      const forestCard = button.closest('.forest-card');
+      const forestId = forestCard.getAttribute('data-forest-id') || forestCard.querySelector('[data-forest-id]')?.getAttribute('data-forest-id');
+      
+      if (forestId) {
+        // Load initial like status
+        fetch(`/like-status/${forestId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const icon = button.querySelector('i');
+              if (data.liked) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                icon.style.color = '#e74c3c';
+              }
+            }
+          })
+          .catch(error => {
+            console.error('Error loading like status:', error);
+          });
+
+        button.addEventListener('click', function() {
+          fetch(`/like-forest/${forestId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const icon = this.querySelector('i');
+              if (data.liked) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                icon.style.color = '#e74c3c';
+              } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                icon.style.color = '';
+              }
+            } else {
+              console.error('Error toggling like:', data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
       }
     });
   });

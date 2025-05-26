@@ -346,17 +346,20 @@ input[type="file"] {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px 0; /* Add padding for better mobile experience */
 }
 
 .modal-content {
   background-color: white;
-  margin: 10% auto;
+  margin: 2% auto; /* Reduce top margin */
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   max-width: 500px;
   width: 90%;
   position: relative;
+  max-height: 90vh; /* Limit height */
+  overflow-y: auto; /* Enable scrolling */
 }
 
 .close-modal {
@@ -378,6 +381,7 @@ input[type="file"] {
   color: #333;
 }
 
+/* Ensure form elements don't overflow */
 .modal-content .form-group {
   margin-bottom: 1.2rem;
 }
@@ -401,6 +405,7 @@ input[type="file"] {
 .modal-content textarea {
   resize: vertical;
   min-height: 100px;
+  max-height: 200px;
 }
 
 .submit-btn {
@@ -428,6 +433,16 @@ input[type="file"] {
 
   .metrics-grid {
     grid-template-columns: 1fr;
+  }
+
+  .forest-actions {
+    flex-direction: column;
+  }
+
+  .like-forest-btn,
+  .message-forest-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -564,5 +579,207 @@ input[type="file"] {
 
   .month-checkboxes {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Like and Message Buttons */
+.like-forest-btn,
+.message-forest-btn {
+  background: none;
+  border: 1px solid #2e7d32;
+  color: #2e7d32;
+  padding: 0.7rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.like-forest-btn:hover,
+.message-forest-btn:hover {
+  background: #2e7d32;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.like-forest-btn i.fas {
+  color: #e74c3c !important;
+}
+
+.forest-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Message Modal Specific Styles */
+#messageModal .modal-content {
+  max-width: 600px;
+}
+
+#messageForm .form-group {
+  margin-bottom: 1.5rem;
+}
+
+#messageForm label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+#messageForm input[type="text"],
+#messageForm textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+#messageForm textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+#messageForm .submit-btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Liked Forests Section */
+.liked-forests-card {
+  margin-bottom: 2rem;
+}
+
+.liked-forests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.liked-forests-grid .forest-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.liked-forests-grid .forest-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.forest-card-image {
+  height: 180px;
+  overflow: hidden;
+}
+
+.forest-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.forest-card-content {
+  padding: 1.2rem;
+}
+
+.forest-card-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.forest-location {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.forest-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.forest-card-button {
+  background: #2e7d32;
+  color: white;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+  flex: 1;
+  text-align: center;
+}
+
+.forest-card-button:hover {
+  background: #1b5e20;
+}
+
+.unlike-forest-btn {
+  background: none;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  padding: 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.unlike-forest-btn:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.no-likes-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.no-likes-message a {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.no-likes-message a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .liked-forests-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forest-card-actions {
+    flex-direction: column;
+  }
+
+  .forest-card-button {
+    width: 100%;
   }
 }
