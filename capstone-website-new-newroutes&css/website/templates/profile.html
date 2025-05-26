@@ -33,7 +33,7 @@
       <div class="card-header">
         <h2>Metrics</h2>
         <div class="card-actions">
-          <a href="{{ url_for('views.metrics') }}" class="tab-button">More Details</a>
+          <a href="{{ url_for('views.metrics') }}" class="tab-button">Plot</a>
         </div>
       </div>
       
@@ -348,6 +348,7 @@
           <label for="forestSize">Size (square meters)</label>
           <input type="number" id="forestSize" name="forestSize" value="{{ carbon_data.size_m2|default('20000') }}" required>
         </div>
+
         <div class="form-group">
           <label for="contactEmail">Contact Email (for customers)</label>
           <input type="email" id="contactEmail" name="contactEmail" value="{{ user.contact_email|default('') }}" placeholder="your@email.com">
@@ -367,7 +368,15 @@
           </label>
           <small style="color: #666;">Uncheck to hide your contact information from the public</small>
         </div>
-        
+
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="messagesEnabled" name="messagesEnabled" {% if user.messages_enabled %}checked{% endif %} style="width: auto;">
+            Allow customers to send messages
+          </label>
+          <small style="color: #666;">Enable this to receive messages from potential customers</small>
+        </div>
+
         <button type="submit" class="submit-btn">Save Changes</button>
       </form>
     </div>
@@ -375,6 +384,19 @@
 
   <!-- Delete Product Confirmation Form -->
   <form id="deleteProductForm" method="POST" style="display: none;"></form>
+
+  <!-- Liked Forests Section -->
+  <div class="profile-card liked-forests-card">
+    <div class="card-header">
+      <h2>Liked Forests</h2>
+    </div>
+    <div class="liked-forests-grid">
+      <!-- This will be populated with liked forests -->
+      <div class="no-likes-message">
+        <p>You haven't liked any forests yet. Explore our <a href="{{ url_for('views.food_forests') }}">food forest directory</a> to discover amazing sustainable farms!</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>

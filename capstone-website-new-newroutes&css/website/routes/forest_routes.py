@@ -4,7 +4,7 @@ Routes related to food forests.
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy import or_
-from ..models import User, CarbonData, Product, HarvestPeriod
+from ..models import User, CarbonData, Product, HarvestPeriod, ForestLike, Message
 from .. import db
 from ..utils.carbon_utils import calculate_carbon_sequestration
 
@@ -52,8 +52,16 @@ def food_forests():
         query = query.join(CarbonData, User.id == CarbonData.user_id, isouter=True)\
                      .order_by(CarbonData.biodiversity_index.desc())
     
-    # Execute query
-    forests = query.all()
+    # Add pagination logic
+    page = request.args.get('page', 1, type=int)
+    per_page = 12  # Number of forests per page
+
+    # Apply pagination to the query
+    forests_paginated = query.paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+
+    forests = forests_paginated.items
     
     # Get carbon data for each forest
     forest_data = []
@@ -97,7 +105,13 @@ def food_forests():
         search_query=search_query,
         location_filter=location_filter,
         forest_type=forest_type,
-        sort_by=sort_by
+        sort_by=sort_by,
+        page=forests_paginated.page,
+        total_pages=forests_paginated.pages,
+        has_prev=forests_paginated.has_prev,
+        has_next=forests_paginated.has_next,
+        prev_num=forests_paginated.prev_num,
+        next_num=forests_paginated.next_num
     )
 
 @forest_bp.route('/forest/<int:forest_id>')
@@ -167,3 +181,71 @@ def forest():
         forest_name='Harmony Food Forest',
         forest_location='Amsterdam, Netherlands'
     )
+
+@forest_bp.route('/contact/<int:forest_id>')
+def get_contact_info(forest_id):
+    """
+    Get contact information for a specific forest.
+    """
+    forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
+    
+    if not forest.contact_visible:
+        return jsonify({'success': False, 'message': 'Contact information not available'})
+    
+    contact_data = {
+        'success': True,
+        'email': forest.contact_email if forest.contact_email else None,
+        'phone': forest.contact_phone if forest.contact_phone else None
+    }
+    
+    return jsonify(contact_data)
+
+@forest_bp.route('/like/<int:forest_id>', methods=['POST'])
+@login_required
+def toggle_like(forest_id):
+    """Toggle like status for a forest."""
+    forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
+    
+    existing_like = ForestLike.query.filter_by(user_id=current_user.id, forest_id=forest_id).first()
+    
+    if existing_like:
+        db.session.delete(existing_like)
+        liked = False
+    else:
+        new_like = ForestLike(user_id=current_user.id, forest_id=forest_id)
+        db.session.add(new_like)
+        liked = True
+    
+    db.session.commit()
+    
+    # Get total likes count
+    likes_count = ForestLike.query.filter_by(forest_id=forest_id).count()
+    
+    return jsonify({'success': True, 'liked': liked, 'likes_count': likes_count})
+
+@forest_bp.route('/message/<int:forest_id>', methods=['POST'])
+@login_required  
+def send_message(forest_id):
+    """Send a message to a forest owner."""
+    forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
+    
+    if not forest.messages_enabled:
+        return jsonify({'success': False, 'message': 'This forest owner is not accepting messages'})
+    
+    subject = request.json.get('subject', '')
+    content = request.json.get('content', '')
+    
+    if not content:
+        return jsonify({'success': False, 'message': 'Message content is required'})
+    
+    message = Message(
+        sender_id=current_user.id,
+        recipient_id=forest_id,
+        subject=subject,
+        content=content
+    )
+    
+    db.session.add(message)
+    db.session.commit()
+    
+    return jsonify({'success': True, 'message': 'Message sent successfully'})

@@ -11,9 +11,15 @@
       <h1>{{ forest_name|default('Food Forest Name') }}</h1>
       <p class="forest-location">{{ forest_location|default('Location of Food Forest') }}</p>
     {% endif %}
-    <a href="{{ url_for('views.article') }}" class="hero-btn">Learn More</a>
+    <div class="forest-actions">
+      <a href="{{ url_for('views.article') }}" class="hero-btn">Learn More</a>
+      <button class="like-btn" id="likeForestBtn" data-forest-id="{{ forest.id if forest else '1' }}">
+        <i class="far fa-heart"></i> <span class="like-count">0</span>
+      </button>
+    </div>
   </div>
 </section>
+
 <!-- CONTACT SECTION -->
 <section class="contact-section">
   <div class="contact-container">
@@ -26,6 +32,11 @@
       </button>
     {% else %}
       <p class="no-contact-info">Contact information not available at this time.</p>
+    {% endif %}
+    {% if forest and forest.messages_enabled %}
+      <button class="message-btn" id="messageOwnerBtn">
+        <i class="fas fa-comment"></i> Send Message
+      </button>
     {% endif %}
   </div>
 </section>
@@ -70,6 +81,25 @@
         </a>
       {% endif %}
     </div>
+  </div>
+</div>
+
+<!-- Message Modal -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Send Message to {{ forest.forest_name if forest else 'Forest Owner' }}</h2>
+    <form id="messageForm">
+      <div class="form-group">
+        <label for="messageSubject">Subject</label>
+        <input type="text" id="messageSubject" name="subject" placeholder="Enter message subject">
+      </div>
+      <div class="form-group">
+        <label for="messageContent">Message</label>
+        <textarea id="messageContent" name="content" rows="5" placeholder="Enter your message..." required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
   </div>
 </div>
 
@@ -412,6 +442,202 @@ document.addEventListener('DOMContentLoaded', function() {
       align-items: flex-end;
       justify-content: center;
     }
+  }
+
+  /* Contact Section Styles */
+  .contact-section {
+    background: #f8f9fa;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .contact-container {
+    max-width: 800px;
+    margin: auto;
+  }
+
+  .contact-section h2 {
+    color: #343a40;
+    margin-bottom: 20px;
+  }
+
+  .contact-section p {
+    color: #6c757d;
+    margin-bottom: 30px;
+  }
+
+  .contact-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  .contact-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .no-contact-info {
+    color: #dc3545;
+    font-style: italic;
+  }
+
+  /* Modal Styles */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px;
+    border-radius: 10px;
+  }
+
+  .close-modal {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close-modal:hover,
+  .close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .contact-info {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #495057;
+  }
+
+  .contact-item i {
+    margin-right: 10px;
+    font-size: 20px;
+    width: 25px;
+    text-align: center;
+  }
+
+  .contact-item div strong {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .contact-item div a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .contact-item div a:hover {
+    text-decoration: underline;
+  }
+
+  .contact-actions {
+    text-align: center;
+  }
+
+  .contact-action-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    margin: 0 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: transform 0.2s ease;
+  }
+
+  .contact-action-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .contact-action-btn.primary {
+    background-color: #28a745;
+  }
+
+  .contact-action-btn.primary:hover {
+    background-color: #218838;
+  }
+
+  .contact-action-btn.secondary {
+    background-color: #17a2b8;
+  }
+
+  .contact-action-btn.secondary:hover {
+    background-color: #138496;
+  }
+
+  /* Message Modal Styles */
+  #messageModal .modal-content {
+    max-width: 500px;
+  }
+
+  #messageForm .form-group {
+    margin-bottom: 15px;
+  }
+
+  #messageForm label {
+    display: block;
+    margin-bottom: 5px;
+    color: #495057;
+  }
+
+  #messageForm input[type="text"],
+  #messageForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  #messageForm textarea {
+    resize: vertical;
+  }
+
+  #messageForm .submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  #messageForm .submit-btn:hover {
+    background-color: #0056b3;
   }
 </style>
 {% endblock %}

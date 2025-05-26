@@ -69,16 +69,15 @@
 
   <!-- Map View Toggle -->
   <section class="view-toggle">
-    <button class="view-button active"><i class="fas fa-th-large"></i> Grid View</button>
-    <button class="view-button"><i class="fas fa-map-marked-alt"></i> Map View</button>
+    <button class="view-button active" id="gridViewBtn"><i class="fas fa-th-large"></i> Grid View</button>
+    <button class="view-button" id="mapViewBtn"><i class="fas fa-map-marked-alt"></i> Map View</button>
   </section>
 
   <!-- Map Container (hidden by default) -->
-  <section class="map-container" style="display: none;">
+  <section class="map-container" id="mapContainer" style="display: none;">
     <div id="forests-map"></div>
   </section>
 
-  <!-- Forest Grid Section -->
   <!-- Forest Grid Section -->
   <section class="forest-grid">
     {% if forests %}
@@ -133,13 +132,30 @@
 
   <!-- Pagination -->
   <div class="pagination">
-    <button class="pagination-button"><i class="fas fa-chevron-left"></i></button>
-    <button class="pagination-button active">1</button>
-    <button class="pagination-button">2</button>
-    <button class="pagination-button">3</button>
-    <span class="pagination-ellipsis">...</span>
-    <button class="pagination-button">8</button>
-    <button class="pagination-button"><i class="fas fa-chevron-right"></i></button>
+    {% if total_pages > 1 %}
+      {% if has_prev %}
+        <a href="{{ url_for('views.food_forests', page=prev_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">
+          <i class="fas fa-chevron-left"></i>
+        </a>
+      {% endif %}
+      
+      {% for page_num in range(1, total_pages + 1) %}
+        {% if page_num <= 3 or page_num > total_pages - 3 or (page_num >= page - 1 and page_num <= page + 1) %}
+          <a href="{{ url_for('views.food_forests', page=page_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" 
+             class="pagination-button {% if page == page_num %}active{% endif %}">{{ page_num }}</a>
+        {% elif page_num == 4 and page > 6 %}
+          <span class="pagination-ellipsis">...</span>
+        {% elif page_num == total_pages - 3 and page < total_pages - 5 %}
+          <span class="pagination-ellipsis">...</span>
+        {% endif %}
+      {% endfor %}
+      
+      {% if has_next %}
+        <a href="{{ url_for('views.food_forests', page=next_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      {% endif %}
+    {% endif %}
   </div>
 
   <!-- Join the Network CTA -->
@@ -171,24 +187,24 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // View toggle functionality
-    const gridViewBtn = document.querySelector('.view-button:nth-child(1)');
-    const mapViewBtn = document.querySelector('.view-button:nth-child(2)');
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const mapViewBtn = document.getElementById('mapViewBtn');
     const forestGrid = document.querySelector('.forest-grid');
-    const mapContainer = document.querySelector('.map-container');
-    
+    const mapContainer = document.getElementById('mapContainer');
+
     gridViewBtn.addEventListener('click', function() {
       forestGrid.style.display = 'grid';
       mapContainer.style.display = 'none';
       gridViewBtn.classList.add('active');
       mapViewBtn.classList.remove('active');
     });
-    
+
     mapViewBtn.addEventListener('click', function() {
       forestGrid.style.display = 'none';
       mapContainer.style.display = 'block';
       mapViewBtn.classList.add('active');
       gridViewBtn.classList.remove('active');
-      
+
       // Initialize map if it hasn't been already
       if (!window.forestsMapInitialized) {
         // Check if Leaflet is available
@@ -197,13 +213,13 @@
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
           }).addTo(forestsMap);
-          
+
           // Add markers for each forest
           {% for forest in forests %}
             L.marker([52.3676 + {{ loop.index0 }} * 0.1, 4.9041 + {{ loop.index0 }} * 0.1]).addTo(forestsMap)
               .bindPopup('<b>{{ forest.name }}</b><br>{{ forest.location }}<br><a href="{{ url_for("views.forest_detail", forest_id=forest.id) }}">View Details</a>');
           {% endfor %}
-          
+
           window.forestsMapInitialized = true;
         } else {
           console.error('Leaflet library not loaded');
@@ -214,15 +230,15 @@
     // Category tabs functionality
     const categoryTabs = document.querySelectorAll('.category-tab');
     const forestCards = document.querySelectorAll('.forest-card');
-    
+
     categoryTabs.forEach(tab => {
       tab.addEventListener('click', function() {
         // Update active tab
         categoryTabs.forEach(t => t.classList.remove('active'));
         this.classList.add('active');
-        
+
         const category = this.dataset.category;
-        
+
         // Filter forest cards
         forestCards.forEach(card => {
           if (category === 'all' || card.dataset.category === category) {
@@ -250,10 +266,8 @@
         }
       });
     });
-  });
 
-  // Contact modal functionality
-  // Contact functionality for forest cards
+    // Contact functionality for forest cards
     const contactButtons = document.querySelectorAll('.forest-card-contact');
     const forestContactModal = document.getElementById('forestContactModal');
     const closeForestContactModal = forestContactModal.querySelector('.close-modal');
@@ -264,14 +278,17 @@
         const forestName = this.getAttribute('data-forest-name');
         
         document.getElementById('contactModalTitle').textContent = `Contact ${forestName}`;
+        document.getElementById('contactModalContent').innerHTML = '<p>Loading contact information...</p>'; // Reset content
+
+        forestContactModal.style.display = 'block';
         
         // Fetch contact information
         fetch(`/api/forest/contact/${forestId}`)
           .then(response => response.json())
           .then(data => {
+            let contactHTML = '<div class="contact-info">';
+            
             if (data.success) {
-              let contactHTML = '<div class="contact-info">';
-              
               if (data.email) {
                 contactHTML += `
                   <div class="contact-item">
@@ -319,18 +336,15 @@
               if (!data.email && !data.phone) {
                 contactHTML = '<p>Contact information not available for this forest.</p>';
               }
-              
-              document.getElementById('contactModalContent').innerHTML = contactHTML;
             } else {
-              document.getElementById('contactModalContent').innerHTML = '<p>Contact information not available.</p>';
+              contactHTML = '<p>Contact information not available.</p>';
             }
             
-            forestContactModal.style.display = 'block';
+            document.getElementById('contactModalContent').innerHTML = contactHTML;
           })
           .catch(error => {
             console.error('Error fetching contact info:', error);
             document.getElementById('contactModalContent').innerHTML = '<p>Error loading contact information.</p>';
-            forestContactModal.style.display = 'block';
           });
       });
     });
@@ -346,7 +360,6 @@
       }
     });
   });
-  
 </script>
 
 {% endblock %}

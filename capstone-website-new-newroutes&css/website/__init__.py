@@ -18,27 +18,6 @@ def create_app():
     css_dir = os.path.join('website', 'static', 'css')
     os.makedirs(css_dir, exist_ok=True)
     
-    # Copy CSS files to the correct location
-    from shutil import copyfile
-    
-    # Ensure CSS files exist
-    css_files = [
-        'base.css',
-        'components.css', 
-        'home.css',
-        'forest.css',
-        'auth.css',
-        'profile.css'
-    ]
-
-    # Create CSS files if they don't exist
-    for css_file in css_files:
-        css_path = os.path.join(css_dir, css_file)
-        if not os.path.exists(css_path):
-            with open(css_path, 'w') as f:
-                f.write('/* CSS file created by app initialization */')
-            print(f"Created CSS file: {css_path}")
-    
     from .views import views
     from .auth import auth
 
@@ -53,7 +32,7 @@ def create_app():
     from .routes.general_routes import general_bp
 
     # Register blueprints with correct URL prefixes
-    app.register_blueprint(metrics_bp, url_prefix='/metrics')  # Changed from /api/metrics
+    app.register_blueprint(metrics_bp, url_prefix='/metrics')
     app.register_blueprint(forest_bp, url_prefix='/api/forest')
     app.register_blueprint(product_bp, url_prefix='/api/product')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
@@ -117,6 +96,7 @@ def update_database_schema(app):
             
             if 'forest_image' not in columns:
                 conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_image VARCHAR(255)'))
+            
             if 'contact_email' not in columns:
                 conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_email VARCHAR(150)'))
             
@@ -125,7 +105,28 @@ def update_database_schema(app):
             
             if 'contact_visible' not in columns:
                 conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_visible BOOLEAN DEFAULT 1'))
-            
+
+            # Add new location fields
+            if 'business_address' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_address VARCHAR(255)'))
+            if 'business_city' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_city VARCHAR(100)'))
+            if 'business_postal_code' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_postal_code VARCHAR(20)'))
+            if 'business_country' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_country VARCHAR(100)'))
+
+            if 'forest_address' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_address VARCHAR(255)'))
+            if 'forest_city' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_city VARCHAR(100)'))
+            if 'forest_postal_code' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_postal_code VARCHAR(20)'))
+            if 'forest_country' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_country VARCHAR(100)'))
+
+            if 'messages_enabled' not in columns:
+                conn.execute(db.text('ALTER TABLE user ADD COLUMN messages_enabled BOOLEAN DEFAULT 1'))
             
             conn.commit()
     
@@ -167,7 +168,18 @@ def update_database_schema(app):
         MetricsHistory.__table__.create(db.engine)
         print('Created MetricsHistory table!')
 
+    # Create ForestLike table if it doesn't exist
+    if 'forest_like' not in inspector.get_table_names():
+        from .models import ForestLike
+        ForestLike.__table__.create(db.engine)
+        print('Created ForestLike table!')
 
+    # Create Message table if it doesn't exist  
+    if 'message' not in inspector.get_table_names():
+        from .models import Message
+        Message.__table__.create(db.engine)
+        print('Created Message table!')
+    
     # Ensure uploads directory exists
     os.makedirs('website/static/uploads', exist_ok=True)
     
