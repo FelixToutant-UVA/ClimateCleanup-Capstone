@@ -11,7 +11,7 @@ from .. import db
 product_bp = Blueprint('product_bp', __name__)
 
 # Configuration for file uploads
-UPLOAD_FOLDER = 'website/static/uploads'
+UPLOAD_FOLDER = os.path.join('website', 'static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 # Ensure upload directory exists
@@ -68,13 +68,31 @@ def add_product():
         if 'productImage' in request.files:
             file = request.files['productImage']
             if file and file.filename != '' and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                # Ensure the upload directory exists
-                os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-                filepath = os.path.join(UPLOAD_FOLDER, f"product_{current_user.id}_{filename}")
-                file.save(filepath)
-                # Store the relative path that can be used with url_for('static', filename=...)
-                new_product.image = f"uploads/product_{current_user.id}_{filename}"
+                try:
+                    filename = secure_filename(file.filename)
+                    # Create unique filename to avoid conflicts
+                    import time
+                    timestamp = str(int(time.time()))
+                    filename = f"product_{current_user.id}_{timestamp}_{filename}"
+                    
+                    # Ensure the upload directory exists
+                    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+                    
+                    # Full file path
+                    filepath = os.path.join(UPLOAD_FOLDER, filename)
+                    
+                    # Save the file
+                    file.save(filepath)
+                    
+                    # Store the relative path that can be used with url_for('static', filename=...)
+                    new_product.image = f"uploads/{filename}"
+                    
+                    print(f"Product image saved successfully: {filepath}")
+                    print(f"Image will be accessible at: /static/uploads/{filename}")
+                    
+                except Exception as e:
+                    print(f"Error uploading product image: {e}")
+                    flash('Error uploading image, but product was created.', category='warning')
         
         db.session.add(new_product)
         db.session.commit()
@@ -116,13 +134,31 @@ def edit_product(product_id):
         if 'productImage' in request.files:
             file = request.files['productImage']
             if file and file.filename != '' and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                # Ensure the upload directory exists
-                os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-                filepath = os.path.join(UPLOAD_FOLDER, f"product_{current_user.id}_{filename}")
-                file.save(filepath)
-                # Store the relative path that can be used with url_for('static', filename=...)
-                product.image = f"uploads/product_{current_user.id}_{filename}"
+                try:
+                    filename = secure_filename(file.filename)
+                    # Create unique filename to avoid conflicts
+                    import time
+                    timestamp = str(int(time.time()))
+                    filename = f"product_{current_user.id}_{timestamp}_{filename}"
+                    
+                    # Ensure the upload directory exists
+                    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+                    
+                    # Full file path
+                    filepath = os.path.join(UPLOAD_FOLDER, filename)
+                    
+                    # Save the file
+                    file.save(filepath)
+                    
+                    # Store the relative path that can be used with url_for('static', filename=...)
+                    product.image = f"uploads/{filename}"
+                    
+                    print(f"Product image updated successfully: {filepath}")
+                    print(f"Image will be accessible at: /static/uploads/{filename}")
+                    
+                except Exception as e:
+                    print(f"Error uploading product image: {e}")
+                    flash('Error uploading image, but product was updated.', category='warning')
         
         db.session.commit()
         flash('Product updated successfully!', category='success')

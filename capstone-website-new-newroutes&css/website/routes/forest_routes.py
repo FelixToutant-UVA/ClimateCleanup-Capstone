@@ -4,7 +4,7 @@ Routes related to food forests.
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy import or_
-from ..models import User, CarbonData, Product, HarvestPeriod
+from ..models import User, CarbonData, Product, HarvestPeriod, ForestLike, Message
 from .. import db
 from ..utils.carbon_utils import calculate_carbon_sequestration
 
@@ -52,13 +52,30 @@ def food_forests():
         query = query.join(CarbonData, User.id == CarbonData.user_id, isouter=True)\
                      .order_by(CarbonData.biodiversity_index.desc())
     
-    # Execute query
-    forests = query.all()
+    # Add pagination logic
+    page = request.args.get('page', 1, type=int)
+    per_page = 12  # Number of forests per page
+
+    # Apply pagination to the query
+    forests_paginated = query.paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+
+    forests = forests_paginated.items
     
-    # Get carbon data for each forest
+    # Get carbon data and coordinates for each forest
     forest_data = []
-    for forest in forests:
+    for i, forest in enumerate(forests):
         carbon_data = CarbonData.query.filter_by(user_id=forest.id).first()
+        
+        # Use simple fallback coordinates for Amsterdam area
+        base_lat = 52.3676
+        base_lng = 4.9041
+        # Add small random offset for each forest
+        coordinates = (
+            base_lat + (i * 0.01) + ((i % 3) * 0.005),
+            base_lng + (i * 0.01) + ((i % 2) * 0.008)
+        )
         
         # Calculate metrics if carbon data exists
         metrics = {}
@@ -83,7 +100,8 @@ def food_forests():
             'location': forest.forest_location,
             'image': forest.forest_image or 'images/hero_pears.jpg',
             'metrics': metrics,
-            'type': 'Community'  # Example placeholder
+            'type': 'Community',  # Example placeholder
+            'coordinates': coordinates
         })
     
     # Get featured forest (first one or None)
@@ -97,7 +115,8 @@ def food_forests():
         search_query=search_query,
         location_filter=location_filter,
         forest_type=forest_type,
-        sort_by=sort_by
+        sort_by=sort_by,
+        pagination=forests_paginated
     )
 
 @forest_bp.route('/forest/<int:forest_id>')
@@ -123,9 +142,7 @@ def forest_detail(forest_id):
     # Calculate metrics if carbon_data exists
     metrics = {}
     if carbon_data:
-        metrics['biodiversity'] = f"+{int(carbon_data.biodiversity_index * 100)}% more species"
-        
-        # Calculate carbon sequestration
+        # Calculate carbon sequestration using the same function as profile
         carbon_estimate = calculate_carbon_sequestration(
             carbon_data.size_m2,
             carbon_data.age_years,
@@ -134,11 +151,40 @@ def forest_detail(forest_id):
         )
         
         if carbon_estimate:
-            avg_carbon = (carbon_estimate['min'] + carbon_estimate['max']) / 2
-            metrics['carbon'] = f"Stores {round(avg_carbon, 1)} tons of CO₂ annually"
+            # Use the annual carbon sequestration for display
+            avg_annual_carbon = (carbon_estimate['annual_min'] + carbon_estimate['annual_max']) / 2
+            metrics['carbon'] = f"{round(avg_annual_carbon, 1)} tons CO₂/year"
+        else:
+            metrics['carbon'] = "Data not available"
         
-        # Example placeholder for water conservation
-        metrics['water'] = "Uses 60% less water than conventional farming"
+        # Calculate biodiversity impact
+        species_count = int(carbon_data.biodiversity_index * 60)  # Scale to realistic species count
+        metrics['biodiversity'] = f"+{species_count} species supported"
+        
+        # Calculate water savings based on forest size and soil type
+        from ..utils.carbon_utils import calculate_water_savings
+        water_savings = calculate_water_savings(carbon_data.size_m2, carbon_data.age_years, carbon_data.soil_type)
+        if water_savings:
+            annual_savings_percentage = min(int((water_savings['annual_savings'] / (carbon_data.size_m2 * 0.5)) * 100), 70)
+            metrics['water'] = f"{annual_savings_percentage}% less water usage"
+        else:
+            metrics['water'] = "60% less water usage"
+        
+        # Soil health based on age and biodiversity
+        if carbon_data.age_years >= 5 and carbon_data.biodiversity_index > 0.6:
+            metrics['soil'] = "Highly Regenerative"
+        elif carbon_data.age_years >= 3:
+            metrics['soil'] = "Regenerative"
+        else:
+            metrics['soil'] = "Building Health"
+    else:
+        # Default values when no carbon data is available
+        metrics = {
+            'biodiversity': '+45 species supported',
+            'carbon': '12 tons CO₂/year',
+            'water': '60% less water usage',
+            'soil': 'Regenerative'
+        }
     
     return render_template(
         "forest.html", 
@@ -167,3 +213,113 @@ def forest():
         forest_name='Harmony Food Forest',
         forest_location='Amsterdam, Netherlands'
     )
+
+@forest_bp.route('/contact/<int:forest_id>')
+def get_contact_info(forest_id):
+    """
+    Get contact information for a specific forest.
+    """
+    forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
+    
+    if not forest.contact_visible:
+        return jsonify({'success': False, 'message': 'Contact information not available'})
+    
+    contact_data = {
+        'success': True,
+        'email': forest.contact_email if forest.contact_email else None,
+        'phone': forest.contact_phone if forest.contact_phone else None
+    }
+    
+    return jsonify(contact_data)
+
+# These routes need to be accessible from the main views blueprint
+def register_like_routes(app):
+    """Register like routes that can be accessed from main views"""
+    
+    @app.route('/like-forest/<int:forest_id>', methods=['POST'])
+    @login_required
+    def like_forest(forest_id):
+        """Toggle like status for a forest."""
+        print(f"Like request received for forest {forest_id} by user {current_user.id}")
+        
+        forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
+        if not forest:
+            print(f"Forest {forest_id} not found")
+            return jsonify({'success': False, 'message': 'Forest not found'}), 404
+        
+        existing_like = ForestLike.query.filter_by(user_id=current_user.id, forest_id=forest_id).first()
+        
+        try:
+            if existing_like:
+                db.session.delete(existing_like)
+                liked = False
+                print(f"Removed like for forest {forest_id}")
+            else:
+                new_like = ForestLike(user_id=current_user.id, forest_id=forest_id)
+                db.session.add(new_like)
+                liked = True
+                print(f"Added like for forest {forest_id}")
+            
+            db.session.commit()
+            
+            # Get total likes count
+            likes_count = ForestLike.query.filter_by(forest_id=forest_id).count()
+            print(f"Total likes for forest {forest_id}: {likes_count}")
+            
+            return jsonify({'success': True, 'liked': liked, 'likes_count': likes_count})
+            
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error toggling like: {e}")
+            return jsonify({'success': False, 'message': 'Database error'}), 500
+
+    @app.route('/like-status/<int:forest_id>')
+    @login_required
+    def get_like_status(forest_id):
+        """Get like status for a forest."""
+        forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
+        if not forest:
+            return jsonify({'success': False, 'message': 'Forest not found'}), 404
+        
+        existing_like = ForestLike.query.filter_by(user_id=current_user.id, forest_id=forest_id).first()
+        likes_count = ForestLike.query.filter_by(forest_id=forest_id).count()
+        
+        return jsonify({
+            'success': True, 
+            'liked': existing_like is not None,
+            'likes_count': likes_count
+        })
+
+    @app.route('/send-message/<int:forest_id>', methods=['POST'])
+    @login_required  
+    def send_message(forest_id):
+        """Send a message to a forest owner."""
+        forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
+        if not forest:
+            return jsonify({'success': False, 'message': 'Forest not found'}), 404
+        
+        if not forest.messages_enabled:
+            return jsonify({'success': False, 'message': 'This forest owner is not accepting messages'})
+        
+        data = request.get_json()
+        subject = data.get('subject', '') if data else ''
+        content = data.get('content', '') if data else ''
+        
+        if not content:
+            return jsonify({'success': False, 'message': 'Message content is required'})
+        
+        message = Message(
+            sender_id=current_user.id,
+            recipient_id=forest_id,
+            subject=subject,
+            content=content
+        )
+        
+        try:
+            db.session.add(message)
+            db.session.commit()
+            return jsonify({'success': True, 'message': 'Message sent successfully'})
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error sending message: {e}")
+            return jsonify({'success': False, 'message': 'Database error'}), 500

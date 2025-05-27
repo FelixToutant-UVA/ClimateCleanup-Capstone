@@ -52,10 +52,16 @@ def sign_up():
         # Get account-specific fields
         if account_type == 'business':
             business_name = request.form.get('businessName')
-            business_location = request.form.get('businessLocation')
+            business_address = request.form.get('businessAddress')
+            business_city = request.form.get('businessCity') 
+            business_postal_code = request.form.get('businessPostalCode')
+            business_country = request.form.get('businessCountry')
         else:  # food-forest
             forest_name = request.form.get('forestName')
-            forest_location = request.form.get('forestLocation')
+            forest_address = request.form.get('forestAddress')
+            forest_city = request.form.get('forestCity')
+            forest_postal_code = request.form.get('forestPostalCode')
+            forest_country = request.form.get('forestCountry')
 
         user = User.query.filter_by(email=email).first()
         if user:
@@ -79,10 +85,20 @@ def sign_up():
             # Set account-specific fields
             if account_type == 'business':
                 new_user.business_name = business_name
-                new_user.business_location = business_location
+                new_user.business_address = business_address
+                new_user.business_city = business_city
+                new_user.business_postal_code = business_postal_code
+                new_user.business_country = business_country
+                # Combine for backward compatibility
+                new_user.business_location = f"{business_city}, {business_country}" if business_city and business_country else ""
             else:  # food-forest
                 new_user.forest_name = forest_name
-                new_user.forest_location = forest_location
+                new_user.forest_address = forest_address
+                new_user.forest_city = forest_city
+                new_user.forest_postal_code = forest_postal_code
+                new_user.forest_country = forest_country
+                # Combine for backward compatibility
+                new_user.forest_location = f"{forest_city}, {forest_country}" if forest_city and forest_country else ""
             
             db.session.add(new_user)
             db.session.commit()

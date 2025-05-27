@@ -181,6 +181,10 @@ def calculate_water_savings(size_m2, forest_age, soil_type):
     # Get reduction factor based on soil type
     reduction = water_reduction.get(soil_type, 0.4)
     
+    # Age multiplier (older forests are more efficient)
+    age_multiplier = min(1 + (forest_age * 0.05), 1.5)  # Up to 50% more efficient
+    reduction = min(reduction * age_multiplier, 0.7)  # Cap at 70% reduction
+    
     # Calculate water savings
     annual_savings = conventional_water * area_ha * reduction
     total_savings = annual_savings * forest_age
@@ -188,7 +192,8 @@ def calculate_water_savings(size_m2, forest_age, soil_type):
     return {
         "annual_savings": round(annual_savings, 2),
         "total_savings": round(total_savings, 2),
-        "unit": "cubic meters"
+        "unit": "cubic meters",
+        "reduction_percentage": round(reduction * 100, 1)
     }
 
 def calculate_water_storage(size_m2, soil_type, age_years):
