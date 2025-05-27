@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="impact-content">
           <h3>Biodiversity Enhancement</h3>
-          <div class="impact-value">{{ metrics.biodiversity|default('+45% more species') }}</div>
+          <div class="impact-value">{{ metrics.biodiversity|default('+45 species supported') }}</div>
           <p>Compared to conventional farms, creating habitat for beneficial wildlife</p>
         </div>
       </div>
@@ -409,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="impact-content">
           <h3>Soil Health</h3>
-          <div class="impact-value">Regenerative</div>
+          <div class="impact-value">{{ metrics.soil|default('Regenerative') }}</div>
           <p>Building soil health naturally through diverse plant communities and organic matter</p>
         </div>
       </div>
