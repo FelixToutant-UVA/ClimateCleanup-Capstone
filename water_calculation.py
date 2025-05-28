@@ -38,4 +38,3 @@ results = calculate_water_cleaning_costs()
 for key, value in results.items():
     print(f"{key}: {value}")
 
-
