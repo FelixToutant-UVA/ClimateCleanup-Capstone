@@ -1,19 +1,15 @@
-{% extends "base.html" %} 
-{% block head %}
-<!-- Profile styles are already included in base.html -->
-{% endblock %}
+{% extends "base.html" %}
 {% block content %}
 
 <div class="profile-container">
-  <!-- Top Section: Forest Details and Metrics -->
-  <div class="profile-top-section">
+  <div class="profile-content">
     <!-- Forest Details Card -->
-    <div class="profile-card forest-details-card">
+    <div class="forest-details-card">
       <h2>Forest Details</h2>
       <div class="forest-details-content">
         <div class="forest-image">
           {% if user.forest_image %}
-            <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Forest Image">
+            <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Forest Image" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'">
           {% else %}
             <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Forest Image">
           {% endif %}
@@ -22,7 +18,7 @@
           <h3>{{ user.forest_name|default('Food Forest Name') }}</h3>
           <p class="forest-location">{{ user.forest_location|default('Location') }}</p>
           <div class="forest-actions">
-            <button class="edit-forest-btn"><i class="fas fa-edit"></i> Edit Details</button>
+            <button class="edit-forest-btn" id="editForestBtn"><i class="fas fa-edit"></i> Edit Details</button>
             <button class="like-forest-btn" id="likeForestBtn" data-forest-id="{{ user.id }}">
               <i class="far fa-heart"></i> <span class="like-count">0</span>
             </button>
@@ -37,7 +33,7 @@
     </div>
 
     <!-- Metrics Card -->
-    <div class="profile-card metrics-card">
+    <div class="metrics-card">
       <div class="card-header">
         <h2>Metrics</h2>
         <div class="card-actions">
@@ -81,12 +77,11 @@
   </div>
 
   <!-- Inventory Section -->
-  <div class="profile-card inventory-card">
+  <div class="inventory-card">
     <div class="card-header">
       <h2>Inventory</h2>
       <div class="card-actions">
-        <button class="tab-button">Metrics</button>
-        <button class="add-product-btn"><i class="fas fa-plus"></i> Add Product</button>
+        <button class="add-product-btn" id="addProductBtn"><i class="fas fa-plus"></i> Add Product</button>
       </div>
     </div>
     
@@ -96,7 +91,7 @@
           <div class="product-item" data-product-id="{{ product.id }}">
             <div class="product-image">
               {% if product.image %}
-                <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+                <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'">
               {% else %}
                 <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ product.name }}">
               {% endif %}
@@ -105,8 +100,8 @@
               <h3>{{ product.name }}</h3>
               <p class="product-price">€{{ product.price }}</p>
               <div class="product-actions">
-                <button class="edit-product-btn" data-product-id="{{ product.id }}"><i class="fas fa-edit"></i></button>
-                <button class="delete-product-btn" data-product-id="{{ product.id }}"><i class="fas fa-trash"></i></button>
+                <button class="edit-product-btn" data-product-id="{{ product.id }}" onclick="editProduct({{ product.id }})"><i class="fas fa-edit"></i></button>
+                <button class="delete-product-btn" data-product-id="{{ product.id }}" onclick="deleteProduct({{ product.id }})"><i class="fas fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -118,13 +113,13 @@
       {% endif %}
     </div>
   </div>
-  
+
   <!-- Harvest Calendar Section -->
-  <div class="profile-card harvest-calendar-card">
+  <div class="harvest-calendar-card">
     <div class="card-header">
       <h2>Harvest Calendar</h2>
       <div class="card-actions">
-        <button class="edit-calendar-btn"><i class="fas fa-edit"></i> Edit Calendar</button>
+        <button class="edit-calendar-btn" id="editCalendarBtn"><i class="fas fa-edit"></i> Edit Calendar</button>
       </div>
     </div>
     
@@ -164,638 +159,344 @@
     </div>
   </div>
 
-  <!-- Edit Harvest Calendar Modal -->
-  <div id="editCalendarModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Edit Harvest Calendar</h2>
-      <form id="editCalendarForm" action="#" method="POST">
-        <div class="form-group">
-          <label>Select Product</label>
-          <select id="calendarProduct" class="form-control">
-            {% if products %}
-              {% for product in products %}
-                <option value="{{ product.id }}">{{ product.name }}</option>
-              {% endfor %}
-            {% else %}
-              <option value="1">Pear</option>
-              <option value="2">Apple</option>
-              <option value="3">Cherry</option>
-              <option value="4">Hazelnut</option>
-            {% endif %}
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label>Harvest Months</label>
-          <div class="month-checkboxes">
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-1" name="months" value="1">
-              <label for="month-1">Jan</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-2" name="months" value="2">
-              <label for="month-2">Feb</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-3" name="months" value="3">
-              <label for="month-3">Mar</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-4" name="months" value="4">
-              <label for="month-4">Apr</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-5" name="months" value="5">
-              <label for="month-5">May</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-6" name="months" value="6">
-              <label for="month-6">Jun</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-7" name="months" value="7">
-              <label for="month-7">Jul</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-8" name="months" value="8">
-              <label for="month-8">Aug</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-9" name="months" value="9">
-              <label for="month-9">Sep</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-10" name="months" value="10">
-              <label for="month-10">Oct</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-11" name="months" value="11">
-              <label for="month-11">Nov</label>
-            </div>
-            <div class="month-checkbox">
-              <input type="checkbox" id="month-12" name="months" value="12">
-              <label for="month-12">Dec</label>
-            </div>
-          </div>
-        </div>
-        
-        <button type="submit" class="submit-btn">Save Changes</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Add Product Modal -->
-  <div id="addProductModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Add New Product</h2>
-      <form id="addProductForm" action="{{ url_for('views.add_product') }}" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="productName">Product Name</label>
-          <input type="text" id="productName" name="productName" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="productPrice">Price (€)</label>
-          <input type="number" id="productPrice" name="productPrice" step="0.01" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="productImage">Product Image</label>
-          <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage(this, 'productImagePreview')">
-          <div id="productImagePreview" class="image-preview"></div>
-        </div>
-        
-        <div class="form-group">
-          <label for="productDescription">Description</label>
-          <textarea id="productDescription" name="productDescription" rows="3"></textarea>
-        </div>
-        
-        <button type="submit" class="submit-btn">Add Product</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Edit Product Modal -->
-  <div id="editProductModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Edit Product</h2>
-      <form id="editProductForm" action="" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="editProductName">Product Name</label>
-          <input type="text" id="editProductName" name="productName" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="editProductPrice">Price (€)</label>
-          <input type="number" id="editProductPrice" name="productPrice" step="0.01" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="editProductImage">Product Image</label>
-          <input type="file" id="editProductImage" name="productImage" accept="image/*" onchange="previewImage(this, 'editProductImagePreview')">
-          <div id="editProductImagePreview" class="image-preview"></div>
-          <div id="currentProductImage" class="current-image"></div>
-        </div>
-        
-        <div class="form-group">
-          <label for="editProductDescription">Description</label>
-          <textarea id="editProductDescription" name="productDescription" rows="3"></textarea>
-        </div>
-        
-        <button type="submit" class="submit-btn">Save Changes</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Edit Forest Details Modal -->
-  <div id="editForestModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Edit Forest Details</h2>
-      <form id="editForestForm" action="{{ url_for('views.update_forest') }}" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="forestName">Forest Name</label>
-          <input type="text" id="forestName" name="forestName" value="{{ user.forest_name|default('Food Forest Name') }}" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="forestLocation">Location</label>
-          <input type="text" id="forestLocation" name="forestLocation" value="{{ user.forest_location|default('Location') }}" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="forestImage">Forest Image</label>
-          <input type="file" id="forestImage" name="forestImage" accept="image/*">
-          {% if user.forest_image %}
-            <div class="current-image">
-              <p>Current image:</p>
-              <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Current Forest Image" style="max-width: 100px;">
-            </div>
-          {% endif %}
-        </div>
-        
-        <div class="form-group">
-          <label for="soilType">Soil Type</label>
-          <select id="soilType" name="soilType">
-            <option value="Zandgrond" {% if carbon_data and carbon_data.soil_type == 'Zandgrond' %}selected{% endif %}>Zandgrond</option>
-            <option value="Kleigrond" {% if carbon_data and carbon_data.soil_type == 'Kleigrond' %}selected{% endif %}>Kleigrond</option>
-            <option value="Veengrond" {% if carbon_data and carbon_data.soil_type == 'Veengrond' %}selected{% endif %}>Veengrond</option>
-            <option value="Loess" {% if carbon_data and carbon_data.soil_type == 'Loess' %}selected{% endif %}>Loess</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="forestAge">Age of the plot (years)</label>
-          <input type="number" id="forestAge" name="forestAge" value="{{ carbon_data.age_years|default('4') }}" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="forestSize">Size (square meters)</label>
-          <input type="number" id="forestSize" name="forestSize" value="{{ carbon_data.size_m2|default('20000') }}" required>
-        </div>
-
-        <div class="form-group">
-          <label for="contactEmail">Contact Email (for customers)</label>
-          <input type="email" id="contactEmail" name="contactEmail" value="{{ user.contact_email|default('') }}" placeholder="your@email.com">
-          <small style="color: #666;">Email address customers can use to contact you</small>
-        </div>
-
-        <div class="form-group">
-          <label for="contactPhone">Contact Phone (for customers)</label>
-          <input type="tel" id="contactPhone" name="contactPhone" value="{{ user.contact_phone|default('') }}" placeholder="+31 6 12345678">
-          <small style="color: #666;">Phone number customers can use to contact you</small>
-        </div>
-
-        <div class="form-group">
-          <label style="display: flex; align-items: center; gap: 0.5rem;">
-            <input type="checkbox" id="contactVisible" name="contactVisible" {% if user.contact_visible %}checked{% endif %} style="width: auto;">
-            Make contact information visible to customers
-          </label>
-          <small style="color: #666;">Uncheck to hide your contact information from the public</small>
-        </div>
-
-        <div class="form-group">
-          <label style="display: flex; align-items: center; gap: 0.5rem;">
-            <input type="checkbox" id="messagesEnabled" name="messagesEnabled" {% if user.messages_enabled %}checked{% endif %} style="width: auto;">
-            Allow customers to send messages
-          </label>
-          <small style="color: #666;">Enable this to receive messages from potential customers</small>
-        </div>
-
-        <button type="submit" class="submit-btn">Save Changes</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Delete Product Confirmation Form -->
-  <form id="deleteProductForm" method="POST" style="display: none;"></form>
-
   <!-- Liked Forests Section -->
-  <div class="profile-card liked-forests-card">
+  <div class="liked-forests-card">
     <div class="card-header">
       <h2>Liked Forests</h2>
     </div>
     <div class="liked-forests-grid">
-    {% if liked_forests %}
-      {% for forest in liked_forests %}
-        <div class="forest-card">
-          <div class="forest-card-image">
-            <img src="{{ url_for('static', filename=forest.forest_image) if forest.forest_image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ forest.forest_name }}" />
-          </div>
-          <div class="forest-card-content">
-            <h3>{{ forest.forest_name }}</h3>
-            <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ forest.forest_location }}</p>
-            <div class="forest-card-actions">
-              <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="forest-card-button">Visit Forest</a>
-              <button class="unlike-forest-btn" data-forest-id="{{ forest.id }}">
-                <i class="fas fa-heart-broken"></i> Unlike
-              </button>
+      {% if liked_forests %}
+        {% for forest in liked_forests %}
+          <div class="forest-card">
+            <div class="forest-card-image">
+              <img src="{{ url_for('static', filename=forest.forest_image) if forest.forest_image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ forest.forest_name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'" />
+            </div>
+            <div class="forest-card-content">
+              <h3>{{ forest.forest_name }}</h3>
+              <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ forest.forest_location }}</p>
+              <div class="forest-card-actions">
+                <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="forest-card-button">Visit Forest</a>
+                <button class="unlike-forest-btn" data-forest-id="{{ forest.id }}" onclick="unlikeForest({{ forest.id }})">
+                  <i class="fas fa-heart-broken"></i> Unlike
+                </button>
+              </div>
             </div>
           </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-likes-message">
+          <p>You haven't liked any forests yet. Explore our <a href="{{ url_for('views.food_forests') }}">food forest directory</a> to discover amazing sustainable farms!</p>
         </div>
-      {% endfor %}
-    {% else %}
-      <div class="no-likes-message">
-        <p>You haven't liked any forests yet. Explore our <a href="{{ url_for('views.food_forests') }}">food forest directory</a> to discover amazing sustainable farms!</p>
-      </div>
-    {% endif %}
-  </div>
-</div>
-
-  <!-- Message Modal -->
-  <div id="messageModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Send Message</h2>
-      <form id="messageForm">
-        <div class="form-group">
-          <label for="messageSubject">Subject</label>
-          <input type="text" id="messageSubject" name="subject" placeholder="Enter message subject">
-        </div>
-        <div class="form-group">
-          <label for="messageContent">Message</label>
-          <textarea id="messageContent" name="content" rows="5" placeholder="Enter your message..." required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Send Message</button>
-      </form>
+      {% endif %}
     </div>
   </div>
 </div>
 
+<!-- Edit Forest Modal -->
+<div id="editForestModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Edit Forest Details</h2>
+    <form id="editForestForm" action="{{ url_for('views.update_forest') }}" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="forestName">Forest Name</label>
+        <input type="text" id="forestName" name="forestName" value="{{ user.forest_name|default('Food Forest Name') }}" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="forestLocation">Location</label>
+        <input type="text" id="forestLocation" name="forestLocation" value="{{ user.forest_location|default('Location') }}" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="forestImage">Forest Image</label>
+        <input type="file" id="forestImage" name="forestImage" accept="image/*">
+        {% if user.forest_image %}
+          <div class="current-image">
+            <p>Current image:</p>
+            <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Current Forest Image" style="max-width: 100px;" onerror="this.style.display='none'">
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="form-group">
+        <label for="soilType">Soil Type</label>
+        <select id="soilType" name="soilType">
+          <option value="Zandgrond" {% if carbon_data and carbon_data.soil_type == 'Zandgrond' %}selected{% endif %}>Zandgrond</option>
+          <option value="Kleigrond" {% if carbon_data and carbon_data.soil_type == 'Kleigrond' %}selected{% endif %}>Kleigrond</option>
+          <option value="Veengrond" {% if carbon_data and carbon_data.soil_type == 'Veengrond' %}selected{% endif %}>Veengrond</option>
+          <option value="Loess" {% if carbon_data and carbon_data.soil_type == 'Loess' %}selected{% endif %}>Loess</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="forestAge">Age of the plot (years)</label>
+        <input type="number" id="forestAge" name="forestAge" value="{{ carbon_data.age_years|default('4') }}" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="forestSize">Size (square meters)</label>
+        <input type="number" id="forestSize" name="forestSize" value="{{ carbon_data.size_m2|default('20000') }}" required>
+      </div>
+
+      <div class="form-group">
+        <label style="display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="contactVisible" name="contactVisible" {% if user.contact_visible %}checked{% endif %} style="width: auto;">
+          Make contact information visible to customers
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label style="display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="messagesEnabled" name="messagesEnabled" {% if user.messages_enabled %}checked{% endif %} style="width: auto;">
+          Allow customers to send messages
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+<!-- Add Product Modal -->
+<div id="addProductModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Add New Product</h2>
+    <form id="addProductForm" action="{{ url_for('views.add_product') }}" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="productName">Product Name</label>
+        <input type="text" id="productName" name="productName" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="productPrice">Price (€)</label>
+        <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="productImage">Product Image</label>
+        <input type="file" id="productImage" name="productImage" accept="image/*">
+      </div>
+      
+      <div class="form-group">
+        <label for="productDescription">Description</label>
+        <textarea id="productDescription" name="productDescription" rows="3"></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn">Add Product</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div id="editProductModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Edit Product</h2>
+    <form id="editProductForm" action="" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="editProductName">Product Name</label>
+        <input type="text" id="editProductName" name="productName" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="editProductPrice">Price (€)</label>
+        <input type="number" id="editProductPrice" name="productPrice" step="0.01" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="editProductImage">Product Image</label>
+        <input type="file" id="editProductImage" name="productImage" accept="image/*">
+        <div id="currentProductImage" class="current-image"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="editProductDescription">Description</label>
+        <textarea id="editProductDescription" name="productDescription" rows="3"></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Harvest Calendar Modal -->
+<div id="editCalendarModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Edit Harvest Calendar</h2>
+    <form id="editCalendarForm" action="{{ url_for('views.update_harvest_calendar') }}" method="POST">
+      <div class="form-group">
+        <label>Select Product</label>
+        <select id="calendarProduct" class="form-control">
+          {% if products %}
+            {% for product in products %}
+              <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+          {% endif %}
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Harvest Months</label>
+        <div class="month-checkboxes">
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-1" name="months" value="1">
+            <label for="month-1">Jan</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-2" name="months" value="2">
+            <label for="month-2">Feb</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-3" name="months" value="3">
+            <label for="month-3">Mar</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-4" name="months" value="4">
+            <label for="month-4">Apr</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-5" name="months" value="5">
+            <label for="month-5">May</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-6" name="months" value="6">
+            <label for="month-6">Jun</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-7" name="months" value="7">
+            <label for="month-7">Jul</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-8" name="months" value="8">
+            <label for="month-8">Aug</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-9" name="months" value="9">
+            <label for="month-9">Sep</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-10" name="months" value="10">
+            <label for="month-10">Oct</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-11" name="months" value="11">
+            <label for="month-11">Nov</label>
+          </div>
+          <div class="month-checkbox">
+            <input type="checkbox" id="month-12" name="months" value="12">
+            <label for="month-12">Dec</label>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="submit-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+<!-- Message Modal -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Send Message</h2>
+    <form id="messageForm">
+      <div class="form-group">
+        <label for="messageSubject">Subject</label>
+        <input type="text" id="messageSubject" name="subject" placeholder="Enter message subject">
+      </div>
+      <div class="form-group">
+        <label for="messageContent">Message</label>
+        <textarea id="messageContent" name="content" rows="5" placeholder="Enter your message..." required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+  </div>
+</div>
+
+<!-- Hidden form for deleting products -->
+<form id="deleteProductForm" method="POST" style="display: none;"></form>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add Product Modal
-    const addProductBtn = document.querySelector('.add-product-btn');
-    const addProductModal = document.getElementById('addProductModal');
-    const closeAddModal = addProductModal.querySelector('.close-modal');
-    
-    addProductBtn.addEventListener('click', function() {
-      addProductModal.style.display = 'block';
-    });
-    
-    closeAddModal.addEventListener('click', function() {
-      addProductModal.style.display = 'none';
-    });
-    
-    // Edit Forest Modal
-    const editForestBtn = document.querySelector('.edit-forest-btn');
-    const editForestModal = document.getElementById('editForestModal');
-    const closeEditForestModal = editForestModal.querySelector('.close-modal');
-    
+document.addEventListener('DOMContentLoaded', function() {
+  // Modal functionality
+  const editForestBtn = document.getElementById('editForestBtn');
+  const editForestModal = document.getElementById('editForestModal');
+  const addProductBtn = document.getElementById('addProductBtn');
+  const addProductModal = document.getElementById('addProductModal');
+  const editCalendarBtn = document.getElementById('editCalendarBtn');
+  const editCalendarModal = document.getElementById('editCalendarModal');
+  const messageForestBtn = document.getElementById('messageForestBtn');
+  const messageModal = document.getElementById('messageModal');
+  const closeModals = document.querySelectorAll('.close-modal');
+
+  if (editForestBtn) {
     editForestBtn.addEventListener('click', function() {
       editForestModal.style.display = 'block';
     });
-    
-    closeEditForestModal.addEventListener('click', function() {
-      editForestModal.style.display = 'none';
+  }
+
+  if (addProductBtn) {
+    addProductBtn.addEventListener('click', function() {
+      addProductModal.style.display = 'block';
     });
-    
-    // Edit Product Modal
-    const editProductModal = document.getElementById('editProductModal');
-    const closeEditProductModal = editProductModal.querySelector('.close-modal');
-    const editProductForm = document.getElementById('editProductForm');
-    const editProductBtns = document.querySelectorAll('.edit-product-btn');
-    
-    // Product data for edit modal
-    const productData = {
-      {% if products %}
-        {% for product in products %}
-          "{{ product.id }}": {
-            "name": "{{ product.name }}",
-            "price": {{ product.price }},
-            "description": "{{ product.description|default('') }}",
-            "image": "{{ product.image|default('') }}"
-          }{% if not loop.last %},{% endif %}
-        {% endfor %}
-      {% endif %}
-    };
-    
-    editProductBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const productId = this.getAttribute('data-product-id');
-        const product = productData[productId];
-        
-        // Set form action
-        editProductForm.action = `/edit-product/${productId}`;
-        
-        // Fill form fields
-        document.getElementById('editProductName').value = product.name;
-        document.getElementById('editProductPrice').value = product.price;
-        document.getElementById('editProductDescription').value = product.description;
-        
-        // Show current image if exists
-        const currentImageContainer = document.getElementById('currentProductImage');
-        currentImageContainer.innerHTML = '';
-        if (product.image) {
-          const currentImage = document.createElement('div');
-          currentImage.innerHTML = `
-            <p>Current image:</p>
-            <img src="/static/${product.image}" alt="${product.name}" style="max-width: 100px;">
-          `;
-          currentImageContainer.appendChild(currentImage);
-        }
-        
-        // Show modal
-        editProductModal.style.display = 'block';
-      });
+  }
+
+  if (editCalendarBtn) {
+    editCalendarBtn.addEventListener('click', function() {
+      editCalendarModal.style.display = 'block';
     });
-    
-    closeEditProductModal.addEventListener('click', function() {
-      editProductModal.style.display = 'none';
+  }
+
+  if (messageForestBtn) {
+    messageForestBtn.addEventListener('click', function() {
+      messageModal.style.display = 'block';
     });
-    
-    // Delete Product
-    const deleteProductBtns = document.querySelectorAll('.delete-product-btn');
-    const deleteProductForm = document.getElementById('deleteProductForm');
-    
-    deleteProductBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const productId = this.getAttribute('data-product-id');
-        
-        if (confirm('Are you sure you want to delete this product?')) {
-          // Set form action and submit
-          deleteProductForm.action = `/delete-product/${productId}`;
-          deleteProductForm.submit();
-        }
-      });
-    });
-    
-    // Edit Harvest Calendar Modal
-    const editCalendarBtn = document.querySelector('.edit-calendar-btn');
-    const editCalendarModal = document.getElementById('editCalendarModal');
-    const closeCalendarModal = editCalendarModal.querySelector('.close-modal');
-    
-    if (editCalendarBtn) {
-      editCalendarBtn.addEventListener('click', function() {
-        editCalendarModal.style.display = 'block';
-        
-        // Initialize checkboxes for the first product
-        if (document.getElementById('calendarProduct')) {
-          const event = new Event('change');
-          document.getElementById('calendarProduct').dispatchEvent(event);
-        }
-      });
-    }
-    
-    if (closeCalendarModal) {
-      closeCalendarModal.addEventListener('click', function() {
-        editCalendarModal.style.display = 'none';
-      });
-    }
-    
-    // Handle calendar form submission
-    const editCalendarForm = document.getElementById('editCalendarForm');
-    if (editCalendarForm) {
-      editCalendarForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get selected product and months
-        const productId = document.getElementById('calendarProduct').value;
-        const selectedMonths = Array.from(document.querySelectorAll('input[name="months"]:checked')).map(cb => cb.value);
-        
-        // Create a form to submit the data to the server
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/update-harvest-calendar';
-        
-        // Add product_id input
-        const productIdInput = document.createElement('input');
-        productIdInput.type = 'hidden';
-        productIdInput.name = 'product_id';
-        productIdInput.value = productId;
-        form.appendChild(productIdInput);
-        
-        // Add selected months inputs
-        selectedMonths.forEach(month => {
-          const monthInput = document.createElement('input');
-          monthInput.type = 'hidden';
-          monthInput.name = 'months';
-          monthInput.value = month;
-          form.appendChild(monthInput);
-        });
-        
-        // Append form to body and submit
-        document.body.appendChild(form);
-        form.submit();
-      });
-    }
-    
-    // When a product is selected in the calendar modal, update the checkboxes
-    const calendarProductSelect = document.getElementById('calendarProduct');
-    if (calendarProductSelect) {
-      // Product harvest periods data from server
-      const productHarvestPeriods = {
-        {% if product_harvest_periods %}
-          {% for product_id, months in product_harvest_periods.items() %}
-            "{{ product_id }}": {{ months|tojson }},
-          {% endfor %}
-        {% endif %}
-      };
+  }
 
-      calendarProductSelect.addEventListener('change', function() {
-        const productId = this.value;
-        
-        // Reset all checkboxes
-        document.querySelectorAll('input[name="months"]').forEach(cb => cb.checked = false);
-        
-        // Check boxes based on data from server
-        if (productId in productHarvestPeriods) {
-          const months = productHarvestPeriods[productId];
-          months.forEach(month => {
-            const checkbox = document.getElementById(`month-${month}`);
-            if (checkbox) {
-              checkbox.checked = true;
-            }
-          });
-        }
-      });
-    }
-    
-    // Close modals when clicking outside
-    window.addEventListener('click', function(event) {
-      if (event.target === addProductModal) {
-        addProductModal.style.display = 'none';
-      }
-      if (event.target === editForestModal) {
-        editForestModal.style.display = 'none';
-      }
-      if (event.target === editProductModal) {
-        editProductModal.style.display = 'none';
-      }
-      if (event.target === editCalendarModal) {
-        editCalendarModal.style.display = 'none';
-      }
-    });
-
-    // Like functionality
-    const likeForestBtn = document.getElementById('likeForestBtn');
-    if (likeForestBtn) {
-      likeForestBtn.addEventListener('click', function() {
-        const forestId = this.getAttribute('data-forest-id');
-        
-        fetch(`/api/forest/like/${forestId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            const icon = this.querySelector('i');
-            const countSpan = this.querySelector('.like-count');
-            
-            if (data.liked) {
-              icon.classList.remove('far');
-              icon.classList.add('fas');
-              icon.style.color = '#e74c3c';
-            } else {
-              icon.classList.remove('fas');
-              icon.classList.add('far');
-              icon.style.color = '';
-            }
-            
-            countSpan.textContent = data.likes_count;
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-      });
-      
-      // Load initial like status
-      fetch(`/api/forest/like-status/{{ user.id }}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            const icon = likeForestBtn.querySelector('i');
-            const countSpan = likeForestBtn.querySelector('.like-count');
-            
-            if (data.liked) {
-              icon.classList.remove('far');
-              icon.classList.add('fas');
-              icon.style.color = '#e74c3c';
-            }
-            
-            countSpan.textContent = data.likes_count;
-          }
-        })
-        .catch(error => {
-          console.error('Error loading like status:', error);
-        });
-    }
-
-    // Message functionality
-    const messageForestBtn = document.getElementById('messageForestBtn');
-    const messageModal = document.getElementById('messageModal');
-    const closeMessageModal = messageModal.querySelector('.close-modal');
-    const messageForm = document.getElementById('messageForm');
-
-    if (messageForestBtn) {
-      messageForestBtn.addEventListener('click', function() {
-        messageModal.style.display = 'block';
-      });
-    }
-
-    if (closeMessageModal) {
-      closeMessageModal.addEventListener('click', function() {
-        messageModal.style.display = 'none';
-      });
-    }
-
-    if (messageForm) {
-      messageForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const subject = document.getElementById('messageSubject').value;
-        const content = document.getElementById('messageContent').value;
-        
-        fetch(`/api/forest/message/{{ user.id }}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            subject: subject,
-            content: content
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert('Message sent successfully!');
-            messageModal.style.display = 'none';
-            messageForm.reset();
-          } else {
-            alert('Error: ' + data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Error sending message');
-        });
-      });
-    }
-
-    // Close message modal when clicking outside
-    window.addEventListener('click', function(event) {
-      if (event.target === messageModal) {
-        messageModal.style.display = 'none';
-      }
+  closeModals.forEach(closeBtn => {
+    closeBtn.addEventListener('click', function() {
+      this.closest('.modal').style.display = 'none';
     });
   });
 
-  function previewImage(input, previewId) {
-    const preview = document.getElementById(previewId);
-    preview.innerHTML = '';
-    
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      
-      reader.onload = function(e) {
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.style.maxWidth = '100px';
-        img.style.maxHeight = '100px';
-        img.style.marginTop = '10px';
-        preview.appendChild(img);
-      }
-      
-      reader.readAsDataURL(input.files[0]);
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
     }
-  }
+  });
 
-// Unlike functionality for liked forests
-const unlikeButtons = document.querySelectorAll('.unlike-forest-btn');
-unlikeButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    const forestId = this.getAttribute('data-forest-id');
+  // Like functionality
+  const likeForestBtn = document.getElementById('likeForestBtn');
+  if (likeForestBtn) {
+    const forestId = likeForestBtn.getAttribute('data-forest-id');
     
-    if (confirm('Are you sure you want to unlike this forest?')) {
-      fetch(`/api/forest/like/${forestId}`, {
+    // Load initial like status
+    fetch(`/like-status/${forestId}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const icon = likeForestBtn.querySelector('i');
+          const countSpan = likeForestBtn.querySelector('.like-count');
+          
+          if (data.liked) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            icon.style.color = '#e74c3c';
+          }
+          
+          countSpan.textContent = data.likes_count;
+        }
+      })
+      .catch(error => {
+        console.error('Error loading like status:', error);
+      });
+
+    likeForestBtn.addEventListener('click', function() {
+      fetch(`/like-forest/${forestId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -803,9 +504,211 @@ unlikeButtons.forEach(button => {
       })
       .then(response => response.json())
       .then(data => {
-        if (data.success && !data.liked) {
-          // Remove the forest card from the liked forests section
-          this.closest('.forest-card').remove();
+        if (data.success) {
+          const icon = this.querySelector('i');
+          const countSpan = this.querySelector('.like-count');
+          
+          if (data.liked) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            icon.style.color = '#e74c3c';
+          } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            icon.style.color = '';
+          }
+          
+          countSpan.textContent = data.likes_count;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+  }
+
+  // Message functionality
+  const messageForm = document.getElementById('messageForm');
+  if (messageForm) {
+    messageForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const subject = document.getElementById('messageSubject').value;
+      const content = document.getElementById('messageContent').value;
+      
+      fetch(`/send-message/{{ user.id }}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: subject,
+          content: content
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Message sent successfully!');
+          messageModal.style.display = 'none';
+          messageForm.reset();
+        } else {
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error sending message');
+      });
+    });
+  }
+
+  // Edit Harvest Calendar Functionality
+  const editCalendarForm = document.getElementById('editCalendarForm');
+  const calendarProductSelect = document.getElementById('calendarProduct');
+  
+  if (editCalendarForm && calendarProductSelect) {
+    // Product harvest periods data from server
+    const productHarvestPeriods = {
+      {% if product_harvest_periods %}
+        {% for product_id, months in product_harvest_periods.items() %}
+          "{{ product_id }}": {{ months|tojson }},
+        {% endfor %}
+      {% endif %}
+    };
+
+    // Load harvest periods when product selection changes
+    calendarProductSelect.addEventListener('change', function() {
+      const productId = this.value;
+      
+      // Reset all checkboxes
+      document.querySelectorAll('input[name="months"]').forEach(cb => cb.checked = false);
+      
+      // Check boxes based on data from server
+      if (productId in productHarvestPeriods) {
+        const months = productHarvestPeriods[productId];
+        months.forEach(month => {
+          const checkbox = document.getElementById(`month-${month}`);
+          if (checkbox) {
+            checkbox.checked = true;
+          }
+        });
+      }
+    });
+
+    // Initialize checkboxes for the first product
+    if (calendarProductSelect.value) {
+      calendarProductSelect.dispatchEvent(new Event('change'));
+    }
+
+    editCalendarForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const productId = calendarProductSelect.value;
+      const selectedMonths = Array.from(document.querySelectorAll('input[name="months"]:checked')).map(cb => cb.value);
+      
+      // Create form data
+      const formData = new FormData();
+      formData.append('product_id', productId);
+      selectedMonths.forEach(month => {
+        formData.append('months', month);
+      });
+      
+      fetch('/update-harvest-calendar', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Harvest calendar updated successfully!');
+          editCalendarModal.style.display = 'none';
+          location.reload(); // Reload to show updated calendar
+        } else {
+          alert('Error updating harvest calendar');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error updating harvest calendar');
+      });
+    });
+  }
+});
+
+// Edit Product Function
+function editProduct(productId) {
+  const editProductModal = document.getElementById('editProductModal');
+  const editProductForm = document.getElementById('editProductForm');
+  
+  // Product data from server
+  const productData = {
+    {% if products %}
+      {% for product in products %}
+        "{{ product.id }}": {
+          "name": "{{ product.name }}",
+          "price": {{ product.price }},
+          "description": "{{ product.description|default('')|replace('"', '\\"') }}",
+          "image": "{{ product.image|default('') }}"
+        }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    {% endif %}
+  };
+
+  const product = productData[productId];
+  if (!product) {
+    alert('Product not found');
+    return;
+  }
+  
+  // Set form action
+  editProductForm.action = `/edit-product/${productId}`;
+  
+  // Fill form fields
+  document.getElementById('editProductName').value = product.name;
+  document.getElementById('editProductPrice').value = product.price;
+  document.getElementById('editProductDescription').value = product.description;
+  
+  // Show current image if exists
+  const currentImageContainer = document.getElementById('currentProductImage');
+  currentImageContainer.innerHTML = '';
+  if (product.image) {
+    const currentImage = document.createElement('div');
+    currentImage.innerHTML = `
+      <p>Current image:</p>
+      <img src="/static/${product.image}" alt="${product.name}" style="max-width: 100px;" onerror="this.style.display='none'">
+    `;
+    currentImageContainer.appendChild(currentImage);
+  }
+  
+  // Show modal
+  editProductModal.style.display = 'block';
+}
+
+// Delete Product Function
+function deleteProduct(productId) {
+  if (confirm('Are you sure you want to delete this product?')) {
+    const deleteForm = document.getElementById('deleteProductForm');
+    deleteForm.action = `/delete-product/${productId}`;
+    deleteForm.submit();
+  }
+}
+
+// Unlike Forest Function
+function unlikeForest(forestId) {
+  if (confirm('Are you sure you want to unlike this forest?')) {
+    fetch(`/like-forest/${forestId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success && !data.liked) {
+        // Remove the forest card from the liked forests section
+        const forestCard = document.querySelector(`[data-forest-id="${forestId}"]`).closest('.forest-card');
+        if (forestCard) {
+          forestCard.remove();
           
           // Check if no more liked forests
           const remainingCards = document.querySelectorAll('.liked-forests-grid .forest-card');
@@ -817,13 +720,13 @@ unlikeButtons.forEach(button => {
             `;
           }
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-    }
-  });
-});
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+}
 </script>
 
 {% endblock %}

@@ -1,7 +1,4 @@
-"""
-Routes related to products.
-"""
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, current_app
 from flask_login import login_required, current_user
 import os
 from werkzeug.utils import secure_filename
@@ -11,11 +8,7 @@ from .. import db
 product_bp = Blueprint('product_bp', __name__)
 
 # Configuration for file uploads
-UPLOAD_FOLDER = os.path.join('website', 'static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-# Ensure upload directory exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def allowed_file(filename):
     """Check if the file extension is allowed."""
@@ -75,11 +68,12 @@ def add_product():
                     timestamp = str(int(time.time()))
                     filename = f"product_{current_user.id}_{timestamp}_{filename}"
                     
-                    # Ensure the upload directory exists
-                    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+                    # Use app config for upload folder
+                    upload_folder = current_app.config['UPLOAD_FOLDER']
+                    os.makedirs(upload_folder, exist_ok=True)
                     
                     # Full file path
-                    filepath = os.path.join(UPLOAD_FOLDER, filename)
+                    filepath = os.path.join(upload_folder, filename)
                     
                     # Save the file
                     file.save(filepath)
@@ -89,6 +83,7 @@ def add_product():
                     
                     print(f"Product image saved successfully: {filepath}")
                     print(f"Image will be accessible at: /static/uploads/{filename}")
+                    print(f"Database path: uploads/{filename}")
                     
                 except Exception as e:
                     print(f"Error uploading product image: {e}")
@@ -141,11 +136,12 @@ def edit_product(product_id):
                     timestamp = str(int(time.time()))
                     filename = f"product_{current_user.id}_{timestamp}_{filename}"
                     
-                    # Ensure the upload directory exists
-                    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+                    # Use app config for upload folder
+                    upload_folder = current_app.config['UPLOAD_FOLDER']
+                    os.makedirs(upload_folder, exist_ok=True)
                     
                     # Full file path
-                    filepath = os.path.join(UPLOAD_FOLDER, filename)
+                    filepath = os.path.join(upload_folder, filename)
                     
                     # Save the file
                     file.save(filepath)
@@ -155,6 +151,7 @@ def edit_product(product_id):
                     
                     print(f"Product image updated successfully: {filepath}")
                     print(f"Image will be accessible at: /static/uploads/{filename}")
+                    print(f"Database path: uploads/{filename}")
                     
                 except Exception as e:
                     print(f"Error uploading product image: {e}")
@@ -239,3 +236,9 @@ def update_harvest_calendar():
             return jsonify({'success': True})
         
         return redirect(url_for('profile_bp.profile'))
+
+@product_bp.route('/products')
+@login_required
+def products():
+    products = Product.query.filter_by(user_id=current_user.id).all()
+    return render_template("products.html", user=current_user, products=products)

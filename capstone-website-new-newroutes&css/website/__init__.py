@@ -12,6 +12,11 @@ def create_app():
     app = Flask(__name__, static_folder='static', template_folder='templates')
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    
+    # Configure file uploads
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'uploads')
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+    
     db.init_app(app)
 
     # Ensure CSS directory exists
@@ -47,7 +52,7 @@ def create_app():
     from .routes.forest_routes import register_like_routes
     register_like_routes(app)
 
-    from .models import User, Note, CarbonData, Product, HarvestPeriod
+    from .models import User, Note, CarbonData, Product, HarvestPeriod, MetricsHistory, ForestLike, Message
     
     with app.app_context():
         db.create_all()
