@@ -1,0 +1,69 @@
+def calculate_personal_carbon_credit_value(
+    forest_age: int,
+    years_since_conversion: int,
+    soil_type: str,
+    conversion_type: str = "cropland_to_forest",
+    co2_price_per_ton: float = 89.0
+):
+    """
+    Schatting van de waarde van koolstofopslag (t.o.v. conventionele landbouw) voor een voedselbos.
+
+    Input:
+    - forest_age: Leeftijd van het voedselbos (in jaren)
+    - years_since_conversion: Aantal jaren sinds landconversie
+    - soil_type: Bodemtype (bijv. 'loamy', 'marine_clay')
+    - conversion_type: 'cropland_to_forest' of 'grassland_to_forest'
+    - co2_price_per_ton: Prijs per ton CO2 op vrijwillige markt (standaard €89)
+
+    Output:
+    - Waarde in euro's van extra CO2-opslag t.o.v. conventionele landbouw (per ha)
+    """
+
+    age_to_carbon_co2 = {
+        "0-5": 6.24, "6-15": 45.88, "16-25": 135.06, "25+": 243.69
+    }
+
+    soil_conversion_C = {
+        "cropland_to_forest": {
+            "loamy": 1.5, "marine_clay": 2.9, "river_clay": 2.8,
+            "brick": 0.3, "earth": 1.4, "sandy_with_lime": -1.1,
+            "sandy_without_lime": -1.0, "old_clay": -1.1, "podzol": -0.8,
+            "not_determined": 0.3
+        },
+        "grassland_to_forest": {
+            "loamy": 1.2, "marine_clay": 1.3, "river_clay": 1.4,
+            "brick": 0.2, "earth": 0.6, "sandy_with_lime": -1.3,
+            "sandy_without_lime": -1.5, "old_clay": -1.0, "podzol": -1.2,
+            "not_determined": -0.9
+        }
+    }
+
+    C_TO_CO2 = 3.67
+    conventional_co2 = 23.35  # t CO2/ha
+
+    if forest_age <= 5:
+        age_group = "0-5"
+    elif forest_age <= 15:
+        age_group = "6-15"
+    elif forest_age <= 25:
+        age_group = "16-25"
+    else:
+        age_group = "25+"
+
+    aboveground_co2 = age_to_carbon_co2[age_group]
+    soil_c = soil_conversion_C[conversion_type][soil_type]
+    belowground_co2 = soil_c * years_since_conversion * C_TO_CO2
+    total_ff_co2 = aboveground_co2 + belowground_co2
+
+    extra_co2 = total_ff_co2 - conventional_co2
+    value_eur = extra_co2 * co2_price_per_ton
+
+    return round(value_eur, 2)
+
+value = calculate_personal_carbon_credit_value(
+    forest_age=15,
+    years_since_conversion=15,
+    soil_type="loamy",
+    conversion_type="cropland_to_forest"
+)
+print(f"Geschatte waarde CO2-opslag: €{value}")
