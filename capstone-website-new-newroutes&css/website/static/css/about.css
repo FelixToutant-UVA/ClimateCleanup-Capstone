@@ -1,0 +1,185 @@
+/* About Us Page Styles */
+
+.about-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 2rem 2rem; /* Added top padding for fixed navbar */
+}
+
+/* Main content layout */
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Left column styles */
+.about-left {
+  padding: 1rem 0;
+}
+
+.about-left h1 {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.about-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.about-left p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 2rem;
+}
+
+.about-left h2 {
+  font-size: 1.8rem;
+  color: #2e7d32;
+  margin: 2rem 0 1.5rem;
+  font-weight: 600;
+}
+
+/* Contact section - made smaller */
+.contact-section {
+  margin-top: 2rem;
+}
+
+.contact-section h3 {
+  font-size: 1.4rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Right column styles */
+.about-right {
+  position: relative;
+}
+
+.about-right img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+}
+
+/* Contact form styles - made more compact */
+.contact-form {
+  background: #f9f9f9;
+  padding: 1.5rem; /* Reduced from 2rem */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 500px; /* Added max-width to make it smaller */
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem; /* Reduced from 1.5rem */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem; /* Reduced from 0.5rem */
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem; /* Made slightly smaller */
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem; /* Reduced from 0.8rem */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem; /* Made slightly smaller */
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #2e7d32;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #aaa;
+}
+
+.submit-button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem; /* Made slightly smaller */
+  border-radius: 4px;
+  font-size: 0.9rem; /* Made slightly smaller */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+
+  .about-right {
+    order: -1;
+    margin-bottom: 2rem;
+  }
+
+  .about-right img {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .contact-form {
+    max-width: 100%; /* Full width on mobile */
+  }
+}
+
+@media (max-width: 600px) {
+  .about-page-wrapper {
+    padding: 100px 1rem 2rem; /* Adjusted for mobile navbar */
+  }
+
+  .about-left h1 {
+    font-size: 2rem;
+  }
+
+  .about-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form {
+    padding: 1.2rem; /* Further reduced on mobile */
+  }
+}

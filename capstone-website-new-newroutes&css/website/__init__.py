@@ -55,7 +55,7 @@ def create_app():
     from .models import User, Note, CarbonData, Product, HarvestPeriod, MetricsHistory, ForestLike, Message
     
     with app.app_context():
-        db.create_all()
+        create_database(app)
         update_database_schema(app)
 
     login_manager = LoginManager()
@@ -79,126 +79,129 @@ def update_database_schema(app):
     from sqlalchemy import inspect
     from .models import User, CarbonData, Product, HarvestPeriod
     
-    inspector = inspect(db.engine)
-    
-    # Check and update User table
-    if 'user' in inspector.get_table_names():
-        columns = [column['name'] for column in inspector.get_columns('user')]
+    try:
+        inspector = inspect(db.engine)
         
-        # Add missing columns to User table
-        with db.engine.connect() as conn:
-            if 'account_type' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN account_type VARCHAR(20) DEFAULT "business"'))
+        # Check and update User table
+        if 'user' in inspector.get_table_names():
+            columns = [column['name'] for column in inspector.get_columns('user')]
             
-            if 'business_name' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_name VARCHAR(150)'))
-            
-            if 'business_location' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_location VARCHAR(150)'))
-            
-            if 'business_about' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_about TEXT'))
-            
-            if 'forest_name' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_name VARCHAR(150)'))
-            
-            if 'forest_location' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_location VARCHAR(150)'))
-            
-            if 'forest_image' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_image VARCHAR(255)'))
-            
-            if 'contact_email' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_email VARCHAR(150)'))
-            
-            if 'contact_phone' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_phone VARCHAR(50)'))
-            
-            if 'contact_visible' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_visible BOOLEAN DEFAULT 1'))
-
-            # Add new location fields
-            if 'business_address' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_address VARCHAR(255)'))
-            if 'business_city' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_city VARCHAR(100)'))
-            if 'business_postal_code' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_postal_code VARCHAR(20)'))
-            if 'business_country' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_country VARCHAR(100)'))
-
-            if 'forest_address' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_address VARCHAR(255)'))
-            if 'forest_city' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_city VARCHAR(100)'))
-            if 'forest_postal_code' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_postal_code VARCHAR(20)'))
-            if 'forest_country' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_country VARCHAR(100)'))
-
-            # Add coordinate fields
-            if 'forest_latitude' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_latitude FLOAT'))
-            if 'forest_longitude' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_longitude FLOAT'))
-            if 'business_latitude' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_latitude FLOAT'))
-            if 'business_longitude' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN business_longitude FLOAT'))
-
-            if 'messages_enabled' not in columns:
-                conn.execute(db.text('ALTER TABLE user ADD COLUMN messages_enabled BOOLEAN DEFAULT 1'))
-            
-            conn.commit()
-    
-    # Create CarbonData table if it doesn't exist
-    if 'carbon_data' not in inspector.get_table_names():
-        CarbonData.__table__.create(db.engine)
-        print('Created CarbonData table!')
-    else:
-        # Check and update CarbonData table
-        columns = [column['name'] for column in inspector.get_columns('carbon_data')]
-        
-        with db.engine.connect() as conn:
-            if 'biodiversity_index' not in columns:
-                conn.execute(db.text('ALTER TABLE carbon_data ADD COLUMN biodiversity_index FLOAT DEFAULT 0.75'))
-            
-            if 'date_added' not in columns:
-                # Add column without default value (SQLite limitation)
-                conn.execute(db.text('ALTER TABLE carbon_data ADD COLUMN date_added TIMESTAMP'))
+            # Add missing columns to User table
+            with db.engine.connect() as conn:
+                if 'account_type' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN account_type VARCHAR(20) DEFAULT "business"'))
                 
-                # Update existing rows with current timestamp
-                current_time = datetime.datetime.now().isoformat()
-                conn.execute(db.text(f"UPDATE carbon_data SET date_added = '{current_time}'"))
+                if 'business_name' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_name VARCHAR(150)'))
+                
+                if 'business_location' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_location VARCHAR(150)'))
+                
+                if 'business_about' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_about TEXT'))
+                
+                if 'forest_name' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_name VARCHAR(150)'))
+                
+                if 'forest_location' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_location VARCHAR(150)'))
+                
+                if 'forest_image' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_image VARCHAR(255)'))
+                
+                if 'contact_email' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_email VARCHAR(150)'))
+                
+                if 'contact_phone' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_phone VARCHAR(50)'))
+                
+                if 'contact_visible' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN contact_visible BOOLEAN DEFAULT 1'))
+
+                # Add new location fields
+                if 'business_address' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_address VARCHAR(255)'))
+                if 'business_city' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_city VARCHAR(100)'))
+                if 'business_postal_code' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_postal_code VARCHAR(20)'))
+                if 'business_country' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_country VARCHAR(100)'))
+
+                if 'forest_address' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_address VARCHAR(255)'))
+                if 'forest_city' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_city VARCHAR(100)'))
+                if 'forest_postal_code' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_postal_code VARCHAR(20)'))
+                if 'forest_country' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_country VARCHAR(100)'))
+
+                # Add coordinate fields
+                if 'forest_latitude' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_latitude FLOAT'))
+                if 'forest_longitude' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN forest_longitude FLOAT'))
+                if 'business_latitude' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_latitude FLOAT'))
+                if 'business_longitude' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN business_longitude FLOAT'))
+
+                if 'messages_enabled' not in columns:
+                    conn.execute(db.text('ALTER TABLE user ADD COLUMN messages_enabled BOOLEAN DEFAULT 1'))
+                
+                conn.commit()
+        
+        # Create CarbonData table if it doesn't exist
+        if 'carbon_data' not in inspector.get_table_names():
+            CarbonData.__table__.create(db.engine)
+            print('Created CarbonData table!')
+        else:
+            # Check and update CarbonData table
+            columns = [column['name'] for column in inspector.get_columns('carbon_data')]
             
-            conn.commit()
-    
-    # Create Product table if it doesn't exist
-    if 'product' not in inspector.get_table_names():
-        Product.__table__.create(db.engine)
-        print('Created Product table!')
-    
-    # Create HarvestPeriod table if it doesn't exist
-    if 'harvest_period' not in inspector.get_table_names():
-        HarvestPeriod.__table__.create(db.engine)
-        print('Created HarvestPeriod table!')
-    
-    # Create MetricsHistory table if it doesn't exist
-    if 'metrics_history' not in inspector.get_table_names():
-        from .models import MetricsHistory
-        MetricsHistory.__table__.create(db.engine)
-        print('Created MetricsHistory table!')
+            with db.engine.connect() as conn:
+                if 'biodiversity_index' not in columns:
+                    conn.execute(db.text('ALTER TABLE carbon_data ADD COLUMN biodiversity_index FLOAT DEFAULT 0.75'))
+                
+                if 'date_added' not in columns:
+                    # Add column without default value (SQLite limitation)
+                    conn.execute(db.text('ALTER TABLE carbon_data ADD COLUMN date_added TIMESTAMP'))
+                    
+                    # Update existing rows with current timestamp
+                    current_time = datetime.datetime.now().isoformat()
+                    conn.execute(db.text(f"UPDATE carbon_data SET date_added = '{current_time}'"))
+                
+                conn.commit()
+        
+        # Create Product table if it doesn't exist
+        if 'product' not in inspector.get_table_names():
+            Product.__table__.create(db.engine)
+            print('Created Product table!')
+        
+        # Create HarvestPeriod table if it doesn't exist
+        if 'harvest_period' not in inspector.get_table_names():
+            HarvestPeriod.__table__.create(db.engine)
+            print('Created HarvestPeriod table!')
+        
+        # Create MetricsHistory table if it doesn't exist
+        if 'metrics_history' not in inspector.get_table_names():
+            from .models import MetricsHistory
+            MetricsHistory.__table__.create(db.engine)
+            print('Created MetricsHistory table!')
 
-    # Create ForestLike table if it doesn't exist
-    if 'forest_like' not in inspector.get_table_names():
-        from .models import ForestLike
-        ForestLike.__table__.create(db.engine)
-        print('Created ForestLike table!')
+        # Create ForestLike table if it doesn't exist
+        if 'forest_like' not in inspector.get_table_names():
+            from .models import ForestLike
+            ForestLike.__table__.create(db.engine)
+            print('Created ForestLike table!')
 
-    # Create Message table if it doesn't exist  
-    if 'message' not in inspector.get_table_names():
-        from .models import Message
-        Message.__table__.create(db.engine)
-        print('Created Message table!')
-    
-    print('Database schema updated!')
+        # Create Message table if it doesn't exist  
+        if 'message' not in inspector.get_table_names():
+            from .models import Message
+            Message.__table__.create(db.engine)
+            print('Created Message table!')
+        
+        print('Database schema updated!')
+    except Exception as e:
+        print(f"Error updating database schema: {e}")

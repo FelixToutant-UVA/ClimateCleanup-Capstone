@@ -1,440 +1,567 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Forests</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Food Forests</h1>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/food_forests">Food Forests</a>
-            <a href="/about">About</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <div class="food-forest-library">
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forest.css') }}">
+<style>
+/* Ensure critical styles are available inline */
+.food-forest-library {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
 
-        <!-- Hero Banner Section -->
-        <section class="forest-library-hero">
-          <div class="forest-hero-content">
-            <h1>Discover Food Forests</h1>
-            <p>Connect with sustainable ecosystems in your community and beyond</p>
-          </div>
-        </section>
+.forest-library-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{{ url_for('static', filename='images/hero_pears.jpg') }}");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 5rem 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
 
-        <!-- Search and Filter Section -->
-        <section class="search-filter-section">
-          <form id="searchFilterForm" method="GET" action="{{ url_for('views.food_forests') }}">
-            <div class="search-container">
-              <i class="fas fa-search search-icon"></i>
-              <input type="text" name="search" placeholder="Search by name, location, or plant type..." value="{{ search_query }}"/>
-              <button type="submit">Search</button>
-            </div>
-            
-            <div class="filter-options">
-              <div class="filter-group">
-                <label>Location</label>
-                <select name="location" onchange="this.form.submit()">
-                  <option value="">All Locations</option>
-                  <option value="urban" {% if location_filter == 'urban' %}selected{% endif %}>Urban</option>
-                  <option value="suburban" {% if location_filter == 'suburban' %}selected{% endif %}>Suburban</option>
-                  <option value="rural" {% if location_filter == 'rural' %}selected{% endif %}>Rural</option>
-                </select>
-              </div>
-              
-              <div class="filter-group">
-                <label>Forest Type</label>
-                <select name="forest_type" onchange="this.form.submit()">
-                  <option value="">All Types</option>
-                  <option value="community" {% if forest_type == 'community' %}selected{% endif %}>Community</option>
-                  <option value="private" {% if forest_type == 'private' %}selected{% endif %}>Private</option>
-                  <option value="educational" {% if forest_type == 'educational' %}selected{% endif %}>Educational</option>
-                </select>
-              </div>
-              
-              <div class="filter-group">
-                <label>Sort By</label>
-                <select name="sort_by" onchange="this.form.submit()">
-                  <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
-                  <option value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest</option>
-                  <option value="size" {% if sort_by == 'size' %}selected{% endif %}>Size (Largest)</option>
-                  <option value="biodiversity" {% if sort_by == 'biodiversity' %}selected{% endif %}>Biodiversity</option>
-                </select>
-              </div>
-            </div>
-          </form>
-        </section>
+.forest-hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-        <!-- Forest Categories Section -->
-        <section class="forest-categories">
-          <h2>Browse by Category</h2>
-          <div class="category-tabs">
-            <button class="category-tab active" data-category="all">All Forests</button>
-            <button class="category-tab" data-category="community">Community</button>
-            <button class="category-tab" data-category="educational">Educational</button>
-            <button class="category-tab" data-category="urban">Urban</button>
-            <button class="category-tab" data-category="rural">Rural</button>
-          </div>
-        </section>
+.forest-hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
 
-        <!-- Map View Toggle -->
-        <section class="view-toggle">
-          <button class="view-button active" id="gridViewBtn"><i class="fas fa-th-large"></i> Grid View</button>
-          <button class="view-button" id="mapViewBtn"><i class="fas fa-map-marked-alt"></i> Map View</button>
-        </section>
+.search-filter-section {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
 
-        <!-- Map Container (hidden by default) -->
-        <section class="map-container" id="mapContainer" style="display: none;">
-          <div id="forests-map"></div>
-        </section>
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
 
-        <!-- Forest Grid Section -->
-        <section class="forest-grid">
-          {% if forests %}
-            {% for forest in forests %}
-              <div class="forest-card" data-category="{{ forest.type|lower }}" data-forest-id="{{ forest.id }}">
-                <div class="forest-card-image">
-                  <img src="{{ url_for('static', filename=forest.image) if forest.image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ forest.name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'" />
-                  <div class="forest-card-badge">{{ forest.type }}</div>
-                </div>
-                <div class="forest-card-content">
-                  <h3>{{ forest.name }}</h3>
-                  <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ forest.location }}</p>
-                  <p class="forest-description">
-                    A sustainable food forest with a focus on biodiversity and community engagement.
-                  </p>
-                  <div class="forest-card-metrics">
-                    {% if forest.metrics.species %}
-                    <span><i class="fas fa-tree"></i> {{ forest.metrics.species }} Species</span>
-                    {% endif %}
-                    
-                    {% if forest.metrics.acres %}
-                    <span><i class="fas fa-leaf"></i> {{ forest.metrics.acres }} Acres</span>
-                    {% endif %}
-                  </div>
-                  <div class="forest-card-actions">
-                    <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="forest-card-button">Explore</a>
-                    <button class="forest-card-contact" data-forest-id="{{ forest.id }}" data-forest-name="{{ forest.name }}">
-                      <i class="fas fa-envelope"></i>
-                    </button>
-                    <button class="forest-card-favorite" data-forest-id="{{ forest.id }}"><i class="far fa-heart"></i></button>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          {% else %}
-            <div class="no-forests-message">
-              <p>No food forests found matching your criteria. Try adjusting your search or filters.</p>
-            </div>
-          {% endif %}
-        </section>
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
 
-        <!-- Pagination -->
-        <div class="pagination">
-          {% if pagination.pages > 1 %}
-            {% if pagination.has_prev %}
-              <a href="{{ url_for('views.food_forests', page=pagination.prev_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">&laquo;</a>
-            {% endif %}
-            
-            {% for page_num in pagination.iter_pages() %}
-              {% if page_num %}
-                {% if page_num != pagination.page %}
-                  <a href="{{ url_for('views.food_forests', page=page_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">{{ page_num }}</a>
-                {% else %}
-                  <span class="pagination-button active">{{ page_num }}</span>
-                {% endif %}
-              {% else %}
-                <span class="pagination-ellipsis">...</span>
-              {% endif %}
-            {% endfor %}
-            
-            {% if pagination.has_next %}
-              <a href="{{ url_for('views.food_forests', page=pagination.next_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">&raquo;</a>
-            {% endif %}
-          {% endif %}
+.forest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.forest-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.forest-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.forest-card-image {
+  position: relative;
+  height: 200px;
+}
+
+.forest-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.forest-card-content {
+  padding: 1.5rem;
+}
+
+.forest-card-button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.forest-card-button:hover {
+  background: #1b5e20;
+}
+
+/* Map Container */
+.map-container {
+  margin-bottom: 2rem;
+}
+
+#forests-map {
+  height: 500px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+.close-modal {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="food-forest-library">
+  <!-- Hero Banner Section -->
+  <section class="forest-library-hero">
+    <div class="forest-hero-content">
+      <h1>Discover Food Forests</h1>
+      <p>Connect with sustainable ecosystems in your community and beyond</p>
+    </div>
+  </section>
+
+  <!-- Search and Filter Section -->
+  <section class="search-filter-section">
+    <form id="searchFilterForm" method="GET" action="{{ url_for('views.food_forests') }}">
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" name="search" placeholder="Search by name, location, or plant type..." value="{{ search_query }}"/>
+        <button type="submit">Search</button>
+      </div>
+      
+      <div class="filter-options">
+        <div class="filter-group">
+          <label>Location</label>
+          <select name="location" onchange="this.form.submit()">
+            <option value="">All Locations</option>
+            <option value="urban" {% if location_filter == 'urban' %}selected{% endif %}>Urban</option>
+            <option value="suburban" {% if location_filter == 'suburban' %}selected{% endif %}>Suburban</option>
+            <option value="rural" {% if location_filter == 'rural' %}selected{% endif %}>Rural</option>
+          </select>
         </div>
-
-        <!-- Join the Network CTA -->
-        <section class="join-network">
-          <div class="join-network-content">
-            <div class="join-network-text">
-              <h2>Have a Food Forest?</h2>
-              <p>Join our network to connect with other forest keepers, share knowledge, and contribute to our growing database of sustainable food ecosystems.</p>
-            </div>
-            <div class="join-network-action">
-              <a href="{{ url_for('auth.sign_up') }}" class="cta-button primary">Add Your Forest</a>
-            </div>
-          </div>
-        </section>
+        
+        <div class="filter-group">
+          <label>Forest Type</label>
+          <select name="forest_type" onchange="this.form.submit()">
+            <option value="">All Types</option>
+            <option value="community" {% if forest_type == 'community' %}selected{% endif %}>Community</option>
+            <option value="private" {% if forest_type == 'private' %}selected{% endif %}>Private</option>
+            <option value="educational" {% if forest_type == 'educational' %}selected{% endif %}>Educational</option>
+          </select>
         </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Food Forest Explorer</p>
-    </footer>
-
-    <!-- Contact Modal for Forest Cards -->
-    <div id="forestContactModal" class="modal">
-      <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2 id="contactModalTitle">Contact Forest Owner</h2>
-        <div id="contactModalContent">
-          <p>Loading contact information...</p>
+        
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select name="sort_by" onchange="this.form.submit()">
+            <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
+            <option value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest</option>
+            <option value="size" {% if sort_by == 'size' %}selected{% endif %}>Size (Largest)</option>
+            <option value="biodiversity" {% if sort_by == 'biodiversity' %}selected{% endif %}>Biodiversity</option>
+          </select>
         </div>
       </div>
+    </form>
+  </section>
+
+  <!-- Forest Categories Section -->
+  <section class="forest-categories">
+    <h2>Browse by Category</h2>
+    <div class="category-tabs">
+      <button class="category-tab active" data-category="all">All Forests</button>
+      <button class="category-tab" data-category="community">Community</button>
+      <button class="category-tab" data-category="educational">Educational</button>
+      <button class="category-tab" data-category="urban">Urban</button>
+      <button class="category-tab" data-category="rural">Rural</button>
     </div>
+  </section>
 
-    <!-- JavaScript for interactive elements -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // View toggle functionality
-      const gridViewBtn = document.getElementById('gridViewBtn');
-      const mapViewBtn = document.getElementById('mapViewBtn');
-      const forestGrid = document.querySelector('.forest-grid');
-      const mapContainer = document.getElementById('mapContainer');
+  <!-- Map View Toggle -->
+  <section class="view-toggle">
+    <button class="view-button active" id="gridViewBtn"><i class="fas fa-th-large"></i> Grid View</button>
+    <button class="view-button" id="mapViewBtn"><i class="fas fa-map-marked-alt"></i> Map View</button>
+  </section>
 
-      gridViewBtn.addEventListener('click', function() {
-        forestGrid.style.display = 'grid';
-        mapContainer.style.display = 'none';
-        gridViewBtn.classList.add('active');
-        mapViewBtn.classList.remove('active');
-      });
+  <!-- Map Container (hidden by default) -->
+  <section class="map-container" id="mapContainer" style="display: none;">
+    <div id="forests-map"></div>
+  </section>
 
-      mapViewBtn.addEventListener('click', function() {
-        forestGrid.style.display = 'none';
-        mapContainer.style.display = 'block';
-        mapViewBtn.classList.add('active');
-        gridViewBtn.classList.remove('active');
+  <!-- Forest Grid Section -->
+  <section class="forest-grid">
+    {% if forests %}
+      {% for forest in forests %}
+        <div class="forest-card" data-category="{{ forest.type|lower }}" data-forest-id="{{ forest.id }}">
+          <div class="forest-card-image">
+            <img src="{{ url_for('static', filename=forest.image) if forest.image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ forest.name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'" />
+            <div class="forest-card-badge">{{ forest.type }}</div>
+          </div>
+          <div class="forest-card-content">
+            <h3>{{ forest.name }}</h3>
+            <p class="forest-location"><i class="fas fa-map-marker-alt"></i> {{ forest.location }}</p>
+            <p class="forest-description">
+              A sustainable food forest with a focus on biodiversity and community engagement.
+            </p>
+            <div class="forest-card-metrics">
+              {% if forest.metrics.species %}
+              <span><i class="fas fa-tree"></i> {{ forest.metrics.species }} Species</span>
+              {% endif %}
+              
+              {% if forest.metrics.acres %}
+              <span><i class="fas fa-leaf"></i> {{ forest.metrics.acres }} Acres</span>
+              {% endif %}
+            </div>
+            <div class="forest-card-actions">
+              <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="forest-card-button">Explore</a>
+              <button class="forest-card-contact" data-forest-id="{{ forest.id }}" data-forest-name="{{ forest.name }}">
+                <i class="fas fa-envelope"></i>
+              </button>
+              <button class="forest-card-favorite" data-forest-id="{{ forest.id }}"><i class="far fa-heart"></i></button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-forests-message">
+        <p>No food forests found matching your criteria. Try adjusting your search or filters.</p>
+      </div>
+    {% endif %}
+  </section>
 
-        // Initialize map if it hasn't been already
-        if (!window.forestsMapInitialized) {
-          // Check if Leaflet is available
-          if (typeof L !== 'undefined') {
-            // Center map on Amsterdam
-            const forestsMap = L.map('forests-map').setView([52.3676, 4.9041], 12);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '© OpenStreetMap contributors'
-            }).addTo(forestsMap);
+  <!-- Pagination -->
+  <div class="pagination">
+    {% if pagination.pages > 1 %}
+      {% if pagination.has_prev %}
+        <a href="{{ url_for('views.food_forests', page=pagination.prev_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">&laquo;</a>
+      {% endif %}
+      
+      {% for page_num in pagination.iter_pages() %}
+        {% if page_num %}
+          {% if page_num != pagination.page %}
+            <a href="{{ url_for('views.food_forests', page=page_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">{{ page_num }}</a>
+          {% else %}
+            <span class="pagination-button active">{{ page_num }}</span>
+          {% endif %}
+        {% else %}
+          <span class="pagination-ellipsis">...</span>
+        {% endif %}
+      {% endfor %}
+      
+      {% if pagination.has_next %}
+        <a href="{{ url_for('views.food_forests', page=pagination.next_num, search=search_query, location=location_filter, forest_type=forest_type, sort_by=sort_by) }}" class="pagination-button">&raquo;</a>
+      {% endif %}
+    {% endif %}
+  </div>
 
-            // Add markers for each forest using actual coordinates
-            const forestLocations = [
-              {% for forest in forests %}
-                {
-                  id: {{ forest.id }},
-                  name: "{{ forest.name }}",
-                  location: "{{ forest.location }}",
-                  lat: {{ forest.coordinates[0] }},
-                  lng: {{ forest.coordinates[1] }},
-                  url: "{{ url_for('views.forest_detail', forest_id=forest.id) }}"
-                }{% if not loop.last %},{% endif %}
-              {% endfor %}
-            ];
+  <!-- Join the Network CTA -->
+  <section class="join-network">
+    <div class="join-network-content">
+      <div class="join-network-text">
+        <h2>Have a Food Forest?</h2>
+        <p>Join our network to connect with other forest keepers, share knowledge, and contribute to our growing database of sustainable food ecosystems.</p>
+      </div>
+      <div class="join-network-action">
+        <a href="{{ url_for('auth.sign_up') }}" class="cta-button primary">Add Your Forest</a>
+      </div>
+    </div>
+  </section>
+</div>
 
-            forestLocations.forEach(function(forest) {
-              const marker = L.marker([forest.lat, forest.lng]).addTo(forestsMap);
-              marker.bindPopup(`
-                <div style="text-align: center; min-width: 200px;">
-                  <h3 style="margin: 0 0 8px 0; color: #2e7d32;">${forest.name}</h3>
-                  <p style="margin: 0 0 8px 0; color: #666;"><i class="fas fa-map-marker-alt"></i> ${forest.location}</p>
-                  <a href="${forest.url}" 
-                     style="display: inline-block; background: #2e7d32; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 14px;">
-                    View Details
-                  </a>
-                </div>
-              `);
-            });
+<!-- Contact Modal for Forest Cards -->
+<div id="forestContactModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2 id="contactModalTitle">Contact Forest Owner</h2>
+    <div id="contactModalContent">
+      <p>Loading contact information...</p>
+    </div>
+  </div>
+</div>
 
-            // Fit map to show all markers if there are any
-            if (forestLocations.length > 0) {
-              const group = new L.featureGroup(forestsMap._layers);
-              if (Object.keys(group._layers).length > 0) {
-                forestsMap.fitBounds(group.getBounds().pad(0.1));
-              }
-            }
+<!-- JavaScript for interactive elements -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // View toggle functionality
+  const gridViewBtn = document.getElementById('gridViewBtn');
+  const mapViewBtn = document.getElementById('mapViewBtn');
+  const forestGrid = document.querySelector('.forest-grid');
+  const mapContainer = document.getElementById('mapContainer');
 
-            window.forestsMapInitialized = true;
-          } else {
-            console.error('Leaflet library not loaded');
+  gridViewBtn.addEventListener('click', function() {
+    forestGrid.style.display = 'grid';
+    mapContainer.style.display = 'none';
+    gridViewBtn.classList.add('active');
+    mapViewBtn.classList.remove('active');
+  });
+
+  mapViewBtn.addEventListener('click', function() {
+    forestGrid.style.display = 'none';
+    mapContainer.style.display = 'block';
+    mapViewBtn.classList.add('active');
+    gridViewBtn.classList.remove('active');
+
+    // Initialize map if it hasn't been already
+    if (!window.forestsMapInitialized) {
+      // Check if Leaflet is available
+      if (typeof L !== 'undefined') {
+        // Center map on Amsterdam
+        const forestsMap = L.map('forests-map').setView([52.3676, 4.9041], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(forestsMap);
+
+        // Add markers for each forest using actual coordinates
+        const forestLocations = [
+          {% for forest in forests %}
+            {
+              id: {{ forest.id }},
+              name: "{{ forest.name }}",
+              location: "{{ forest.location }}",
+              lat: {{ forest.coordinates[0] }},
+              lng: {{ forest.coordinates[1] }},
+              url: "{{ url_for('views.forest_detail', forest_id=forest.id) }}"
+            }{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ];
+
+        forestLocations.forEach(function(forest) {
+          const marker = L.marker([forest.lat, forest.lng]).addTo(forestsMap);
+          marker.bindPopup(`
+            <div style="text-align: center; min-width: 200px;">
+              <h3 style="margin: 0 0 8px 0; color: #2e7d32;">${forest.name}</h3>
+              <p style="margin: 0 0 8px 0; color: #666;"><i class="fas fa-map-marker-alt"></i> ${forest.location}</p>
+              <a href="${forest.url}" 
+                 style="display: inline-block; background: #2e7d32; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 14px;">
+                View Details
+              </a>
+            </div>
+          `);
+        });
+
+        // Fit map to show all markers if there are any
+        if (forestLocations.length > 0) {
+          const group = new L.featureGroup(forestsMap._layers);
+          if (Object.keys(group._layers).length > 0) {
+            forestsMap.fitBounds(group.getBounds().pad(0.1));
           }
         }
-      });
-      
-      // Category tabs functionality
-      const categoryTabs = document.querySelectorAll('.category-tab');
-      const forestCards = document.querySelectorAll('.forest-card');
 
-      categoryTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-          // Update active tab
-          categoryTabs.forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
+        window.forestsMapInitialized = true;
+      } else {
+        console.error('Leaflet library not loaded');
+      }
+    }
+  });
+  
+  // Category tabs functionality
+  const categoryTabs = document.querySelectorAll('.category-tab');
+  const forestCards = document.querySelectorAll('.forest-card');
 
-          const category = this.dataset.category;
+  categoryTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      // Update active tab
+      categoryTabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
 
-          // Filter forest cards
-          forestCards.forEach(card => {
-            if (category === 'all' || card.dataset.category === category) {
-              card.style.display = 'block';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        });
-      });
-      
-      // Contact functionality for forest cards
-      const contactButtons = document.querySelectorAll('.forest-card-contact');
-      const forestContactModal = document.getElementById('forestContactModal');
-      const closeForestContactModal = forestContactModal.querySelector('.close-modal');
+      const category = this.dataset.category;
 
-      contactButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const forestId = this.getAttribute('data-forest-id');
-          const forestName = this.getAttribute('data-forest-name');
-          
-          document.getElementById('contactModalTitle').textContent = `Contact ${forestName}`;
-          document.getElementById('contactModalContent').innerHTML = '<p>Loading contact information...</p>'; // Reset content
-
-          forestContactModal.style.display = 'block';
-          
-          // Fetch contact information
-          fetch(`/api/forest/contact/${forestId}`)
-            .then(response => response.json())
-            .then(data => {
-              let contactHTML = '<div class="contact-info">';
-              
-              if (data.success) {
-                if (data.email) {
-                  contactHTML += `
-                    <div class="contact-item">
-                      <i class="fas fa-envelope"></i>
-                      <div>
-                        <strong>Email:</strong>
-                        <a href="mailto:${data.email}">${data.email}</a>
-                      </div>
-                    </div>
-                  `;
-                }
-                
-                if (data.phone) {
-                  contactHTML += `
-                    <div class="contact-item">
-                      <i class="fas fa-phone"></i>
-                      <div>
-                        <strong>Phone:</strong>
-                        <a href="tel:${data.phone}">${data.phone}</a>
-                      </div>
-                    </div>
-                  `;
-                }
-                
-                contactHTML += '</div><div class="contact-actions">';
-                
-                if (data.email) {
-                  contactHTML += `
-                    <a href="mailto:${data.email}?subject=Inquiry about ${forestName}" class="contact-action-btn primary">
-                      <i class="fas fa-envelope"></i> Send Email
-                    </a>
-                  `;
-                }
-                
-                if (data.phone) {
-                  contactHTML += `
-                    <a href="tel:${data.phone}" class="contact-action-btn secondary">
-                      <i class="fas fa-phone"></i> Call Now
-                    </a>
-                  `;
-                }
-                
-                contactHTML += '</div>';
-                
-                if (!data.email && !data.phone) {
-                  contactHTML = '<p>Contact information not available for this forest.</p>';
-                }
-              } else {
-                contactHTML = '<p>Contact information not available.</p>';
-              }
-              
-              document.getElementById('contactModalContent').innerHTML = contactHTML;
-            })
-            .catch(error => {
-              console.error('Error fetching contact info:', error);
-              document.getElementById('contactModalContent').innerHTML = '<p>Error loading contact information.</p>';
-            });
-        });
-      });
-
-      closeForestContactModal.addEventListener('click', function() {
-        forestContactModal.style.display = 'none';
-      });
-
-      // Close modal when clicking outside
-      window.addEventListener('click', function(event) {
-        if (event.target === forestContactModal) {
-          forestContactModal.style.display = 'none';
-        }
-      });
-
-      // Favorite button functionality - FIXED ENDPOINTS
-      const favoriteButtons = document.querySelectorAll('.forest-card-favorite');
-      favoriteButtons.forEach(button => {
-        const forestCard = button.closest('.forest-card');
-        const forestId = forestCard.getAttribute('data-forest-id') || forestCard.querySelector('[data-forest-id]')?.getAttribute('data-forest-id');
-        
-        if (forestId) {
-          // Load initial like status
-          fetch(`/like-status/${forestId}`)
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                const icon = button.querySelector('i');
-                if (data.liked) {
-                  icon.classList.remove('far');
-                  icon.classList.add('fas');
-                  icon.style.color = '#e74c3c';
-                }
-              }
-            })
-            .catch(error => {
-              console.error('Error loading like status:', error);
-            });
-
-          button.addEventListener('click', function() {
-            fetch(`/like-forest/${forestId}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              }
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                const icon = this.querySelector('i');
-                if (data.liked) {
-                  icon.classList.remove('far');
-                  icon.classList.add('fas');
-                  icon.style.color = '#e74c3c';
-                } else {
-                  icon.classList.remove('fas');
-                  icon.classList.add('far');
-                  icon.style.color = '';
-                }
-              } else {
-                console.error('Error toggling like:', data.message);
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-          });
+      // Filter forest cards
+      forestCards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
         }
       });
     });
-    </script>
-</body>
-</html>
+  });
+  
+  // Contact functionality for forest cards
+  const contactButtons = document.querySelectorAll('.forest-card-contact');
+  const forestContactModal = document.getElementById('forestContactModal');
+  const closeForestContactModal = forestContactModal.querySelector('.close-modal');
+
+  contactButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const forestId = this.getAttribute('data-forest-id');
+      const forestName = this.getAttribute('data-forest-name');
+      
+      document.getElementById('contactModalTitle').textContent = `Contact ${forestName}`;
+      document.getElementById('contactModalContent').innerHTML = '<p>Loading contact information...</p>'; // Reset content
+
+      forestContactModal.style.display = 'block';
+      
+      // Fetch contact information
+      fetch(`/api/forest/contact/${forestId}`)
+        .then(response => response.json())
+        .then(data => {
+          let contactHTML = '<div class="contact-info">';
+          
+          if (data.success) {
+            if (data.email) {
+              contactHTML += `
+                <div class="contact-item">
+                  <i class="fas fa-envelope"></i>
+                  <div>
+                    <strong>Email:</strong>
+                    <a href="mailto:${data.email}">${data.email}</a>
+                  </div>
+                </div>
+              `;
+            }
+            
+            if (data.phone) {
+              contactHTML += `
+                <div class="contact-item">
+                  <i class="fas fa-phone"></i>
+                  <div>
+                    <strong>Phone:</strong>
+                    <a href="tel:${data.phone}">${data.phone}</a>
+                  </div>
+                </div>
+              `;
+            }
+            
+            contactHTML += '</div><div class="contact-actions">';
+            
+            if (data.email) {
+              contactHTML += `
+                <a href="mailto:${data.email}?subject=Inquiry about ${forestName}" class="contact-action-btn primary">
+                  <i class="fas fa-envelope"></i> Send Email
+                </a>
+              `;
+            }
+            
+            if (data.phone) {
+              contactHTML += `
+                <a href="tel:${data.phone}" class="contact-action-btn secondary">
+                  <i class="fas fa-phone"></i> Call Now
+                </a>
+              `;
+            }
+            
+            contactHTML += '</div>';
+            
+            if (!data.email && !data.phone) {
+              contactHTML = '<p>Contact information not available for this forest.</p>';
+            }
+          } else {
+            contactHTML = '<p>Contact information not available.</p>';
+          }
+          
+          document.getElementById('contactModalContent').innerHTML = contactHTML;
+        })
+        .catch(error => {
+          console.error('Error fetching contact info:', error);
+          document.getElementById('contactModalContent').innerHTML = '<p>Error loading contact information.</p>';
+        });
+    });
+  });
+
+  closeForestContactModal.addEventListener('click', function() {
+    forestContactModal.style.display = 'none';
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === forestContactModal) {
+      forestContactModal.style.display = 'none';
+    }
+  });
+
+  // Favorite button functionality - FIXED ENDPOINTS
+  const favoriteButtons = document.querySelectorAll('.forest-card-favorite');
+  favoriteButtons.forEach(button => {
+    const forestCard = button.closest('.forest-card');
+    const forestId = forestCard.getAttribute('data-forest-id') || forestCard.querySelector('[data-forest-id]')?.getAttribute('data-forest-id');
+    
+    if (forestId) {
+      // Load initial like status
+      fetch(`/like-status/${forestId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const icon = button.querySelector('i');
+            if (data.liked) {
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              icon.style.color = '#e74c3c';
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error loading like status:', error);
+        });
+
+      button.addEventListener('click', function() {
+        fetch(`/like-forest/${forestId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const icon = this.querySelector('i');
+            if (data.liked) {
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              icon.style.color = '#e74c3c';
+            } else {
+              icon.classList.remove('fas');
+              icon.classList.add('far');
+              icon.style.color = '';
+            }
+          } else {
+            console.error('Error toggling like:', data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    }
+  });
+});
+</script>
+{% endblock %}

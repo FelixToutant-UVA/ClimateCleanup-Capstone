@@ -65,17 +65,17 @@ def food_forests():
     
     # Get carbon data and coordinates for each forest
     forest_data = []
-    for i, forest in enumerate(forests):
+    for forest in forests:
         carbon_data = CarbonData.query.filter_by(user_id=forest.id).first()
         
-        # Use simple fallback coordinates for Amsterdam area
-        base_lat = 52.3676
-        base_lng = 4.9041
-        # Add small random offset for each forest
-        coordinates = (
-            base_lat + (i * 0.01) + ((i % 3) * 0.005),
-            base_lng + (i * 0.01) + ((i % 2) * 0.008)
-        )
+        # Use actual coordinates from database if available
+        coordinates = None
+        if forest.forest_latitude and forest.forest_longitude:
+            coordinates = (forest.forest_latitude, forest.forest_longitude)
+        else:
+            # Fallback to Amsterdam area with offset
+            from ..utils.geocoding_utils import get_amsterdam_fallback_coordinates
+            coordinates = get_amsterdam_fallback_coordinates(len(forest_data))
         
         # Calculate metrics if carbon data exists
         metrics = {}
@@ -165,8 +165,7 @@ def forest_detail(forest_id):
         from ..utils.carbon_utils import calculate_water_savings
         water_savings = calculate_water_savings(carbon_data.size_m2, carbon_data.age_years, carbon_data.soil_type)
         if water_savings:
-            annual_savings_percentage = min(int((water_savings['annual_savings'] / (carbon_data.size_m2 * 0.5)) * 100), 70)
-            metrics['water'] = f"{annual_savings_percentage}% less water usage"
+            metrics['water'] = f"{water_savings['reduction_percentage']}% less water usage"
         else:
             metrics['water'] = "60% less water usage"
         
@@ -177,15 +176,40 @@ def forest_detail(forest_id):
             metrics['soil'] = "Regenerative"
         else:
             metrics['soil'] = "Building Health"
+            
+        # Calculate water storage for display
+        from ..utils.carbon_utils import calculate_water_storage
+        water_stored = calculate_water_storage(carbon_data.size_m2, carbon_data.soil_type, carbon_data.age_years)
+        metrics['water_stored'] = f"{water_stored:,.0f} m³"
+        
     else:
         # Default values when no carbon data is available
         metrics = {
             'biodiversity': '+45 species supported',
             'carbon': '12 tons CO₂/year',
             'water': '60% less water usage',
-            'soil': 'Regenerative'
+            'soil': 'Regenerative',
+            'water_stored': '3,671 m³'
         }
     
+    # Calculate carbon estimate using the utility function
+    carbon_estimate = None
+    if carbon_data:
+        carbon_estimate = calculate_carbon_sequestration(
+            carbon_data.size_m2,
+            carbon_data.age_years,
+            carbon_data.soil_type,
+            carbon_data.biodiversity_index
+        )
+
+    # If no carbon estimate calculated, provide defaults
+    if not carbon_estimate:
+        carbon_estimate = {
+            'min': 15,
+            'max': 30,
+            'unit': 'tons CO₂e'
+        }
+
     return render_template(
         "forest.html", 
         user=current_user,
@@ -193,7 +217,10 @@ def forest_detail(forest_id):
         carbon_data=carbon_data,
         products=products,
         product_harvest_periods=product_harvest_periods,
-        metrics=metrics
+        metrics=metrics,
+        biodiversity_index=carbon_data.biodiversity_index if carbon_data else 0.75,
+        water_stored=metrics.get('water_stored', '3,671'),
+        carbon_estimate=carbon_estimate
     )
 
 @forest_bp.route('/forest')
@@ -204,17 +231,26 @@ def forest():
     # Redirect to the first forest or show a default view
     forest = User.query.filter_by(account_type='food-forest').first()
     if forest:
-        return redirect(url_for('forest_bp.forest_detail', forest_id=forest.id))
+        return redirect(url_for('views.forest_detail', forest_id=forest.id))
     
-    # If no forests exist, show a default view
+    # If no forests exist, show a default view with some sample data
     return render_template(
         "forest.html", 
         user=current_user,
+        forest=None,
         forest_name='Harmony Food Forest',
-        forest_location='Amsterdam, Netherlands'
+        forest_location='Amsterdam, Netherlands',
+        products=[],
+        product_harvest_periods={},
+        metrics={
+            'biodiversity': '+45 species supported',
+            'carbon': '12 tons CO₂/year',
+            'water': '60% less water usage',
+            'soil': 'Regenerative'
+        }
     )
 
-@forest_bp.route('/contact/<int:forest_id>')
+@forest_bp.route('/api/forest/contact/<int:forest_id>')
 def get_contact_info(forest_id):
     """
     Get contact information for a specific forest.
@@ -302,8 +338,8 @@ def register_like_routes(app):
             return jsonify({'success': False, 'message': 'This forest owner is not accepting messages'})
         
         data = request.get_json()
-        subject = data.get('subject', '') if data else ''
-        content = data.get('content', '') if data else ''
+        subject = data.get('subject', '') if data else '';
+        content = data.get('content', '') if data else '';
         
         if not content:
             return jsonify({'success': False, 'message': 'Message content is required'})

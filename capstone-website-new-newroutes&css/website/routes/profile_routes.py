@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 from ..models import CarbonData, Product, HarvestPeriod, User
 from .. import db
 from ..utils.carbon_utils import calculate_carbon_sequestration
+from ..utils.geocoding_utils import update_forest_coordinates, update_business_coordinates
 
 profile_bp = Blueprint('profile_bp', __name__)
 
@@ -137,6 +138,11 @@ def update_forest():
       
       try:
           db.session.commit()
+          
+          # Update coordinates after successful save
+          if current_user.account_type == 'food-forest':
+              update_forest_coordinates(current_user, db.session)
+          
           flash('Forest details updated successfully!', category='success')
       except Exception as e:
           db.session.rollback()
@@ -188,6 +194,10 @@ def update_business_about():
       # Update the user's business_about field
       current_user.business_about = business_about
       db.session.commit()
+      
+      # Update coordinates if business location data exists
+      if current_user.account_type == 'business':
+          update_business_coordinates(current_user, db.session)
       
       flash('About section updated successfully!', category='success')
       return redirect(url_for('profile_bp.business_profile'))
