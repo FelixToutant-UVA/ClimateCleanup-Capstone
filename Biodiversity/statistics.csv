@@ -1,0 +1,52 @@
+Settings
+Year;2020
+Scenario;
+Region name;
+Geographic extent;3.36111111,50.72222222,7.22777778,53.50833333
+Region id;153
+Nr. of cells;1396176
+
+Summary statistics
+Area (km2);33865.168
+Mean MSA;0.33
+Mean MSA loss;0.67
+Natural land cover (%);35
+Natural forest cover (%);11
+Area with MSA >= 0.8 (%);0
+Protected area cover (%);21
+
+Charts
+
+Chart: Land cover and use
+Categorie;Value
+Settlement;10.574
+Agriculture;36.197
+Forest;9.854
+Grassland;31.945
+Wetland;1.71
+Shrub/sparse veg.;0.049
+Bare;0.133
+Water;9.537
+Snow and ice;0.0
+
+Chart: Land area per MSA class
+Categorie;Value
+<= 0.1;7.11
+<= 0.2;0.831
+<= 0.3;65.819
+<= 0.4;2.131
+<= 0.5;1.452
+<= 0.6;7.939
+<= 0.7;12.385
+<= 0.8;2.226
+<= 0.9;0.106
+<= 1.0;0.0
+
+Chart: Pressures contributing to MSA loss
+Categorie;Birds and mammals;Plants
+ClimateChange;-0.051;-0.085
+HumanEncroachment;0.0;0.0
+InfraDisturbance;-0.136;0.0
+InfraFragmentation;-0.068;0.0
+NDeposition;0.0;-0.046
+Landuse;-0.378;-0.578
