@@ -23,7 +23,7 @@ def calculate_carbon_sequestration_per_kg_food(
     """
 
     age_to_carbon_co2 = {
-        "0-5": 6.24, "6-15": 45.88, "16-25": 135.06, "25+": 243.69
+        "0-5": 6.24, "6-15": 45.88, "16-25": 135.06, "25+": 135.06
     }
 
     soil_conversion_C = {
