@@ -173,7 +173,7 @@ def business_profile():
           'id': forest.id,
           'name': forest.forest_name or f"Food Forest #{forest.id}",
           'location': forest.forest_location or "Location not specified",
-          'image': forest.forest_image or 'images/hero_pears.jpg'
+          'image': forest.forest_image or 'uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg'
       })
 
   return render_template('business_profile.html', user=current_user, nearby_forests=forest_data)

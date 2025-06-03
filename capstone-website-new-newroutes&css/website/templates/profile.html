@@ -9,9 +9,9 @@
       <div class="forest-details-content">
         <div class="forest-image">
           {% if user.forest_image %}
-            <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Forest Image" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'">
+            <img src="{{ url_for('static', filename=user.forest_image) }}" alt="Forest Image" onerror="this.src='{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}'">
           {% else %}
-            <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Forest Image">
+            <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Forest Image">
           {% endif %}
         </div>
         <div class="forest-info">
