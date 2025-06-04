@@ -1,231 +1,231 @@
 {% extends "base.html" %}
-{% block content %}
-<!-- Fullpage.js Container -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-<div id="fullpage">
-  <!-- SECTION 1: WELCOME -->
-  <div class="section" id="welcome-section" data-bg="#E8F5E9" data-text-color="#2E7D32">
-    <div class="welcome-content">
-      <h1>Explore Sustainable Food Forests, One Harvest at a Time</h1>
-      <div class="line"></div>
-      <p class="tagline">Connecting Communities Through Sustainable Food Forests</p>
-      <div class="cta-buttons">
-        <a href="{{ url_for('views.food_forests') }}" class="cta-button">Explore Forests</a>
-        <a href="{{ url_for('views.article') }}" class="cta-button secondary">Learn More</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 2: WHAT ARE FOOD FORESTS -->
-  <div class="section" id="food-forest-section" data-bg="#F1F8E9" data-text-color="#33691E">
-    <div class="content-container">
-      <h2>What Are Food Forests?</h2>
-      <div class="line"></div>
-      <div class="food-forest-content">
-        <div class="food-forest-text">
-          <p style="font-size: 18px;">
-            Food forests are sustainable, low-maintenance ecosystems that mimic natural forests but are filled with edible plants.
-            It consists of multiple layers all working together to create a resilient system.<br>
-            Food forests require minimal intervention once established, as they're designed to be self-sustaining, just like natural ecosystems.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 3: BENEFIT 1 - BIODIVERSITY -->
-  <div class="section benefit-section" id="biodiversity-section" data-bg="#DCEDC8" data-text-color="#33691E">
-    <div class="content-container">
-      <div class="benefit-content">
-        <div class="benefit-icon">
-          <i class="fas fa-leaf"></i>
-        </div>
-        <h2>Enhancing Biodiversity</h2>
-        <div class="line"></div>
-        <p>
-          Food forests create diverse habitats that support a wide range of plants, insects, birds, and other wildlife.
-          By mimicking natural ecosystems, they provide homes for beneficial organisms that help control pests and pollinate plants naturally.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 4: BENEFIT 2 - SOIL HEALTH -->
-  <div class="section benefit-section" id="soil-section" data-bg="#C8E6C9" data-text-color="#1B5E20">
-    <div class="content-container">
-      <div class="benefit-content">
-        <div class="benefit-icon">
-          <i class="fas fa-seedling"></i>
-        </div>
-        <h2>Improving Soil Health</h2>
-        <div class="line"></div>
-        <p>
-          The diverse plant species in food forests build soil health through natural processes.
-          Deep-rooted trees bring up nutrients from below, while nitrogen-fixing plants enrich the soil.
-          Fallen leaves create natural mulch that protects soil and feeds beneficial microorganisms.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 5: BENEFIT 3 - CARBON SEQUESTRATION -->
-  <div class="section benefit-section" id="carbon-section" data-bg="#B9F6CA" data-text-color="#00695C">
-    <div class="content-container">
-      <div class="benefit-content">
-        <div class="benefit-icon">
-          <i class="fas fa-cloud"></i>
-        </div>
-        <h2>Carbon Sequestration</h2>
-        <div class="line"></div>
-        <p>
-          Food forests are powerful carbon sinks. Trees and perennial plants capture carbon dioxide from the atmosphere and store it in their biomass and in the soil.
-          By establishing food forests, we're creating long-term carbon storage while producing nutritious food.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 6: BENEFIT 4 - WATER CONSERVATION -->
-  <div class="section benefit-section" id="water-section" data-bg="#A7FFEB" data-text-color="#004D40">
-    <div class="content-container">
-      <div class="benefit-content">
-        <div class="benefit-icon">
-          <i class="fas fa-tint"></i>
-        </div>
-        <h2>Water Conservation</h2>
-        <div class="line"></div>
-        <p>
-          The multi-layered structure of food forests helps capture and retain water. Deep tree roots improve soil structure, allowing better water infiltration and reducing runoff.
-          The canopy provides shade, reducing evaporation, while ground covers protect soil moisture.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 7: CALL TO ACTION -->
-  <div class="section" id="cta-section" data-bg="#E0F7FA" data-text-color="#006064">
-    <div class="content-container">
-      <h2>Join Our Community</h2>
-      <div class="line"></div>
-      <p>
-        Ready to be part of the sustainable food movement? Explore our network of food forests, connect with forest keepers, or start your own food forest journey today.
-      </p>
-      <div class="cta-buttons">
-        <a href="{{ url_for('views.food_forests') }}" class="cta-button">Explore Forests</a>
-        <a href="{{ url_for('auth.sign_up') }}" class="cta-button primary">Sign Up</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Fullpage.js & GSAP scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const fullpageInstance = new fullpage("#fullpage", {
-      scrollingSpeed: 1000,
-      autoScrolling: true,
-      navigation: true,
-      navigationPosition: 'right',
-      navigationTooltips: ['Welcome', 'Food Forests', 'Biodiversity', 'Soil Health', 'Carbon', 'Water', 'Join Us'],
-      showActiveTooltip: true,
-      css3: true,
-      easingcss3: 'cubic-bezier(0.645, 0.045, 0.355, 1.000)',
-      
-      // Snap effect between sections
-      scrollOverflow: true,
-      scrollOverflowOptions: {
-        scrollbars: false,
-      },
-      
-      // Animation on leave/enter
-      onLeave: function (origin, destination, direction) {
-        const leavingSection = origin.item;
-        const enteringSection = destination.item;
-        
-        // Animate out current section
-        gsap.to(leavingSection.querySelectorAll('h1, h2, p, .line, .benefit-icon, .cta-buttons, .food-forest-content'), {
-          opacity: 0,
-          y: direction === 'down' ? -50 : 50,
-          stagger: 0.05,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-        
-        // Animate in new section
-        gsap.fromTo(
-          enteringSection.querySelectorAll('h1, h2, p, .line, .benefit-icon, .cta-buttons, .food-forest-content'),
-          { opacity: 0, y: direction === 'down' ? 50 : -50 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.1,
-            duration: 0.7,
-            delay: 0.3,
-            ease: "power2.out",
-          }
-        );
-        
-        // Change background and text color
-        const newBgColor = enteringSection.getAttribute("data-bg");
-        const newTextColor = enteringSection.getAttribute("data-text-color");
-        gsap.to(enteringSection, {
-          backgroundColor: newBgColor,
-          color: newTextColor,
-          duration: 0.8,
-          ease: "power2.inOut",
-        });
-        
-        // Animate the line
-        const line = enteringSection.querySelector('.line');
-        if (line) {
-          gsap.fromTo(line,
-            { width: "0px" },
-            { width: "150px", duration: 1.2, delay: 0.5, ease: "power2.out" }
-          );
-        }
-        
-        // Animate benefit icons
-        const icon = enteringSection.querySelector('.benefit-icon');
-        if (icon) {
-          gsap.fromTo(icon,
-            { scale: 0.5, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.8, delay: 0.6, ease: "back.out(1.7)" }
-          );
-        }
-      },
-      
-      // Initialize animations for the first section
-      afterLoad: function(origin, destination) {
-        const section = destination.item;
-        const line = section.querySelector('.line');
-        if (line && destination.index === 0) {
-          gsap.fromTo(line,
-            { width: "0px" },
-            { width: "150px", duration: 1.2, delay: 0.5, ease: "power2.out" }
-          );
-        }
-      }
-    });
-    
-    // Initialize animations for the first section
-    const firstSection = document.querySelector('#welcome-section');
-    gsap.fromTo(
-      firstSection.querySelectorAll('h1, p, .line, .cta-buttons'),
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, delay: 0.3, ease: "power2.out" }
-    );
-  });
-</script>
+{% block head %}
+<style>
+  body.home-page main {
+    padding-top: 0;
+  }
+</style>
 {% endblock %}
 
-{% block footer %}
-<div class="custom-fixed-footer">
-  <p>Your custom fixed footer content for this page.</p>
-</div>
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-background">
+    <img src="{{ url_for('static', filename='uploads/slider-bos.jpg') }}" alt="Food Forest Background" />
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="container">
+      <h1>Explore Sustainable Food Forests, One Harvest at a Time</h1>
+      <div class="hero-actions">
+        <a href="{{ url_for('views.food_forests') }}" class="hero-btn primary">Explore Forests</a>
+        <a href="{{ url_for('views.article') }}" class="hero-btn secondary">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content Section -->
+<section class="main-content-section">
+  <div class="container">
+    <div class="content-grid">
+      <!-- Left Column -->
+      <div class="content-left">
+        <h2>As a group we aim to bring Food-Forests and Businesses together</h2>
+        <p class="content-subtitle">Subheading for description or instructions</p>
+        <p class="content-body">
+          Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look.
+        </p>
+        <p class="content-body">
+          Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely queen tempor eiusmod irure. Exclusive Izakaya charming Scandinavian impeccable aute quality of life soft power pariatur Melbourne occaecat discerning. Qui wardrobe aliqua, et Porter destination Toto remarkable officia Helsinki excepteur Basset hound. Zürich sleepy perfect consectetur.
+        </p>
+        <a href="{{ url_for('views.about_us') }}" class="learn-more-btn">Learn More</a>
+      </div>
+
+      <!-- Right Column -->
+      <div class="content-right">
+        <h3>What are Food-Forests?</h3>
+        <p class="content-body">
+          Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look.
+        </p>
+        <p class="content-body">
+          Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely queen tempor eiusmod irure. Exclusive Izakaya charming Scandinavian impeccable aute quality of life soft power pariatur Melbourne occaecat discerning.
+        </p>
+        
+        <!-- Food Forest Diagram -->
+        <div class="forest-diagram">
+          <div class="diagram-placeholder">
+            <img src="/placeholder.svg?height=200&width=300" alt="Food Forest Layers Diagram" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Carousel Section -->
+<section class="impact-carousel-section">
+  <div class="container">
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="impact-card active">
+          <div class="impact-image">
+            <img src="/placeholder.svg?height=300&width=400" alt="Social Impact" />
+          </div>
+          <div class="impact-content">
+            <h3>Social Impact</h3>
+            <p>Building stronger communities through sustainable food systems and shared knowledge.</p>
+          </div>
+        </div>
+        
+        <div class="impact-card">
+          <div class="impact-image">
+            <img src="/placeholder.svg?height=300&width=400" alt="Biodiversity" />
+          </div>
+          <div class="impact-content">
+            <h3>Biodiversity</h3>
+            <p>Supporting diverse ecosystems that provide habitat for wildlife and beneficial insects.</p>
+          </div>
+        </div>
+        
+        <div class="impact-card">
+          <div class="impact-image">
+            <img src="/placeholder.svg?height=300&width=400" alt="Nutrition" />
+          </div>
+          <div class="impact-content">
+            <h3>Nutrition</h3>
+            <p>Providing fresh, nutrient-rich foods grown in healthy, regenerative soil systems.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Carousel Navigation -->
+      <div class="carousel-nav">
+        <button class="nav-btn prev" onclick="moveCarousel(-1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="nav-btn next" onclick="moveCarousel(1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      
+      <!-- Carousel Indicators -->
+      <div class="carousel-indicators">
+        <button class="indicator active" onclick="goToSlide(0)"></button>
+        <button class="indicator" onclick="goToSlide(1)"></button>
+        <button class="indicator" onclick="goToSlide(2)"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Forest Examples Section -->
+<section class="forest-examples-section">
+  <div class="container">
+    <h2>A few examples of food-forests that already signed-up</h2>
+    <div class="examples-grid">
+      {% if forests %}
+        {% for forest in forests[:3] %}
+          <div class="example-card">
+            <div class="example-image">
+              <img src="{{ url_for('static', filename=forest.forest_image) if forest.forest_image else '/placeholder.svg?height=200&width=300' }}" alt="{{ forest.forest_name }}" />
+            </div>
+            <div class="example-content">
+              <span class="example-tag">{{ forest.forest_location.split(',')[0] if forest.forest_location else 'Location' }}</span>
+              <h4>{{ forest.forest_name or 'Forest Name' }}</h4>
+              <p>{{ forest.forest_location or 'A sustainable food forest with a focus on biodiversity and community.' }}</p>
+              <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="explore-btn">Explore</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <!-- Default examples when no forests exist -->
+        <div class="example-card">
+          <div class="example-image">
+            <img src="/placeholder.svg?height=200&width=300" alt="Chang's Forest" />
+          </div>
+          <div class="example-content">
+            <span class="example-tag">Chang's</span>
+            <h4>Chang's</h4>
+            <p>A sustainable food forest with a focus on biodiversity and community.</p>
+            <a href="{{ url_for('views.food_forests') }}" class="explore-btn">Explore</a>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-image">
+            <img src="/placeholder.svg?height=200&width=300" alt="Green Valley Forest" />
+          </div>
+          <div class="example-content">
+            <span class="example-tag">Green Valley</span>
+            <h4>Green Valley</h4>
+            <p>A sustainable food forest with a focus on biodiversity and community.</p>
+            <a href="{{ url_for('views.food_forests') }}" class="explore-btn">Explore</a>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-image">
+            <img src="/placeholder.svg?height=200&width=300" alt="Harmony Forest" />
+          </div>
+          <div class="example-content">
+            <span class="example-tag">Harmony</span>
+            <h4>Harmony</h4>
+            <p>A sustainable food forest with a focus on biodiversity and community.</p>
+            <a href="{{ url_for('views.food_forests') }}" class="explore-btn">Explore</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Ready to improve our environment and the food we eat?</h2>
+      <p>Whether you are a restaurant/food-forest, you can join our platform through filling out this form and creating a profile.</p>
+      <a href="{{ url_for('auth.sign_up') }}" class="cta-signup-btn">Sign up</a>
+    </div>
+  </div>
+</section>
+
+<script>
+// Carousel functionality
+let currentSlide = 0;
+const slides = document.querySelectorAll('.impact-card');
+const indicators = document.querySelectorAll('.indicator');
+
+function updateCarousel() {
+  slides.forEach((slide, index) => {
+    slide.classList.toggle('active', index === currentSlide);
+  });
+  
+  indicators.forEach((indicator, index) => {
+    indicator.classList.toggle('active', index === currentSlide);
+  });
+}
+
+function moveCarousel(direction) {
+  currentSlide += direction;
+  if (currentSlide >= slides.length) currentSlide = 0;
+  if (currentSlide < 0) currentSlide = slides.length - 1;
+  updateCarousel();
+}
+
+function goToSlide(index) {
+  currentSlide = index;
+  updateCarousel();
+}
+
+// Auto-advance carousel
+setInterval(() => {
+  moveCarousel(1);
+}, 5000);
+</script>
+
 {% endblock %}

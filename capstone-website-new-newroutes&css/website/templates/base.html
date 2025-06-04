@@ -27,9 +27,9 @@
     />
     {% block head %}{% endblock %}
   </head>
-  <body>
+  <body class="{% block body_class %}{% endblock %}">
     <!-- Sticky Navbar -->
-    <header>
+    <header id="site-header" class="transparent-header">
       <nav class="navbar">
         <div class="nav-left">
           <a href="{{ url_for('views.home') }}" class="brand">
@@ -93,6 +93,46 @@
             attribution: "© OpenStreetMap contributors",
           }).addTo(myMap);
           // Example: L.marker([52.0907, 5.1214]).addTo(myMap).bindPopup('Example Marker');
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Only run the transparent header effect on the home page
+        if (document.body.classList.contains('home-page')) {
+          const header = document.getElementById('site-header');
+          
+          function updateHeaderBackground() {
+            const scrollY = window.scrollY;
+            const triggerPoint = 100; // Start transition at 100px
+            
+            if (scrollY > triggerPoint) {
+              header.classList.add('scrolled');
+            } else {
+              header.classList.remove('scrolled');
+            }
+            
+            // Add gradual opacity change for even smoother transition
+            if (scrollY <= triggerPoint) {
+              const opacity = Math.min(scrollY / triggerPoint, 1);
+              header.style.setProperty('--header-opacity', opacity);
+            }
+          }
+          
+          // Initial check
+          updateHeaderBackground();
+          
+          // Add scroll event listener with throttling for better performance
+          let ticking = false;
+          window.addEventListener('scroll', function() {
+            if (!ticking) {
+              requestAnimationFrame(function() {
+                updateHeaderBackground();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          });
         }
       });
     </script>
