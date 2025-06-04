@@ -1,24 +1,30 @@
 {% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
 {% block content %}
 
 <div class="about-page-wrapper">
 
   <!-- Main 2-column layout -->
   <div class="about-content">
-    <!-- Left Column: heading, subheading, body text, and form -->
+    <!-- Left Column: heading, subheading, body text -->
     <div class="about-left">
       <h1>About Us</h1>
       <h2 class="about-subtitle">Subheading for description or instructions</h2>
       
       <!-- Write about who we are and our partnership with Climate Cleanup -->
       <p>
-        Body text for your whole article or post. We’ll put in some lorem ipsum to show how a filled-out page might look:
+        Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look:
         <br><br>
         Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect 
         nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely 
         queen tempor eiusmod irure...
       </p>
+    </div>
 
+    <!-- Right Column: Contact form -->
+    <div class="about-right">
       <h2>Get in touch</h2>
       <form class="contact-form">
         <div class="input-row">
@@ -44,12 +50,6 @@
 
         <button type="submit" class="submit-button">Submit</button>
       </form>
-    </div>
-
-    <!-- Right Column: main portrait or image -->
-    <div class="about-right">
-      <!-- Replace with real image URL or file -->
-      <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Person portrait">
     </div>
   </div>
 </div>

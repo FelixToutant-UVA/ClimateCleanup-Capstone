@@ -1,28 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="article-container">
+<div class="article-container article-page">
   <article class="comparison-article">
-    <!-- Header Section -->
-    <header class="article-header">
-      <h1>Explore Sustainable Food Forests, One Harvest at a Time</h1>
-    </header>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-label">Prototype</div>
+          <h1 class="hero-title">Discover the Real Value of Food with Compear</h1>
+        </div>
+        <div class="hero-right">
+          <div class="hero-image">
+            <img src="{{ url_for('static', filename='uploads/ketelbroek-website-achtergrond.jpg') }}" alt="Food Forest Garden" />
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <!-- What are Food Forests Section -->
-    <section class="food-forest-info">
-      <div class="info-grid">
-        <div class="info-column">
-          <h3>What are Food Forests?</h3>
-          <p>Food forests are sustainable, multi-layered ecosystems designed to mimic natural forests while producing food. They create resilient systems that support biodiversity and provide nutritious harvests.</p>
-        </div>
-        <div class="info-column">
-          <h3>What are Food Forests?</h3>
-          <p>Food forests integrate edible plants, trees, shrubs, and herbs in a self-sustaining ecosystem. They require minimal maintenance while maximizing yields and environmental benefits.</p>
-        </div>
-        <div class="info-column">
-          <h3>What are Food Forests?</h3>
-          <p>Unlike traditional agriculture, food forests build soil health, sequester carbon, conserve water, and create habitat for beneficial wildlife while producing diverse, nutrient-rich foods.</p>
-        </div>
+    <!-- Tool Description Section -->
+    <section class="tool-description">
+      <div class="container">
+        <h2>The Compear Tool</h2>
+        <p class="description-text">
+          Our True Value Comparison Tool is an interactive visualisation that reveals the hidden costs and benefits behind the food we eat. By comparing food forest products with those from conventional agriculture, this tool helps you understand the real impact of your choices, beyond just the price tag. Conventional farming often comes with unseen ecological costs, like carbon emissions, water pollution, and biodiversity loss. These costs aren't reflected at the checkout but are paid by the planet and eventually, by all of us. In contrast, food forest products are grown in harmony with nature, reducing harm and even generating ecological value. This tool breaks down those factors and shows how investing in sustainably grown food in food forests can ultimately cost less, for you and for the planet.
+        </p>
+        <p class="explore-text">
+          Explore the comparison below to see how much true value food forests provide.
+        </p>
       </div>
     </section>
 
@@ -42,7 +47,7 @@
       <div class="comparison-images">
         <div class="comparison-side">
           <div class="comparison-image">
-            <img src="{{ url_for('static', filename='uploads/oogst-overvloed-voedselbos-ketelbroek.jpg') }}" alt="Food forest produce" />
+            <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Food forest produce" />
           </div>
           <h3>Food-Forest</h3>
         </div>
@@ -51,7 +56,7 @@
         
         <div class="comparison-side">
           <div class="comparison-image">
-            <img src="{{ url_for('static', filename='uploads/Agriculture-Durable-au-Maroc-1-e1736867978226.jpg') }}" alt="Conventional agriculture" />
+            <img src="/placeholder.svg?height=200&width=300" alt="Conventional agriculture" />
           </div>
           <h3>Agriculture</h3>
         </div>
@@ -126,7 +131,7 @@
           <p>Conventional agriculture often prioritizes yield and appearance over nutritional content. Food forests produce foods with higher levels of antioxidants, vitamins, and minerals due to healthier growing conditions.</p>
         </div>
         <div class="detail-image">
-          <img src="{{ url_for('static', filename='uploads/Nutrition-Wave-Article-Marty-Gallagher.jpg') }}" alt="Nutrition illustration" />
+          <img src="{{ url_for('static', filename='uploads/A-Z-Guide-of-Nutrition-Essentials_truworth-wellness.jpg') }}" alt="Nutrition illustration" />
         </div>
       </div>
     </section>
@@ -135,7 +140,7 @@
       <h2>Biodiversity</h2>
       <div class="detail-content">
         <div class="detail-image">
-          <img src="{{ url_for('static', filename='uploads/02mag-insects-image1-videoSixteenByNineJumbo1600-v4.jpg') }}" alt="Biodiversity illustration" />
+          <img src="{{ url_for('static', filename='uploads/peacock-butterfly-1655724_1920.jpg') }}" alt="Biodiversity illustration" />
         </div>
         <div class="detail-text">
           <p>Food forests support significantly more species than conventional agriculture. Their diverse structure provides habitat for beneficial insects, birds, and other wildlife.</p>
@@ -169,56 +174,114 @@
 <style>
   /* Reset and base styles */
   .article-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0;
     font-family: Arial, sans-serif;
   }
 
-  .article-header {
-    text-align: center;
-    margin-bottom: 3rem;
+  /* Hero Section */
+  .hero-section {
+    background: #f8f9fa;
+    padding: 0;
+    margin-top: 0;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
   }
 
-  .article-header h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 1rem;
+  .hero-content {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+    height: 100%;
+    width: 100%;
   }
 
-  /* Food Forest Info Section */
-  .food-forest-info {
-    margin-bottom: 4rem;
+  .hero-left {
+    flex: 1;
+    padding: 4rem;
+    background: #f8f9fa;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-
-  .info-column {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
-
-  .info-column h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: #333;
-  }
-
-  .info-column p {
+  .hero-label {
+    font-size: 1rem;
     color: #666;
-    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-weight: 500;
   }
 
-  /* Slider Section - Exact match to screenshot */
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .hero-right {
+    flex: 1;
+    position: relative;
+    height: 100%;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Tool Description Section */
+  .tool-description {
+    padding: 4rem 0;
+    background: white;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .tool-description h2 {
+    font-size: 2.5rem;
+    color: #ccc;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .description-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .explore-text {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0;
+  }
+
+  /* Slider Section */
   .comparison-slider-section {
     text-align: center;
     margin-bottom: 3rem;
+    padding: 0 2rem;
   }
 
   .comparison-slider-section h2 {
@@ -276,11 +339,15 @@
     font-weight: 500;
   }
 
-  /* Comparison Section - Exact match to screenshot */
+  /* Comparison Section */
   .comparison-section-new {
     background: #E8E8E8;
     padding: 2rem;
     border-radius: 12px;
+    margin: 0 2rem 4rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 4rem;
   }
 
@@ -324,7 +391,7 @@
     padding: 0 2rem;
   }
 
-  /* Metrics Section - Exact match to screenshot */
+  /* Metrics Section */
   .metrics-section {
     max-width: 500px;
     margin: 0 auto;
@@ -380,6 +447,7 @@
   .detail-section {
     margin-bottom: 5rem;
     scroll-margin-top: 100px;
+    padding: 0 2rem;
   }
 
   .detail-section h2 {
@@ -393,6 +461,8 @@
     display: flex;
     gap: 3rem;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .detail-text {
@@ -408,11 +478,13 @@
   .detail-image {
     flex: 1;
     max-width: 500px;
+    min-width: 400px;
   }
 
   .detail-image img {
     width: 100%;
-    height: auto;
+    height: 300px;
+    object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
@@ -423,6 +495,10 @@
     background: #f9f9f9;
     padding: 3rem 2rem;
     border-radius: 12px;
+    margin: 0 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .article-cta h2 {
@@ -472,8 +548,23 @@
 
   /* Responsive Adjustments */
   @media (max-width: 992px) {
-    .info-grid {
-      grid-template-columns: 1fr;
+    .hero-content {
+      flex-direction: column;
+      height: auto;
+    }
+
+    .hero-left {
+      height: auto;
+      padding: 3rem 2rem;
+    }
+
+    .hero-right {
+      height: 50vh;
+      min-height: 300px;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
     }
 
     .detail-content {
@@ -487,6 +578,14 @@
   }
 
   @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-left {
+      padding: 2rem 1rem;
+    }
+
     .comparison-images {
       flex-direction: column;
       gap: 1rem;
@@ -509,7 +608,7 @@
   }
 </style>
 
-<!-- JavaScript for the slider functionality -->
+<!-- JavaScript for the slider functionality and navbar scroll -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   /* ---------- CONSTANTS ---------- */
@@ -535,6 +634,20 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ---------- SLIDER HOOK ---------- */
   const slider = document.getElementById('amountSlider');
   slider.addEventListener('input', () => updateValues(parseInt(slider.value, 10)));
+
+  /* ---------- NAVBAR SCROLL EFFECT ---------- */
+  const navbar = document.querySelector('.navbar');
+  const transparentHeader = document.querySelector('.transparent-header');
+  
+  if (transparentHeader && navbar) {
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 50) {
+        transparentHeader.classList.add('scrolled');
+      } else {
+        transparentHeader.classList.remove('scrolled');
+      }
+    });
+  }
 
   /* ---------- SMOOTH SCROLLING FOR ANCHOR LINKS ---------- */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
