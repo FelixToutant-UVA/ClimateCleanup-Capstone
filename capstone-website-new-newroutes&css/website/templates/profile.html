@@ -19,14 +19,6 @@
           <p class="forest-location">{{ user.forest_location|default('Location') }}</p>
           <div class="forest-actions">
             <button class="edit-forest-btn" id="editForestBtn"><i class="fas fa-edit"></i> Edit Details</button>
-            <button class="like-forest-btn" id="likeForestBtn" data-forest-id="{{ user.id }}">
-              <i class="far fa-heart"></i> <span class="like-count">0</span>
-            </button>
-            {% if user.messages_enabled %}
-            <button class="message-forest-btn" id="messageForestBtn">
-              <i class="fas fa-comment"></i> Message
-            </button>
-            {% endif %}
           </div>
         </div>
       </div>
