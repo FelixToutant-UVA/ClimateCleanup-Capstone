@@ -37,7 +37,7 @@
       <p class="slider-instruction">Use the slider below to show how many KG of apples you would like to compare</p>
       
       <div class="slider-container">
-        <input type="range" min="1" max="1000" value="1" step="10" class="slider" id="amountSlider">
+        <input type="range" min="1" max="1000" value="1" step="1" class="slider" id="amountSlider">
         <div class="slider-value"><span id="current-amount">20000</span>KG</div>
       </div>
     </section>
@@ -68,30 +68,30 @@
     <div class="unified-metrics-rectangle">
       <!-- Carbon Row -->
       <div class="metric-row" data-section="carbon-section">
-        <div class="metric-value left" id="carbon-forest">+€0.00</div>
+        <div class="metric-value left" id="carbon-forest">+0.00 / KG</div>
         <div class="metric-label">
           <span>Carbon</span>
         </div>
-        <div class="metric-value right" id="carbon-agriculture">+€2.67</div>
+        <div class="metric-value right" id="carbon-agriculture">+2.67 / KG</div>
       </div>
 
       <!-- Water Row -->
       <div class="metric-row" data-section="water-section">
-        <div class="metric-value left" id="water-forest">+€0.00</div>
+        <div class="metric-value left" id="water-forest">+0.00 / KG</div>
         <div class="metric-label">
           <span>Water</span>
         </div>
-        <div class="metric-value right" id="water-agriculture">+€0.05</div>
+        <div class="metric-value right" id="water-agriculture">+0.05 per KG</div>
       </div>
 
       <!-- True Costs Row -->
       <div class="metric-row main-metric">
-        <div class="metric-value left" id="true-costs-forest">+€0.00</div>
+        <div class="metric-value left" id="true-costs-forest">+0.00 / KG</div>
         <div class="metric-label main">
           <div class="arrow-down">↓</div>
           <span>True costs</span>
         </div>
-        <div class="metric-value right" id="true-costs-agriculture">+€2.72</div>
+        <div class="metric-value right" id="true-costs-agriculture">+2.72 per KG</div>
       </div>
 
       <!-- Nutrition Row -->
@@ -367,7 +367,7 @@
     font-weight: 500;
   }
 
-  /* Comparison Section - Figma Design Implementation */
+  /* Comparison Section - Aligned Design */
 .comparison-section-new {
   background: #e8e8e8;
   padding: 2rem;
@@ -379,27 +379,37 @@
 }
 
 .comparison-container {
-  max-width: 900px;
+  max-width: 800px; /* Match the metrics rectangle width */
   margin: 0 auto;
 }
 
+/* Aligned Comparison Images */
 .comparison-images {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* Same grid as metrics */
   align-items: center;
+  gap: 0;
   margin-bottom: 3rem;
-  gap: 2rem;
 }
 
 .comparison-side {
-  flex: 1;
   text-align: center;
-  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comparison-side:first-child {
+  justify-self: end; /* Align with left metric values */
+}
+
+.comparison-side:last-child {
+  justify-self: start; /* Align with right metric values */
 }
 
 .comparison-image {
-  width: 250px;
-  height: 180px;
+  width: 200px;
+  height: 150px;
   margin: 0 auto 1rem;
   border-radius: 12px;
   overflow: hidden;
@@ -413,7 +423,7 @@
 }
 
 .comparison-side h3 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #2e7d32;
   font-weight: 600;
   margin: 0;
@@ -424,10 +434,11 @@
   font-weight: bold;
   color: #2e7d32;
   padding: 0 1rem;
-  flex-shrink: 0;
+  text-align: center;
+  width: 140px; /* Match metric label width */
 }
 
-/* Unified Metrics Rectangle - Exact Figma Implementation */
+/* Unified Metrics Rectangle - Aligned with Images */
 .unified-metrics-rectangle {
   background: #e8e8e8;
   padding: 0;
@@ -462,7 +473,7 @@
   text-align: center;
   font-weight: 600;
   font-size: 1.1rem;
-  min-width: 140px;
+  width: 140px; /* Fixed width to match VS divider */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -497,7 +508,7 @@
   font-weight: 600;
   font-size: 1rem;
   text-align: center;
-  min-width: 160px;
+  width: 200px; /* Match comparison image width */
   transition: all 0.3s ease;
   margin: 0.5rem;
   min-height: 50px;
@@ -527,13 +538,20 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .comparison-images {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
+    text-align: center;
+  }
+
+  .comparison-side:first-child,
+  .comparison-side:last-child {
+    justify-self: center;
   }
 
   .vs-divider {
     margin: 1rem 0;
     font-size: 2rem;
+    width: auto;
   }
 
   .metric-row {
@@ -544,33 +562,22 @@
 
   .metric-value {
     justify-self: center;
-    min-width: 140px;
+    width: 180px;
     margin: 0.3rem auto;
   }
 
-  .comparison-side h3 {
-    font-size: 1.5rem;
+  .metric-label {
+    width: 120px;
+    margin: 0 auto;
   }
 
   .comparison-image {
-    width: 200px;
-    height: 150px;
+    width: 180px;
+    height: 135px;
   }
 
-  .unified-metrics-rectangle {
-    padding: 0;
-  }
-
-  .metric-label {
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    min-height: 60px;
-  }
-
-  .metric-value {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.9rem;
-    min-height: 45px;
+  .comparison-side h3 {
+    font-size: 1.3rem;
   }
 }
 
@@ -584,13 +591,23 @@
     padding: 0.8rem 1rem;
     font-size: 0.95rem;
     min-height: 55px;
+    width: 100px;
   }
 
   .metric-value {
     padding: 0.7rem 1rem;
     font-size: 0.85rem;
     min-height: 40px;
-    min-width: 120px;
+    width: 150px;
+  }
+
+  .comparison-image {
+    width: 150px;
+    height: 110px;
+  }
+
+  .vs-divider {
+    font-size: 1.8rem;
   }
 }
 
@@ -764,28 +781,16 @@
 document.addEventListener('DOMContentLoaded', function () {
   /* ---------- CONSTANTS ---------- */
   const baseTrueCostPerKg = 2.72;
-  const baseCarbonPerKg = 2.67;
-  const baseWaterPerKg = 0.05;
 
   /* ---------- MAIN UPDATE ---------- */
   function updateValues(amount) {
     // 1. Update the displayed amount
     document.getElementById('current-amount').textContent = amount;
 
-    // 2. Calculate values based on amount
+    // 2. Calculate True Costs values (only this section is dynamic)
     const totalTrueCost = baseTrueCostPerKg * amount;
-    const totalCarbon = baseCarbonPerKg * amount;
-    const totalWater = baseWaterPerKg * amount;
     
-    // 3. Update Carbon values
-    document.getElementById('carbon-forest').textContent = `+€0.00`;
-    document.getElementById('carbon-agriculture').textContent = `+€${totalCarbon.toFixed(2)}`;
-    
-    // 4. Update Water values
-    document.getElementById('water-forest').textContent = `+€0.00`;
-    document.getElementById('water-agriculture').textContent = `+€${totalWater.toFixed(2)}`;
-    
-    // 5. Update True Costs values
+    // 3. Update only True Costs values (Carbon and Water remain static)
     if (amount >= 1000) {
       const trueCostK = totalTrueCost / 1000;
       document.getElementById('true-costs-forest').textContent = `+€0.00`;
