@@ -98,7 +98,7 @@ def food_forests():
             'id': forest.id,
             'name': forest.forest_name,
             'location': forest.forest_location,
-            'image': forest.forest_image or 'images/hero_pears.jpg',
+            'image': forest.forest_image or 'uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg',
             'metrics': metrics,
             'type': 'Community',  # Example placeholder
             'coordinates': coordinates

@@ -28,37 +28,49 @@
   </div>
 </section>
 
-<!-- Main Content Section -->
-<section class="main-content-section">
+<!-- About Section -->
+<section class="about-section">
   <div class="container">
-    <div class="content-grid">
-      <!-- Left Column -->
-      <div class="content-left">
-        <h2>As a group we aim to bring Food-Forests and Businesses together</h2>
-        <p class="content-subtitle">Subheading for description or instructions</p>
-        <p class="content-body">
-          Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look.
-        </p>
-        <p class="content-body">
-          Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely queen tempor eiusmod irure. Exclusive Izakaya charming Scandinavian impeccable aute quality of life soft power pariatur Melbourne occaecat discerning. Qui wardrobe aliqua, et Porter destination Toto remarkable officia Helsinki excepteur Basset hound. Zürich sleepy perfect consectetur.
-        </p>
-        <a href="{{ url_for('views.about_us') }}" class="learn-more-btn">Learn More</a>
+    <div class="about-grid">
+      <!-- Left Column - Header and Button -->
+      <div class="about-left">
+        <h2>As a group we aim to bring food forests and businesses together</h2>
+        <a href="{{ url_for('views.about_us') }}" class="about-us-btn">About us</a>
       </div>
 
-      <!-- Right Column -->
-      <div class="content-right">
-        <h3>What are Food-Forests?</h3>
-        <p class="content-body">
-          Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look.
+      <!-- Right Column - All Text Content -->
+      <div class="about-right">
+        <p class="about-body">
+          We believe that the future of food lies in working with nature, not against it. We created this platform to connect food forests with food businesses who value locally grown, environmentally responsible produce. Our mission is to support a food system that is healthier for both people and the planet by making it easier to access and appreciate the true value of food grown in harmony with nature. Together, we can build stronger local food networks and shift toward a more sustainable, regenerative way of eating.
         </p>
-        <p class="content-body">
-          Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely queen tempor eiusmod irure. Exclusive Izakaya charming Scandinavian impeccable aute quality of life soft power pariatur Melbourne occaecat discerning.
+        <ul class="about-features">
+          <li>Include tool <a href="{{ url_for('views.article') }}" class="compare-link">link to compear tool</a>,</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What are Food-Forests Section -->
+<section class="food-forests-info-section">
+  <div class="container">
+    <div class="info-grid">
+      <!-- Left Column - Text Content -->
+      <div class="info-left">
+        <h3>What are food forests?</h3>
+        <p class="info-body">
+          Food forests are regenerative agricultural systems that replicate the structure and diversity of natural forests to produce food in a sustainable way. They consist of multiple layers of plants, such as fruit and nut trees, shrubs, herbs, vines, and groundcovers, that work together to support healthy soil, conserve water, and enhance biodiversity. By mimicking natural ecosystems, food forests don't rely on synthetic fertilisers or pesticides. Instead, they use natural processes and plant diversity to keep the soil healthy and manage pests, allowing them to thrive with little human input over time. This makes them a resilient and climate-friendly alternative to conventional agriculture.
         </p>
-        
-        <!-- Food Forest Diagram -->
+        <p class="info-body">
+          <strong>Example topics why food forests are important:</strong>
+        </p>
+      </div>
+
+      <!-- Right Column - Food Forest Diagram -->
+      <div class="info-right">
         <div class="forest-diagram">
           <div class="diagram-placeholder">
-            <img src="/placeholder.svg?height=200&width=300" alt="Food Forest Layers Diagram" />
+            <img src="{{ url_for('static', filename='uploads/Food-Forest-1024x899.png') }}" alt="Food Forest Layers Diagram" />
           </div>
         </div>
       </div>
@@ -66,57 +78,70 @@
   </div>
 </section>
 
-<!-- Impact Carousel Section -->
-<section class="impact-carousel-section">
+<!-- Impact Cards Section -->
+<section class="impact-cards-section">
   <div class="container">
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <div class="impact-card active">
-          <div class="impact-image">
-            <img src="/placeholder.svg?height=300&width=400" alt="Social Impact" />
-          </div>
-          <div class="impact-content">
-            <h3>Social Impact</h3>
-            <p>Building stronger communities through sustainable food systems and shared knowledge.</p>
+    <div class="cards-container">
+      <div class="cards-grid">
+        <!-- Social Impact Card -->
+        <div class="flip-card" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="impact-image">
+                <img src="{{ url_for('static', filename='uploads/c1bc598abb841608f9874681b8eb6c55.jpg') }}" alt="Social Impact" />
+              </div>
+              <div class="impact-content">
+                <h3>Social Impact</h3>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-content">
+                <h3>Building Communities</h3>
+                <p>Food forests create opportunities for community engagement, education, and collaboration. They bring people together to learn about sustainable agriculture, share knowledge, and work towards common environmental goals. These spaces foster social connections and help build resilient local food networks that benefit everyone involved.</p>
+              </div>
+            </div>
           </div>
         </div>
         
-        <div class="impact-card">
-          <div class="impact-image">
-            <img src="/placeholder.svg?height=300&width=400" alt="Biodiversity" />
-          </div>
-          <div class="impact-content">
-            <h3>Biodiversity</h3>
-            <p>Supporting diverse ecosystems that provide habitat for wildlife and beneficial insects.</p>
+        <!-- Biodiversity Card -->
+        <div class="flip-card" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="impact-image">
+                <img src="{{ url_for('static', filename='uploads/peacock-butterfly-1655724_1920.jpg') }}" alt="Biodiversity" />
+              </div>
+              <div class="impact-content">
+                <h3>Biodiversity</h3>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-content">
+                <h3>Supporting Wildlife</h3>
+                <p>Food forests provide habitat for diverse wildlife including birds, insects, and small mammals. The variety of plants creates multiple ecological niches, supporting pollinators like bees and butterflies while maintaining natural pest control. This biodiversity strengthens the entire ecosystem and creates a more resilient agricultural system.</p>
+              </div>
+            </div>
           </div>
         </div>
         
-        <div class="impact-card">
-          <div class="impact-image">
-            <img src="/placeholder.svg?height=300&width=400" alt="Nutrition" />
-          </div>
-          <div class="impact-content">
-            <h3>Nutrition</h3>
-            <p>Providing fresh, nutrient-rich foods grown in healthy, regenerative soil systems.</p>
+        <!-- Nutrition Card -->
+        <div class="flip-card" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="impact-image">
+                <img src="{{ url_for('static', filename='uploads/A-Z-Guide-of-Nutrition-Essentials_truworth-wellness.jpg') }}" alt="Nutrition" />
+              </div>
+              <div class="impact-content">
+                <h3>Nutrition</h3>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-content">
+                <h3>Healthy Food Systems</h3>
+                <p>Food forests produce nutrient-dense foods grown in healthy soil without synthetic chemicals. The diverse range of fruits, vegetables, nuts, and herbs provides essential vitamins, minerals, and antioxidants. This approach to food production prioritizes both human health and environmental sustainability.</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Carousel Navigation -->
-      <div class="carousel-nav">
-        <button class="nav-btn prev" onclick="moveCarousel(-1)">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="nav-btn next" onclick="moveCarousel(1)">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </div>
-      
-      <!-- Carousel Indicators -->
-      <div class="carousel-indicators">
-        <button class="indicator active" onclick="goToSlide(0)"></button>
-        <button class="indicator" onclick="goToSlide(1)"></button>
-        <button class="indicator" onclick="goToSlide(2)"></button>
       </div>
     </div>
   </div>
@@ -131,7 +156,7 @@
         {% for forest in forests[:3] %}
           <div class="example-card">
             <div class="example-image">
-              <img src="{{ url_for('static', filename=forest.forest_image) if forest.forest_image else '/placeholder.svg?height=200&width=300' }}" alt="{{ forest.forest_name }}" />
+              <img src="{{ url_for('static', filename=forest.forest_image) if forest.forest_image else url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="{{ forest.forest_name }}" />
             </div>
             <div class="example-content">
               <span class="example-tag">{{ forest.forest_location.split(',')[0] if forest.forest_location else 'Location' }}</span>
@@ -145,7 +170,7 @@
         <!-- Default examples when no forests exist -->
         <div class="example-card">
           <div class="example-image">
-            <img src="/placeholder.svg?height=200&width=300" alt="Chang's Forest" />
+            <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Chang's Forest" />
           </div>
           <div class="example-content">
             <span class="example-tag">Chang's</span>
@@ -157,7 +182,7 @@
         
         <div class="example-card">
           <div class="example-image">
-            <img src="/placeholder.svg?height=200&width=300" alt="Green Valley Forest" />
+            <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Green Valley Forest" />
           </div>
           <div class="example-content">
             <span class="example-tag">Green Valley</span>
@@ -169,7 +194,7 @@
         
         <div class="example-card">
           <div class="example-image">
-            <img src="/placeholder.svg?height=200&width=300" alt="Harmony Forest" />
+            <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Harmony Forest" />
           </div>
           <div class="example-content">
             <span class="example-tag">Harmony</span>
@@ -186,46 +211,20 @@
 <!-- Call to Action Section -->
 <section class="cta-section">
   <div class="container">
-    <div class="cta-content">
-      <h2>Ready to improve our environment and the food we eat?</h2>
-      <p>Whether you are a restaurant/food-forest, you can join our platform through filling out this form and creating a profile.</p>
-      <a href="{{ url_for('auth.sign_up') }}" class="cta-signup-btn">Sign up</a>
+    <div class="cta-container">
+      <div class="cta-content">
+        <h2>Ready to improve our environment and the food we eat?</h2>
+        <p>Whether you are a restaurant/food-forest, you can join our platform through filling out this form and creating a profile.</p>
+        <a href="{{ url_for('auth.sign_up') }}" class="cta-signup-btn">Sign up</a>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
-// Carousel functionality
-let currentSlide = 0;
-const slides = document.querySelectorAll('.impact-card');
-const indicators = document.querySelectorAll('.indicator');
-
-function updateCarousel() {
-  slides.forEach((slide, index) => {
-    slide.classList.toggle('active', index === currentSlide);
-  });
-  
-  indicators.forEach((indicator, index) => {
-    indicator.classList.toggle('active', index === currentSlide);
-  });
+function flipCard(card) {
+  card.classList.toggle('flipped');
 }
-
-function moveCarousel(direction) {
-  currentSlide += direction;
-  if (currentSlide >= slides.length) currentSlide = 0;
-  if (currentSlide < 0) currentSlide = slides.length - 1;
-  updateCarousel();
-}
-
-function goToSlide(index) {
-  currentSlide = index;
-  updateCarousel();
-}
-
-// Auto-advance carousel
-setInterval(() => {
-  moveCarousel(1);
-}, 5000);
 </script>
 
 {% endblock %}

@@ -8,7 +8,7 @@
   position: relative;
   width: 100%;
   height: 60vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("{{ url_for('static', filename='images/hero_pears.jpg') }}");
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -981,8 +981,6 @@ if (likeBtn) {
     <div class="featured-product">
       <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Featured pears" />
       <div class="featured-product-info">
-        <h3>' }}" alt="Featured pears" />
-      <div class="featured-product-info">
         <h3>Pear</h3>
         <p>Description of featured product. These pears are grown in our sustainable food forest ecosystem, supporting biodiversity and reducing carbon emissions compared to conventional farming methods.</p>
         <a href="{{ url_for('views.product_detail', product_id=1) }}" class="view-product-btn">View Product</a>
@@ -997,6 +995,7 @@ if (likeBtn) {
           <h4>Pear</h4>
           <p>Description of top product</p>
           <a href="{{ url_for('views.product_detail', product_id=2) }}" class="product-link">View Details</a>
+        
         </div>
       </div>
   
