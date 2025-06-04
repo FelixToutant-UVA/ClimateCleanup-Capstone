@@ -1,7 +1,7 @@
 # views.py
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
-from flask_login import login_required, current_user
-from .models import Note, CarbonData, Product, User, HarvestPeriod
+from flask_login import login_required, current_user, logout_user
+from .models import Note, CarbonData, Product, User, HarvestPeriod, MetricsHistory, ForestLike, Message
 from . import db
 import json
 import os
@@ -74,3 +74,56 @@ views.add_url_rule('/profile', 'profile', profile)
 views.add_url_rule('/update-forest', 'update_forest', update_forest, methods=['POST'])
 views.add_url_rule('/business-profile', 'business_profile', business_profile)
 views.add_url_rule('/update-business-about', 'update_business_about', update_business_about, methods=['POST'])
+
+# New route for deleting profile
+@views.route('/delete-profile', methods=['POST'])
+@login_required
+def delete_profile():
+    """
+    Delete user profile and all associated data.
+    """
+    try:
+        user_id = current_user.id
+        user_email = current_user.email
+        
+        # Delete all associated data in the correct order to avoid foreign key constraints
+        
+        # Delete harvest periods
+        HarvestPeriod.query.filter_by(user_id=user_id).delete()
+        
+        # Delete products
+        Product.query.filter_by(user_id=user_id).delete()
+        
+        # Delete carbon data
+        CarbonData.query.filter_by(user_id=user_id).delete()
+        
+        # Delete metrics history
+        MetricsHistory.query.filter_by(user_id=user_id).delete()
+        
+        # Delete forest likes (both given and received)
+        ForestLike.query.filter_by(user_id=user_id).delete()  # Likes given by user
+        ForestLike.query.filter_by(forest_id=user_id).delete()  # Likes received by user's forest
+        
+        # Delete messages (both sent and received)
+        Message.query.filter_by(sender_id=user_id).delete()  # Messages sent by user
+        Message.query.filter_by(recipient_id=user_id).delete()  # Messages received by user
+        
+        # Delete notes
+        Note.query.filter_by(user_id=user_id).delete()
+        
+        # Finally delete the user
+        db.session.delete(current_user)
+        
+        # Commit all deletions
+        db.session.commit()
+        
+        # Log the user out
+        logout_user()
+        
+        # Redirect to homepage with success parameter
+        return redirect(url_for('views.home', profile_deleted='success', email=user_email))
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error deleting profile: {e}")
+        return redirect(url_for('views.home', profile_deleted='error'))

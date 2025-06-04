@@ -70,6 +70,16 @@
         <textarea id="businessAbout" name="businessAbout" rows="8" class="form-control">{{ user.business_about }}</textarea>
       </div>
       <button type="submit" class="submit-btn">Save Changes</button>
+      <div class="form-group delete-section">
+        <hr style="margin: 2rem 0; border: 1px solid #eee;">
+        <h3 style="color: #dc3545; margin-bottom: 1rem;">Danger Zone</h3>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+          Once you delete your profile, there is no going back. This will permanently delete your business profile and all associated data.
+        </p>
+        <button type="button" class="delete-profile-btn" id="deleteBusinessProfileBtn">
+          <i class="fas fa-trash"></i> Delete Profile
+        </button>
+      </div>
     </form>
   </div>
 </div>
@@ -95,6 +105,39 @@
         editAboutModal.style.display = 'none';
       }
     });
+
+  // Delete Business Profile functionality
+  const deleteBusinessProfileBtn = document.getElementById('deleteBusinessProfileBtn');
+  if (deleteBusinessProfileBtn) {
+    deleteBusinessProfileBtn.addEventListener('click', function() {
+      const confirmMessage = `Are you sure you want to delete your business profile?
+
+This action will permanently delete:
+- Your business profile and details
+- All messages and data
+
+This action cannot be undone. Type "DELETE" to confirm:`;
+
+      const userInput = prompt(confirmMessage);
+      
+      if (userInput === 'DELETE') {
+        const finalConfirm = confirm('This is your final warning. Are you absolutely sure you want to delete your profile? This cannot be undone.');
+        
+        if (finalConfirm) {
+          // Create a form to submit the delete request
+          const deleteForm = document.createElement('form');
+          deleteForm.method = 'POST';
+          deleteForm.action = '/delete-profile';
+          deleteForm.style.display = 'none';
+          
+          document.body.appendChild(deleteForm);
+          deleteForm.submit();
+        }
+      } else if (userInput !== null) {
+        alert('Profile deletion cancelled. You must type "DELETE" exactly to confirm.');
+      }
+    });
+  }
   });
 </script>
 {% endblock %}

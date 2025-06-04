@@ -2,7 +2,7 @@
 Routes related to user profiles.
 """
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, logout_user
 import os
 from werkzeug.utils import secure_filename
 from ..models import CarbonData, Product, HarvestPeriod, User
@@ -201,3 +201,60 @@ def update_business_about():
       
       flash('About section updated successfully!', category='success')
       return redirect(url_for('profile_bp.business_profile'))
+
+@profile_bp.route('/delete-profile', methods=['POST'])
+@login_required
+def delete_profile():
+    """
+    Delete user profile and all associated data.
+    """
+    try:
+        user_id = current_user.id
+        user_email = current_user.email
+        
+        # Delete all associated data in the correct order to avoid foreign key constraints
+        
+        # Delete harvest periods
+        HarvestPeriod.query.filter_by(user_id=user_id).delete()
+        
+        # Delete products
+        Product.query.filter_by(user_id=user_id).delete()
+        
+        # Delete carbon data
+        CarbonData.query.filter_by(user_id=user_id).delete()
+        
+        # Delete metrics history
+        from ..models import MetricsHistory
+        MetricsHistory.query.filter_by(user_id=user_id).delete()
+        
+        # Delete forest likes (both given and received)
+        from ..models import ForestLike
+        ForestLike.query.filter_by(user_id=user_id).delete()  # Likes given by user
+        ForestLike.query.filter_by(forest_id=user_id).delete()  # Likes received by user's forest
+        
+        # Delete messages (both sent and received)
+        from ..models import Message
+        Message.query.filter_by(sender_id=user_id).delete()  # Messages sent by user
+        Message.query.filter_by(recipient_id=user_id).delete()  # Messages received by user
+        
+        # Delete notes
+        from ..models import Note
+        Note.query.filter_by(user_id=user_id).delete()
+        
+        # Finally delete the user
+        db.session.delete(current_user)
+        
+        # Commit all deletions
+        db.session.commit()
+        
+        # Log the user out
+        logout_user()
+        
+        flash(f'Profile for {user_email} has been permanently deleted.', category='success')
+        return redirect(url_for('views.home'))
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error deleting profile: {e}")
+        flash('An error occurred while deleting your profile. Please try again or contact support.', category='error')
+        return redirect(url_for('profile_bp.profile'))

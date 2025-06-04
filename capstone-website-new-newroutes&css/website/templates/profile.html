@@ -19,6 +19,14 @@
           <p class="forest-location">{{ user.forest_location|default('Location') }}</p>
           <div class="forest-actions">
             <button class="edit-forest-btn" id="editForestBtn"><i class="fas fa-edit"></i> Edit Details</button>
+            <button class="like-forest-btn" id="likeForestBtn" data-forest-id="{{ user.id }}">
+              <i class="far fa-heart"></i> <span class="like-count">0</span>
+            </button>
+            {% if user.messages_enabled %}
+            <button class="message-forest-btn" id="messageForestBtn">
+              <i class="fas fa-comment"></i> Message
+            </button>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -246,6 +254,16 @@
       </div>
 
       <button type="submit" class="submit-btn">Save Changes</button>
+      <div class="form-group delete-section">
+        <hr style="margin: 2rem 0; border: 1px solid #eee;">
+        <h3 style="color: #dc3545; margin-bottom: 1rem;">Danger Zone</h3>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+          Once you delete your profile, there is no going back. This will permanently delete your forest profile, all products, and associated data.
+        </p>
+        <button type="button" class="delete-profile-btn" id="deleteProfileBtn">
+          <i class="fas fa-trash"></i> Delete Profile
+        </button>
+      </div>
     </form>
   </div>
 </div>
@@ -410,6 +428,9 @@
 
 <!-- Hidden form for deleting products -->
 <form id="deleteProductForm" method="POST" style="display: none;"></form>
+
+<!-- Hidden form for deleting profile -->
+<form id="deleteProfileForm" method="POST" action="/delete-profile" style="display: none;"></form>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -623,6 +644,20 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Error:', error);
         alert('Error updating harvest calendar');
       });
+    });
+  }
+
+  // Delete Profile functionality - simplified to one confirmation
+  const deleteProfileBtn = document.getElementById('deleteProfileBtn');
+  if (deleteProfileBtn) {
+    deleteProfileBtn.addEventListener('click', function() {
+      const confirmed = confirm('Are you sure you want to delete your profile? This action cannot be undone and will permanently delete all your data including your forest profile, products, and metrics.');
+      
+      if (confirmed) {
+        // Submit the delete form
+        const deleteForm = document.getElementById('deleteProfileForm');
+        deleteForm.submit();
+      }
     });
   }
 });

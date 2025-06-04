@@ -1006,3 +1006,35 @@ input[type="file"] {
     grid-template-columns: 1fr;
   }
 }
+
+/* Delete Profile Section */
+.delete-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+.delete-profile-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.delete-profile-btn:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.delete-profile-btn:active {
+  transform: translateY(0);
+}
