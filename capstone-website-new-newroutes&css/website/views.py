@@ -44,8 +44,7 @@ from .routes.profile_routes import (
 )
 from .routes.general_routes import home, about_us, article, delete_note
 
-# Register the route functions with the main blueprint
-# This maintains backward compatibility with existing code
+
 
 # General routes
 views.add_url_rule('/', 'home', home)
@@ -101,12 +100,12 @@ def delete_profile():
         MetricsHistory.query.filter_by(user_id=user_id).delete()
         
         # Delete forest likes (both given and received)
-        ForestLike.query.filter_by(user_id=user_id).delete()  # Likes given by user
-        ForestLike.query.filter_by(forest_id=user_id).delete()  # Likes received by user's forest
+        ForestLike.query.filter_by(user_id=user_id).delete()  
+        ForestLike.query.filter_by(forest_id=user_id).delete()  
         
         # Delete messages (both sent and received)
-        Message.query.filter_by(sender_id=user_id).delete()  # Messages sent by user
-        Message.query.filter_by(recipient_id=user_id).delete()  # Messages received by user
+        Message.query.filter_by(sender_id=user_id).delete()  
+        Message.query.filter_by(recipient_id=user_id).delete()  
         
         # Delete notes
         Note.query.filter_by(user_id=user_id).delete()
