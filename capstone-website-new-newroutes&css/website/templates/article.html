@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div class="article-container article-page">
   <article class="comparison-article">
@@ -7,11 +6,16 @@
     <section class="hero-section">
       <div class="hero-content">
         <div class="hero-left">
-          <h1 class="hero-title">Discover the Real Value of Food with Compear</h1>
+          <h1 class="hero-title">
+            Discover the Real Value of Food with Compear
+          </h1>
         </div>
         <div class="hero-right">
           <div class="hero-image">
-            <img src="{{ url_for('static', filename='uploads/ketelbroek-website-achtergrond.jpg') }}" alt="Food Forest Garden" />
+            <img
+              src="{{ url_for('static', filename='uploads/ketelbroek-website-achtergrond.jpg') }}"
+              alt="Food Forest Garden"
+            />
           </div>
         </div>
       </div>
@@ -22,12 +26,27 @@
       <div class="container">
         <h2>The Compear Tool</h2>
         <p class="description-text">
-          Our Compear Tool is an interactive visualisation that reveals the hidden costs and benefits behind the food we eat, the True Value. These costs from conventional farming are not reflected at the checkout, but are paid by the planet and eventually, by us. By clicking on the rows, you will be directed to the research  behind this Tool. By comparing the products from conventional agriculture with those from a food forest, this tool helps you understand the real impact of your choices, beyond just the price tag. Use the food forest values as a baseline when comparing carbon sequestration and water quality, and compare the additional environmental costs of conventional agriculture for the quantity of food you are interested in. Afterwards you will see the total amount of true costs per kg of food. Additionally, the true value also consists of nutrition and biodiversity, which are not quantified. However, they add important value to food forest products. 
-          This tool shows how investing in sustainably grown food in food forests can ultimately cost less, for you and for the planet.
-
+          Our Compear Tool is an interactive visualisation that reveals the
+          hidden costs and benefits behind the food we eat, the True Value.
+          These costs from conventional farming are not reflected at the
+          checkout, but are paid by the planet and eventually, by us. By
+          clicking on the rows, you will be directed to the research behind this
+          Tool. By comparing the products from conventional agriculture with
+          those from a food forest, this tool helps you understand the real
+          impact of your choices, beyond just the price tag. Use the food forest
+          values as a baseline when comparing carbon sequestration and water
+          quality, and compare the additional environmental costs of
+          conventional agriculture for the quantity of food you are interested
+          in. Afterwards you will see the total amount of true costs per kg of
+          food. Additionally, the true value also consists of nutrition and
+          biodiversity, which are not quantified. However, they add important
+          value to food forest products. This tool shows how investing in
+          sustainably grown food in food forests can ultimately cost less, for
+          you and for the planet.
         </p>
         <p class="explore-text">
-          Explore the comparison below to see how much true value food forests provide.
+          Explore the comparison below to see how much true value food forests
+          provide.
         </p>
       </div>
     </section>
@@ -35,106 +54,153 @@
     <!-- Slider Section -->
     <section class="comparison-slider-section">
       <h2>How many kg of food do you want to compare?</h2>
-      <p class="slider-instruction">Use the slider below to show how many kg of apples you would like to compare</p>
-      
+      <p class="slider-instruction">
+        Use the slider below to show how many kg of apples you would like to
+        compare
+      </p>
+
       <div class="slider-container">
-        <input type="range" min="1" max="1000" value="1" step="1" class="slider" id="amountSlider">
+        <input
+          type="range"
+          min="1"
+          max="1000"
+          value="1"
+          step="1"
+          class="slider"
+          id="amountSlider"
+        />
         <div class="slider-value"><span id="current-amount">20000</span>kg</div>
       </div>
     </section>
 
     <!-- Comparison Section -->
-<section class="comparison-section-new">
-  <div class="comparison-container">
-    <!-- Comparison Images -->
-    <div class="comparison-images">
-      <div class="comparison-side">
-        <div class="comparison-image">
-          <img src="{{ url_for('static', filename='uploads/oogst-overvloed-voedselbos-ketelbroek.jpg') }}" alt="Food forest produce" />
-        </div>
-        <h3>Food Forest</h3>
-      </div>
-      
-      <div class="vs-divider">VS</div>
-      
-      <div class="comparison-side">
-        <div class="comparison-image">
-          <img src="{{ url_for('static', filename='uploads/Agriculture-Durable-au-Maroc-1-e1736867978226.jpg') }}" alt="Conventional agriculture" />
-        </div>
-        <h3>Agriculture</h3>
-      </div>
-    </div>
+    <section class="comparison-section-new">
+      <div class="comparison-container">
+        <!-- Comparison Images -->
+        <div class="comparison-images">
+          <div class="comparison-side">
+            <div class="comparison-image">
+              <img
+                src="{{ url_for('static', filename='uploads/oogst-overvloed-voedselbos-ketelbroek.jpg') }}"
+                alt="Food forest produce"
+              />
+            </div>
+            <h3>Food Forest</h3>
+          </div>
 
-    <!-- Unified Metrics Rectangle -->
-    <div class="unified-metrics-rectangle">
-      <!-- Carbon Row -->
-      <div class="metric-row" data-section="carbon-section">
-        <div class="metric-value left" id="carbon-forest">+0.00 / kg</div>
-        <div class="metric-label">
-          <span>Carbon</span>
-        </div>
-        <div class="metric-value right" id="carbon-agriculture">+2.67 / kg</div>
-      </div>
+          <div class="vs-divider">VS</div>
 
-      <!-- Water Row -->
-      <div class="metric-row" data-section="water-section">
-        <div class="metric-value left" id="water-forest">+0.00 / kg</div>
-        <div class="metric-label">
-          <span>Water</span>
+          <div class="comparison-side">
+            <div class="comparison-image">
+              <img
+                src="{{ url_for('static', filename='uploads/Agriculture-Durable-au-Maroc-1-e1736867978226.jpg') }}"
+                alt="Conventional agriculture"
+              />
+            </div>
+            <h3>Agriculture</h3>
+          </div>
         </div>
-        <div class="metric-value right" id="water-agriculture">+0.05 / kg</div>
-      </div>
 
-      <!-- True Costs Row -->
-      <div class="metric-row main-metric">
-        <div class="metric-value left" id="true-costs-forest">+0.00 / kg</div>
-        <div class="metric-label main">
-          <div class="arrow-down">↓</div>
-          <span>True costs</span>
-        </div>
-        <div class="metric-value right" id="true-costs-agriculture">+2.72 Total</div>
-      </div>
+        <!-- Unified Metrics Rectangle -->
+        <div class="unified-metrics-rectangle">
+          <!-- Carbon Row -->
+          <div class="metric-row" data-section="carbon-section">
+            <div class="metric-value left" id="carbon-forest">+0.00 / kg</div>
+            <div class="metric-label">
+              <span>Carbon</span>
+            </div>
+            <div class="metric-value right" id="carbon-agriculture">
+              +2.67 / kg
+            </div>
+          </div>
 
-      <!-- Nutrition Row -->
-      <div class="metric-row" data-section="nutrition-section">
-        <div class="metric-value left" id="nutrition-forest">Increased</div>
-        <div class="metric-label">
-          <span>Nutrition</span>
-        </div>
-        <div class="metric-value right" id="nutrition-agriculture">Decreased</div>
-      </div>
+          <!-- Water Row -->
+          <div class="metric-row" data-section="water-section">
+            <div class="metric-value left" id="water-forest">+0.00 / kg</div>
+            <div class="metric-label">
+              <span>Water</span>
+            </div>
+            <div class="metric-value right" id="water-agriculture">
+              +0.05 / kg
+            </div>
+          </div>
 
-      <!-- Biodiversity Row -->
-      <div class="metric-row" data-section="biodiversity-section">
-        <div class="metric-value left" id="biodiversity-forest">Increased</div>
-        <div class="metric-label">
-          <span>Biodiversity</span>
-        </div>
-        <div class="metric-value right" id="biodiversity-agriculture">Decreased</div>
-      </div>
+          <!-- True Costs Row -->
+          <div class="metric-row main-metric">
+            <div class="metric-value left" id="true-costs-forest">
+              +0.00 Total
+            </div>
+            <div class="metric-label main">
+              <div class="arrow-down">↓</div>
+              <span>True costs</span>
+            </div>
+            <div class="metric-value right" id="true-costs-agriculture">
+              +2.72 Total
+            </div>
+          </div>
 
-      <!-- True Value Row -->
-      <div class="metric-row" data-section="true-value-section">
-        <div class="metric-value left" id="true-value-forest">Higher</div>
-        <div class="metric-label">
-          <span>True value</span>
+          <!-- Nutrition Row -->
+          <div class="metric-row" data-section="nutrition-section">
+            <div class="metric-value left" id="nutrition-forest">Increased</div>
+            <div class="metric-label">
+              <span>Nutrition</span>
+            </div>
+            <div class="metric-value right" id="nutrition-agriculture">
+              Decreased
+            </div>
+          </div>
+
+          <!-- Biodiversity Row -->
+          <div class="metric-row" data-section="biodiversity-section">
+            <div class="metric-value left" id="biodiversity-forest">
+              Increased
+            </div>
+            <div class="metric-label">
+              <span>Biodiversity</span>
+            </div>
+            <div class="metric-value right" id="biodiversity-agriculture">
+              Decreased
+            </div>
+          </div>
+
+          <!-- True Value Row -->
+          <div class="metric-row" data-section="true-value-section">
+            <div class="metric-value left" id="true-value-forest">Higher</div>
+            <div class="metric-label">
+              <span>True value</span>
+            </div>
+            <div class="metric-value right" id="true-value-agriculture">
+              Lower
+            </div>
+          </div>
         </div>
-        <div class="metric-value right" id="true-value-agriculture">Lower</div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- Detailed Sections -->
     <section id="carbon-section" class="detail-section">
       <h2>Carbon Sequestration</h2>
       <div class="detail-content">
         <div class="detail-text">
-          <p>This value shows the difference in climate impact between food forests and conventional agriculture, calculated per kilogram of food. We estimate how much carbon is stored in a food forest and how much is emitted by conventional farming. Then, we divide this difference by the average food yield per hectare.</p>
-          <p>The result gives a simplified carbon cost per kilogram of food, making the climate benefit of food forests visible and comparable. It helps users see how every kilo of food can either contribute to carbon storage or to emissions, depending on how it’s produced.</p>
+          <p>
+            This value shows the difference in climate impact between food
+            forests and conventional agriculture, calculated per kilogram of
+            food. We estimate how much carbon is stored in a food forest and how
+            much is emitted by conventional farming. Then, we divide this
+            difference by the average food yield per hectare.
+          </p>
+          <p>
+            The result gives a simplified carbon cost per kilogram of food,
+            making the climate benefit of food forests visible and comparable.
+            It helps users see how every kilo of food can either contribute to
+            carbon storage or to emissions, depending on how it’s produced.
+          </p>
         </div>
         <div class="detail-image">
-          <img src="{{ url_for('static', filename='uploads/shutterstock_1974223916_0.jpg') }}" alt="Carbon sequestration illustration" />
+          <img
+            src="{{ url_for('static', filename='uploads/shutterstock_1974223916_0.jpg') }}"
+            alt="Carbon sequestration illustration"
+          />
         </div>
       </div>
     </section>
@@ -143,11 +209,30 @@
       <h2>Water Quality</h2>
       <div class="detail-content">
         <div class="detail-image">
-          <img src="{{ url_for('static', filename='uploads/water-globe_shutterstock_115060456_500px1.jpg') }}" alt="Water quality illustration" />
+          <img
+            src="{{ url_for('static', filename='uploads/water-globe_shutterstock_115060456_500px1.jpg') }}"
+            alt="Water quality illustration"
+          />
         </div>
         <div class="detail-text">
-          <p>This value reflects the hidden cost of cleaning water that is commonly polluted by conventional agriculture, calculated per kilogram of food produced. These costs arise when reversing the impact of chemical fertilizers and pesticides widely used in standard farming, which often run off into water sources and significantly reduce water quality. The value shown is a simplified monetary estimate of the water treatment needed to reverse this damage. </p>
-          <p>Since food forests avoid such chemicals entirely, their water cleaning costs are effectively zero. This comparison helps users see the contrast between the two food production approaches and their impact on water quality. It helps to understand the unseen environmental burden of conventional agriculture and the water-saving benefits of food forestry.</p>
+          <p>
+            This value reflects the hidden cost of cleaning water that is
+            commonly polluted by conventional agriculture, calculated per
+            kilogram of food produced. These costs arise when reversing the
+            impact of chemical fertilizers and pesticides widely used in
+            standard farming, which often run off into water sources and
+            significantly reduce water quality. The value shown is a simplified
+            monetary estimate of the water treatment needed to reverse this
+            damage.
+          </p>
+          <p>
+            Since food forests avoid such chemicals entirely, their water
+            cleaning costs are effectively zero. This comparison helps users see
+            the contrast between the two food production approaches and their
+            impact on water quality. It helps to understand the unseen
+            environmental burden of conventional agriculture and the
+            water-saving benefits of food forestry.
+          </p>
         </div>
       </div>
     </section>
@@ -156,11 +241,32 @@
       <h2>Nutrition</h2>
       <div class="detail-content">
         <div class="detail-text">
-          <p>This value could unfortunately not yet be quantified. However, food grown in food forests is more nutrient-dense and safer for the human health than conventionally farmed produce. Conventional agriculture relies heavily on synthetic pesticides, which often leave behind residues linked to hormonal disruption, neurological disorders, and chronic disease. In contrast, food forests use natural methods like mulching and polyculture planting, which enrich soil health and boost the presence of beneficial compounds such as antioxidants and phytochemicals. These nutrients support immune function and help reduce the risk of chronic diseases. As a result, food forest produce is not only healthier and safer to eat, but also supports long-term ecological balance. </p>
-          <p>Therefore, nutrition is an essential element contributing to the true value of food forestry. However, due to the current lack of comprehensive data on their specific nutritional composition, these benefits cannot yet be quantified.</p>
+          <p>
+            This value could unfortunately not yet be quantified. However, food
+            grown in food forests is more nutrient-dense and safer for the human
+            health than conventionally farmed produce. Conventional agriculture
+            relies heavily on synthetic pesticides, which often leave behind
+            residues linked to hormonal disruption, neurological disorders, and
+            chronic disease. In contrast, food forests use natural methods like
+            mulching and polyculture planting, which enrich soil health and
+            boost the presence of beneficial compounds such as antioxidants and
+            phytochemicals. These nutrients support immune function and help
+            reduce the risk of chronic diseases. As a result, food forest
+            produce is not only healthier and safer to eat, but also supports
+            long-term ecological balance.
+          </p>
+          <p>
+            Therefore, nutrition is an essential element contributing to the
+            true value of food forestry. However, due to the current lack of
+            comprehensive data on their specific nutritional composition, these
+            benefits cannot yet be quantified.
+          </p>
         </div>
         <div class="detail-image">
-          <img src="{{ url_for('static', filename='uploads/A-Z-Guide-of-Nutrition-Essentials_truworth-wellness.jpg') }}" alt="Nutrition illustration" />
+          <img
+            src="{{ url_for('static', filename='uploads/A-Z-Guide-of-Nutrition-Essentials_truworth-wellness.jpg') }}"
+            alt="Nutrition illustration"
+          />
         </div>
       </div>
     </section>
@@ -169,10 +275,35 @@
       <h2>Biodiversity</h2>
       <div class="detail-content">
         <div class="detail-image">
-          <img src="{{ url_for('static', filename='uploads/peacock-butterfly-1655724_1920.jpg') }}" alt="Biodiversity illustration" />
+          <img
+            src="{{ url_for('static', filename='uploads/peacock-butterfly-1655724_1920.jpg') }}"
+            alt="Biodiversity illustration"
+          />
         </div>
         <div class="detail-text">
-          <p>Biodiversity plays an essential role in a food forest from the beginning on. Creating a food forest is creating a system, rather than creating a product. Longer term relationships between the plants, the trees and the fungi are what build the system up. Production in food forests is slower, but the permaculture in food forests is what stabilises it in the long run. Higher biodiversity in vegetation will also lead to an increase in bird species and insect species, and an increase in the amount of carbon sequestered. So compared to modern agriculture, which manifests as a monoculture, the biodiversity will be very low. Pesticides and fertilisers are used to treat the land to start producing as soon as possible. The higher the biodiversity in an ecosystem, the higher the productivity of that ecosystem, through “niche complementarity”, a phenomenon where species coexist using different resources. The more diverse the vegetation in a forest is, the wider the range of birds, insects and other critters, in return boosting natural pollination and removing any need for pesticides that only harm the ecosystem. A high biodiversity in the soil also positively affects carbon storage in a food forest. An increased biodiversity will help regulate the forest in the case of pests or plagues, since there will be more natural enemies.</p>
+          <p>
+            Biodiversity plays an essential role in a food forest from the
+            beginning on. Creating a food forest is creating a system, rather
+            than creating a product. Longer term relationships between the
+            plants, the trees and the fungi are what build the system up.
+            Production in food forests is slower, but the permaculture in food
+            forests is what stabilises it in the long run. Higher biodiversity
+            in vegetation will also lead to an increase in bird species and
+            insect species, and an increase in the amount of carbon sequestered.
+            So compared to modern agriculture, which manifests as a monoculture,
+            the biodiversity will be very low. Pesticides and fertilisers are
+            used to treat the land to start producing as soon as possible. The
+            higher the biodiversity in an ecosystem, the higher the productivity
+            of that ecosystem, through “niche complementarity”, a phenomenon
+            where species coexist using different resources. The more diverse
+            the vegetation in a forest is, the wider the range of birds, insects
+            and other critters, in return boosting natural pollination and
+            removing any need for pesticides that only harm the ecosystem. A
+            high biodiversity in the soil also positively affects carbon storage
+            in a food forest. An increased biodiversity will help regulate the
+            forest in the case of pests or plagues, since there will be more
+            natural enemies.
+          </p>
         </div>
       </div>
     </section>
@@ -181,8 +312,32 @@
       <h2>True Value</h2>
       <div class="detail-content">
         <div class="detail-text">
-          <p>When we factor in all environmental costs and benefits, food forest products often represent better value despite sometimes higher upfront prices. The true value of food forests consists of four key elements: carbon sequestration, water quality, nutrition, and biodiversity. Compared to food forestry, conventional agriculture imposes hidden environmental costs, such as greenhouse gas emissions and pesticide runoff that degrade soil and water systems, that are not accounted for economically, leaving the planet to bear the burden. This makes it important to highlight both the environmental costs of conventional practices and the true value benefits of food forestry. These external costs have been quantified using averages and assumptions to highlight both the damage caused by conventional methods and the added value of food forestry.</p>
-          <p>While carbon and water impacts were quantified, the other two elements, nutrition and biodiversity, also add significant value to food forestry. They contribute to healthier outcomes for both people and the planet, reinforcing the broader ecological and human benefits of this agricultural model. However, due to limited data, it was not yet possible to quantify these benefits. Since the current analysis is based on general averages, more detailed, crop-specific research is needed to assess nutrition and biodiversity more accurately.</p>
+          <p>
+            When we factor in all environmental costs and benefits, food forest
+            products often represent better value despite sometimes higher
+            upfront prices. The true value of food forests consists of four key
+            elements: carbon sequestration, water quality, nutrition, and
+            biodiversity. Compared to food forestry, conventional agriculture
+            imposes hidden environmental costs, such as greenhouse gas emissions
+            and pesticide runoff that degrade soil and water systems, that are
+            not accounted for economically, leaving the planet to bear the
+            burden. This makes it important to highlight both the environmental
+            costs of conventional practices and the true value benefits of food
+            forestry. These external costs have been quantified using averages
+            and assumptions to highlight both the damage caused by conventional
+            methods and the added value of food forestry.
+          </p>
+          <p>
+            While carbon and water impacts were quantified, the other two
+            elements, nutrition and biodiversity, also add significant value to
+            food forestry. They contribute to healthier outcomes for both people
+            and the planet, reinforcing the broader ecological and human
+            benefits of this agricultural model. However, due to limited data,
+            it was not yet possible to quantify these benefits. Since the
+            current analysis is based on general averages, more detailed,
+            crop-specific research is needed to assess nutrition and
+            biodiversity more accurately.
+          </p>
         </div>
       </div>
     </section>
@@ -190,10 +345,17 @@
     <!-- Call to Action -->
     <section class="article-cta">
       <h2>Experience the Difference</h2>
-      <p>Visit our network of food forests to taste the difference and see sustainable agriculture in action.</p>
+      <p>
+        Visit our network of food forests to taste the difference and see
+        sustainable agriculture in action.
+      </p>
       <div class="cta-buttons">
-        <a href="{{ url_for('views.food_forests') }}" class="cta-button primary">Find a Food Forest</a>
-        <a href="{{ url_for('auth.sign_up') }}" class="cta-button secondary">Join Our Community</a>
+        <a href="{{ url_for('views.food_forests') }}" class="cta-button primary"
+          >Find a Food Forest</a
+        >
+        <a href="{{ url_for('auth.sign_up') }}" class="cta-button secondary"
+          >Join Our Community</a
+        >
       </div>
     </section>
   </article>
@@ -336,7 +498,7 @@
     width: 100%;
     height: 12px;
     border-radius: 25px;
-    background: #7CB342;
+    background: #7cb342;
     outline: none;
     margin-bottom: 1rem;
   }
@@ -349,7 +511,7 @@
     border-radius: 50%;
     background: white;
     cursor: pointer;
-    border: 2px solid #7CB342;
+    border: 2px solid #7cb342;
   }
 
   .slider::-moz-range-thumb {
@@ -358,7 +520,7 @@
     border-radius: 50%;
     background: white;
     cursor: pointer;
-    border: 2px solid #7CB342;
+    border: 2px solid #7cb342;
   }
 
   .slider-value {
@@ -368,248 +530,248 @@
   }
 
   /* Comparison Section - Aligned Design */
-.comparison-section-new {
-  background: #e8e8e8;
-  padding: 2rem;
-  margin: 0 2rem 4rem;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 4rem;
-}
-
-.comparison-container {
-  max-width: 800px; /* Match the metrics rectangle width */
-  margin: 0 auto;
-}
-
-/* Aligned Comparison Images */
-.comparison-images {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr; /* Same grid as metrics */
-  align-items: center;
-  gap: 0;
-  margin-bottom: 3rem;
-}
-
-.comparison-side {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.comparison-side:first-child {
-  justify-self: end; /* Align with left metric values */
-}
-
-.comparison-side:last-child {
-  justify-self: start; /* Align with right metric values */
-}
-
-.comparison-image {
-  width: 200px;
-  height: 150px;
-  margin: 0 auto 1rem;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.comparison-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.comparison-side h3 {
-  font-size: 1.5rem;
-  color: #2e7d32;
-  font-weight: 600;
-  margin: 0;
-}
-
-.vs-divider {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #2e7d32;
-  padding: 0 1rem;
-  text-align: center;
-  width: 140px; /* Match metric label width */
-}
-
-/* Unified Metrics Rectangle - Aligned with Images */
-.unified-metrics-rectangle {
-  background: #e8e8e8;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.metric-row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 0;
-  min-height: 70px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.metric-row:hover {
-  transform: translateY(-2px);
-}
-
-.metric-row.main-metric {
-  margin: 0;
-}
-
-.metric-label {
-  color: #333;
-  padding: 1.2rem 2rem;
-  text-align: center;
-  font-weight: 600;
-  font-size: 1.1rem;
-  width: 140px; /* Fixed width to match VS divider */
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70px;
-}
-
-.metric-label.main {
-  padding: 1.5rem 2rem;
-  font-size: 1.2rem;
-  min-height: 90px;
-}
-
-.metric-label .sub-label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-top: 0.2rem;
-}
-
-.arrow-down {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: #333;
-  font-weight: bold;
-}
-
-.metric-value {
-  padding: 1rem 2rem;
-  border-radius: 35px;
-  font-weight: 600;
-  font-size: 1rem;
-  text-align: center;
-  width: 200px; /* Match comparison image width */
-  transition: all 0.3s ease;
-  margin: 0.5rem;
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.metric-value.left {
-  background: #4caf50;
-  color: white;
-  justify-self: end;
-}
-
-.metric-value.right {
-  background: #8d6e63;
-  color: white;
-  justify-self: start;
-}
-
-.metric-value.left:hover,
-.metric-value.right:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .comparison-images {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    text-align: center;
+  .comparison-section-new {
+    background: #e8e8e8;
+    padding: 2rem;
+    margin: 0 2rem 4rem;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 4rem;
   }
 
-  .comparison-side:first-child,
-  .comparison-side:last-child {
-    justify-self: center;
-  }
-
-  .vs-divider {
-    margin: 1rem 0;
-    font-size: 2rem;
-    width: auto;
-  }
-
-  .metric-row {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    text-align: center;
-  }
-
-  .metric-value {
-    justify-self: center;
-    width: 180px;
-    margin: 0.3rem auto;
-  }
-
-  .metric-label {
-    width: 120px;
+  .comparison-container {
+    max-width: 800px; /* Match the metrics rectangle width */
     margin: 0 auto;
   }
 
+  /* Aligned Comparison Images */
+  .comparison-images {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* Same grid as metrics */
+    align-items: center;
+    gap: 0;
+    margin-bottom: 3rem;
+  }
+
+  .comparison-side {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .comparison-side:first-child {
+    justify-self: end; /* Align with left metric values */
+  }
+
+  .comparison-side:last-child {
+    justify-self: start; /* Align with right metric values */
+  }
+
   .comparison-image {
-    width: 180px;
-    height: 135px;
+    width: 200px;
+    height: 150px;
+    margin: 0 auto 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .comparison-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .comparison-side h3 {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .comparison-section-new {
-    margin: 0 1rem 3rem;
-    padding: 1.5rem;
-  }
-
-  .metric-label {
-    padding: 0.8rem 1rem;
-    font-size: 0.95rem;
-    min-height: 55px;
-    width: 100px;
-  }
-
-  .metric-value {
-    padding: 0.7rem 1rem;
-    font-size: 0.85rem;
-    min-height: 40px;
-    width: 150px;
-  }
-
-  .comparison-image {
-    width: 150px;
-    height: 110px;
+    font-size: 1.5rem;
+    color: #2e7d32;
+    font-weight: 600;
+    margin: 0;
   }
 
   .vs-divider {
-    font-size: 1.8rem;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2e7d32;
+    padding: 0 1rem;
+    text-align: center;
+    width: 140px; /* Match metric label width */
   }
-}
+
+  /* Unified Metrics Rectangle - Aligned with Images */
+  .unified-metrics-rectangle {
+    background: #e8e8e8;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .metric-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0;
+    min-height: 70px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .metric-row:hover {
+    transform: translateY(-2px);
+  }
+
+  .metric-row.main-metric {
+    margin: 0;
+  }
+
+  .metric-label {
+    color: #333;
+    padding: 1.2rem 2rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    width: 140px; /* Fixed width to match VS divider */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+  }
+
+  .metric-label.main {
+    padding: 1.5rem 2rem;
+    font-size: 1.2rem;
+    min-height: 90px;
+  }
+
+  .metric-label .sub-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 0.2rem;
+  }
+
+  .arrow-down {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .metric-value {
+    padding: 1rem 2rem;
+    border-radius: 35px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    width: 200px; /* Match comparison image width */
+    transition: all 0.3s ease;
+    margin: 0.5rem;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .metric-value.left {
+    background: #4caf50;
+    color: white;
+    justify-self: end;
+  }
+
+  .metric-value.right {
+    background: #8d6e63;
+    color: white;
+    justify-self: start;
+  }
+
+  .metric-value.left:hover,
+  .metric-value.right:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .comparison-images {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .comparison-side:first-child,
+    .comparison-side:last-child {
+      justify-self: center;
+    }
+
+    .vs-divider {
+      margin: 1rem 0;
+      font-size: 2rem;
+      width: auto;
+    }
+
+    .metric-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      justify-self: center;
+      width: 180px;
+      margin: 0.3rem auto;
+    }
+
+    .metric-label {
+      width: 120px;
+      margin: 0 auto;
+    }
+
+    .comparison-image {
+      width: 180px;
+      height: 135px;
+    }
+
+    .comparison-side h3 {
+      font-size: 1.3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .comparison-section-new {
+      margin: 0 1rem 3rem;
+      padding: 1.5rem;
+    }
+
+    .metric-label {
+      padding: 0.8rem 1rem;
+      font-size: 0.95rem;
+      min-height: 55px;
+      width: 100px;
+    }
+
+    .metric-value {
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      min-height: 40px;
+      width: 150px;
+    }
+
+    .comparison-image {
+      width: 150px;
+      height: 110px;
+    }
+
+    .vs-divider {
+      font-size: 1.8rem;
+    }
+  }
 
   /* Detail Sections */
   .detail-section {
@@ -699,14 +861,14 @@
   }
 
   .cta-button.primary {
-    background: #4CAF50;
+    background: #4caf50;
     color: white;
   }
 
   .cta-button.secondary {
     background: white;
-    color: #4CAF50;
-    border: 2px solid #4CAF50;
+    color: #4caf50;
+    border: 2px solid #4caf50;
   }
 
   .cta-button:hover {
@@ -778,72 +940,78 @@
 
 <!-- JavaScript for the slider functionality and navbar scroll -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  /* ---------- CONSTANTS ---------- */
-  const baseTrueCostPerKg = 2.72;
+  document.addEventListener("DOMContentLoaded", function () {
+    /* ---------- CONSTANTS ---------- */
+    const baseTrueCostPerKg = 2.72;
 
-  /* ---------- MAIN UPDATE ---------- */
-  function updateValues(amount) {
-    // 1. Update the displayed amount
-    document.getElementById('current-amount').textContent = amount;
+    /* ---------- MAIN UPDATE ---------- */
+    function updateValues(amount) {
+      // 1. Update the displayed amount
+      document.getElementById("current-amount").textContent = amount;
 
-    // 2. Calculate True Costs values (only this section is dynamic)
-    const totalTrueCost = baseTrueCostPerKg * amount;
-    
-    // 3. Update only True Costs values (Carbon and Water remain static)
-    if (amount >= 1000) {
-      const trueCostK = totalTrueCost / 1000;
-      document.getElementById('true-costs-forest').textContent = `+€0.00`;
-      document.getElementById('true-costs-agriculture').textContent = `+€${trueCostK.toFixed(2)}K total`;
-    } else {
-      document.getElementById('true-costs-forest').textContent = `+€0.00`;
-      document.getElementById('true-costs-agriculture').textContent = `+€${totalTrueCost.toFixed(2)} total`;
-    }
-  }
+      // 2. Calculate True Costs values (only this section is dynamic)
+      const totalTrueCost = baseTrueCostPerKg * amount;
 
-  /* ---------- SLIDER HOOK ---------- */
-  const slider = document.getElementById('amountSlider');
-  slider.addEventListener('input', () => updateValues(parseInt(slider.value, 10)));
-
-  /* ---------- METRIC ROW CLICK HANDLERS ---------- */
-  document.querySelectorAll('.metric-row[data-section]').forEach(row => {
-    row.addEventListener('click', function() {
-      const sectionId = this.getAttribute('data-section');
-      const targetElement = document.getElementById(sectionId);
-      
-      if (targetElement) {
-        // Add visual feedback
-        this.style.background = 'rgba(76, 175, 80, 0.2)';
-        setTimeout(() => {
-          this.style.background = '';
-        }, 300);
-        
-        // Smooth scroll to section
-        window.scrollTo({
-          top: targetElement.offsetTop - 100,
-          behavior: 'smooth'
-        });
-      }
-    });
-  });
-
-  /* ---------- NAVBAR SCROLL EFFECT ---------- */
-  const navbar = document.querySelector('.navbar');
-  const transparentHeader = document.querySelector('.transparent-header');
-  
-  if (transparentHeader && navbar) {
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 50) {
-        transparentHeader.classList.add('scrolled');
+      // 3. Update only True Costs values (Carbon and Water remain static)
+      if (amount >= 1000) {
+        const trueCostK = totalTrueCost / 1000;
+        document.getElementById("true-costs-forest").textContent = `+€0.00`;
+        document.getElementById(
+          "true-costs-agriculture"
+        ).textContent = `+€${trueCostK.toFixed(2)}K total`;
       } else {
-        transparentHeader.classList.remove('scrolled');
+        document.getElementById("true-costs-forest").textContent = `+€0.00`;
+        document.getElementById(
+          "true-costs-agriculture"
+        ).textContent = `+€${totalTrueCost.toFixed(2)} total`;
       }
-    });
-  }
+    }
 
-  /* ---------- FIRST LOAD ---------- */
-  updateValues(parseInt(slider.value, 10));
-});
+    /* ---------- SLIDER HOOK ---------- */
+    const slider = document.getElementById("amountSlider");
+    slider.addEventListener("input", () =>
+      updateValues(parseInt(slider.value, 10))
+    );
+
+    /* ---------- METRIC ROW CLICK HANDLERS ---------- */
+    document.querySelectorAll(".metric-row[data-section]").forEach((row) => {
+      row.addEventListener("click", function () {
+        const sectionId = this.getAttribute("data-section");
+        const targetElement = document.getElementById(sectionId);
+
+        if (targetElement) {
+          // Add visual feedback
+          this.style.background = "rgba(76, 175, 80, 0.2)";
+          setTimeout(() => {
+            this.style.background = "";
+          }, 300);
+
+          // Smooth scroll to section
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: "smooth",
+          });
+        }
+      });
+    });
+
+    /* ---------- NAVBAR SCROLL EFFECT ---------- */
+    const navbar = document.querySelector(".navbar");
+    const transparentHeader = document.querySelector(".transparent-header");
+
+    if (transparentHeader && navbar) {
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 50) {
+          transparentHeader.classList.add("scrolled");
+        } else {
+          transparentHeader.classList.remove("scrolled");
+        }
+      });
+    }
+
+    /* ---------- FIRST LOAD ---------- */
+    updateValues(parseInt(slider.value, 10));
+  });
 </script>
 
 {% endblock %}
