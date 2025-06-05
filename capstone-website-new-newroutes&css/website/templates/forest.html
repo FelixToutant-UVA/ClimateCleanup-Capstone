@@ -3,7 +3,6 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forest.css') }}" />
 <style>
-/* Inline styles to ensure they load */
 .forest-hero {
   position: relative;
   width: 100%;
@@ -338,10 +337,10 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  margin: 3rem auto; /* Center the calendar */
+  margin: 3rem auto; 
   overflow: hidden;
-  max-width: 1200px; /* Match container width */
-  padding: 0 2rem 2rem 2rem; /* Add horizontal and bottom padding */
+  max-width: 1200px; 
+  padding: 0 2rem 2rem 2rem; 
 }
 
 .card-header {
@@ -695,13 +694,13 @@
   }
 
   .harvest-calendar-card {
-    padding: 0 1rem 1rem 1rem; /* Smaller padding on mobile */
-    margin: 2rem 1rem; /* Smaller margins on mobile */
+    padding: 0 1rem 1rem 1rem; 
+    margin: 2rem 1rem; 
   }
 
   .forest-impact-section {
     padding: 3rem 1rem;
-    margin: 2rem 1rem; /* Smaller margins on mobile */
+    margin: 2rem 1rem; 
   }
 }
 </style>
@@ -811,7 +810,7 @@ window.addEventListener('click', function(event) {
 // Like button functionality
 const likeBtn = document.getElementById('likeForestBtn');
 if (likeBtn) {
-  // Load initial like status
+
   const forestId = likeBtn.getAttribute('data-forest-id');
   
   fetch(`/like-status/${forestId}`)
@@ -947,7 +946,7 @@ if (likeBtn) {
   </div>
 </section>
 
-<!-- Forest Impact Section - Improved Design -->
+<!-- Forest Impact Section  -->
 <section class="forest-impact-section">
   <div class="impact-header">
     <h2>Environmental Impact</h2>

@@ -92,7 +92,6 @@
           L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "© OpenStreetMap contributors",
           }).addTo(myMap);
-          // Example: L.marker([52.0907, 5.1214]).addTo(myMap).bindPopup('Example Marker');
         }
       });
     </script>
@@ -104,7 +103,7 @@
           
           function updateHeaderBackground() {
             const scrollY = window.scrollY;
-            const triggerPoint = 100; // Start transition at 100px
+            const triggerPoint = 100; 
             
             if (scrollY > triggerPoint) {
               header.classList.add('scrolled');
