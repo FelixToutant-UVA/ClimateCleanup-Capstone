@@ -25,10 +25,10 @@ class User(db.Model, UserMixin):
     # Food-Forest-specific fields
     forest_name = db.Column(db.String(150))
     forest_location = db.Column(db.String(150))
-    forest_image = db.Column(db.String(255))  # Path to forest image
-    contact_email = db.Column(db.String(150))  # Contact email for customers
-    contact_phone = db.Column(db.String(50))   # Contact phone for customers
-    contact_visible = db.Column(db.Boolean, default=True)  # Whether to show contact info
+    forest_image = db.Column(db.String(255))  
+    contact_email = db.Column(db.String(150))  
+    contact_phone = db.Column(db.String(50))   
+    contact_visible = db.Column(db.Boolean, default=True) 
 
     # Enhanced location fields for businesses
     business_address = db.Column(db.String(255))
@@ -72,7 +72,7 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text)
-    image = db.Column(db.String(255))  # Path to product image
+    image = db.Column(db.String(255))  
     date_added = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     harvest_periods = db.relationship('HarvestPeriod', backref='product', lazy=True)
@@ -91,12 +91,11 @@ class MetricsHistory(db.Model):
     soil_type = db.Column(db.String(100))
     age_years = db.Column(db.Integer)
     biodiversity_index = db.Column(db.Float, default=0.75)
-    carbon_sequestration = db.Column(db.Float)  # Calculated value
-    water_stored = db.Column(db.Float)  # Calculated value
+    carbon_sequestration = db.Column(db.Float)  
+    water_stored = db.Column(db.Float)  
     date_recorded = db.Column(db.DateTime(timezone=True), default=func.now())
     
-    # Relationship
-    # Remove the backref since it's already defined in User model
+  
 
 class ForestLike(db.Model):
     id = db.Column(db.Integer, primary_key=True)

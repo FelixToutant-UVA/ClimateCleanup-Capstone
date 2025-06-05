@@ -15,7 +15,7 @@ def create_app():
     
     # Configure file uploads
     app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'uploads')
-    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  
     
     db.init_app(app)
 
