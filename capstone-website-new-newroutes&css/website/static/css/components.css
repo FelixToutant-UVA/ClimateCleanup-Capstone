@@ -1,6 +1,6 @@
 /* COMPONENTS - Reusable UI components like buttons, cards, forms */
 
-/* BUTTONS */
+/* Buttons */
 .cta-button {
   background: #000;
   color: #fff;
@@ -43,7 +43,7 @@
   gap: 1rem;
 }
 
-/* CARDS */
+/* Cards */
 .card {
   background: #f8f8f8;
   padding: 1.5rem;
@@ -82,7 +82,7 @@
   gap: 1rem;
 }
 
-/* FORMS */
+/* Forms */
 .form-group {
   margin-bottom: 1.2rem;
 }
@@ -123,7 +123,7 @@ textarea.form-control {
   background: #1b5e20;
 }
 
-/* MODALS */
+/* Modals */
 .modal {
   display: none;
   position: fixed;
@@ -161,7 +161,7 @@ textarea.form-control {
   color: #333;
 }
 
-/* HERO SECTIONS */
+/* Hero section */
 .hero {
   display: flex;
   align-items: center;
@@ -194,7 +194,7 @@ textarea.form-control {
   border-radius: 4px;
 }
 
-/* METRICS CARDS */
+/* Metrics cards */
 .metrics-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -218,7 +218,7 @@ textarea.form-control {
   color: #555;
 }
 
-/* PAGINATION */
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
@@ -257,7 +257,7 @@ textarea.form-control {
   height: 40px;
 }
 
-/* TABS */
+/* Tabs */
 .tab-button {
   background: #fff;
   border: 1px solid #333;
@@ -273,7 +273,7 @@ textarea.form-control {
   color: whitesmoke;
 }
 
-/* SEARCH */
+/* Search */
 .search-container {
   display: inline-flex;
   align-items: center;

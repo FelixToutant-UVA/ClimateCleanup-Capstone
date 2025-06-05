@@ -9,24 +9,24 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #fff; /* White page background by default */
+  background: #fff;
   color: #000;
 }
 
-/* Update navbar styling to match sustainability theme */
+
 /* Default header style for all pages */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 999;
-  background: #2e7d32; /* Green background to match sustainability theme */
+  background: #2e7d32; 
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s ease; /* Keep transition for all pages */
+  transition: all 0.5s ease; 
 }
 
 .nav-left .brand {
@@ -57,7 +57,7 @@ body {
   text-decoration: none;
   font-weight: 500;
   position: relative;
-  padding: 0.3rem 0.5rem; /* Added padding for better click area */
+  padding: 0.3rem 0.5rem; 
   transition: color 0.3s;
 }
 
@@ -82,14 +82,13 @@ body {
 /* Sign up button: white outline, green background on hover */
 .signup-btn {
   border: 2px solid #fff;
-  padding: 0.6rem 10rem; /* Increased horizontal padding for more space */
+  padding: 0.6rem 10rem; 
   border-radius: 20px;
   background: transparent;
   color: #fff;
   transition: background 0.3s, color 0.3s, transform 0.2s;
-  margin-left: 0.5rem; /* Add some space if it's next to other nav items */
-  white-space: nowrap; /* Prevent text wrapping */
-}
+  margin-left: 0.5rem; 
+  white-space: nowrap; 
 
 .signup-btn:hover {
   background: #fff;
@@ -209,7 +208,7 @@ p {
   margin-top: 2rem;
 }
 
-/* Add transparent header styles - now with home-page specific selector */
+/* Add transparent header styles */
 .transparent-header {
   position: fixed;
   top: 0;
@@ -220,27 +219,26 @@ p {
 
 /* Special styles only for home page */
 .home-page .transparent-header {
-  transition: all 0.5s ease; /* Smoother transition */
+  transition: all 0.5s ease; 
 }
 
 .home-page .transparent-header .navbar {
   background: transparent;
   box-shadow: none;
-  transition: all 0.5s ease; /* Smoother transition */
+  transition: all 0.5s ease; 
 }
 
 .home-page .transparent-header.scrolled .navbar {
-  background: rgba(46, 125, 50, 0.95); /* Slightly transparent even when scrolled */
-  backdrop-filter: blur(10px); /* Add blur effect for modern look */
+  background: rgba(46, 125, 50, 0.95); 
+  backdrop-filter: blur(10px); 
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Adjust main content to account for fixed header */
 main {
-  padding-top: 0; /* Remove default padding */
+  padding-top: 0; 
 }
 
 /* Non-home pages need padding for the fixed header */
 body:not(.home-page) main {
-  padding-top: 60px; /* Add padding for fixed header on non-home pages */
+  padding-top: 60px; 
 }

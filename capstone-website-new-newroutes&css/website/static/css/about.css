@@ -3,7 +3,7 @@
 .about-page-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 120px 2rem 2rem; /* Added top padding for fixed navbar */
+  padding: 120px 2rem 2rem;
 }
 
 /* Main content layout */
@@ -47,7 +47,7 @@
   font-weight: 600;
 }
 
-/* Contact section - made smaller */
+/* Contact section */
 .contact-section {
   margin-top: 2rem;
 }
@@ -72,13 +72,13 @@
   object-fit: cover;
 }
 
-/* Contact form styles - made more compact */
+/* Contact form styles */
 .contact-form {
   background: #f9f9f9;
-  padding: 1.5rem; /* Reduced from 2rem */
+  padding: 1.5rem; 
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  max-width: 500px; /* Added max-width to make it smaller */
+  max-width: 500px;
 }
 
 .input-row {
@@ -89,24 +89,24 @@
 }
 
 .form-group {
-  margin-bottom: 1rem; /* Reduced from 1.5rem */
+  margin-bottom: 1rem; 
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.4rem; /* Reduced from 0.5rem */
+  margin-bottom: 0.4rem; 
   font-weight: 500;
   color: #333;
-  font-size: 0.9rem; /* Made slightly smaller */
+  font-size: 0.9rem; 
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 0.6rem; /* Reduced from 0.8rem */
+  padding: 0.6rem; 
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 0.9rem; /* Made slightly smaller */
+  font-size: 0.9rem;
   transition: border-color 0.3s;
 }
 
@@ -126,9 +126,9 @@
   background: #2e7d32;
   color: white;
   border: none;
-  padding: 0.6rem 1.2rem; /* Made slightly smaller */
+  padding: 0.6rem 1.2rem; 
   border-radius: 4px;
-  font-size: 0.9rem; /* Made slightly smaller */
+  font-size: 0.9rem; 
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -158,13 +158,13 @@
   }
 
   .contact-form {
-    max-width: 100%; /* Full width on mobile */
+    max-width: 100%; 
   }
 }
 
 @media (max-width: 600px) {
   .about-page-wrapper {
-    padding: 100px 1rem 2rem; /* Adjusted for mobile navbar */
+    padding: 100px 1rem 2rem; 
   }
 
   .about-left h1 {
@@ -180,6 +180,6 @@
   }
 
   .contact-form {
-    padding: 1.2rem; /* Further reduced on mobile */
+    padding: 1.2rem; 
   }
 }

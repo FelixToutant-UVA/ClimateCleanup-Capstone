@@ -379,7 +379,7 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
-/* Join Network CTA */
+/* Join Network */
 .join-network {
   background: linear-gradient(to right, #2e7d32, #1b5e20);
   color: white;
@@ -417,7 +417,7 @@
   justify-content: center;
 }
 
-/* FOREST PAGE STYLES */
+/* Forest page styles */
 .forest-hero {
   position: relative;
   width: 100%;
