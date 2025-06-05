@@ -22,11 +22,6 @@
             <button class="like-forest-btn" id="likeForestBtn" data-forest-id="{{ user.id }}">
               <i class="far fa-heart"></i> <span class="like-count">0</span>
             </button>
-            {% if user.messages_enabled %}
-            <button class="message-forest-btn" id="messageForestBtn">
-              <i class="fas fa-comment"></i> Message
-            </button>
-            {% endif %}
           </div>
         </div>
       </div>
@@ -407,25 +402,6 @@
   </div>
 </div>
 
-<!-- Message Modal -->
-<div id="messageModal" class="modal">
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    <h2>Send Message</h2>
-    <form id="messageForm">
-      <div class="form-group">
-        <label for="messageSubject">Subject</label>
-        <input type="text" id="messageSubject" name="subject" placeholder="Enter message subject">
-      </div>
-      <div class="form-group">
-        <label for="messageContent">Message</label>
-        <textarea id="messageContent" name="content" rows="5" placeholder="Enter your message..." required></textarea>
-      </div>
-      <button type="submit" class="submit-btn">Send Message</button>
-    </form>
-  </div>
-</div>
-
 <!-- Hidden form for deleting products -->
 <form id="deleteProductForm" method="POST" style="display: none;"></form>
 
@@ -536,42 +512,6 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => {
         console.error('Error:', error);
-      });
-    });
-  }
-
-  // Message functionality
-  const messageForm = document.getElementById('messageForm');
-  if (messageForm) {
-    messageForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const subject = document.getElementById('messageSubject').value;
-      const content = document.getElementById('messageContent').value;
-      
-      fetch(`/send-message/{{ user.id }}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          subject: subject,
-          content: content
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('Message sent successfully!');
-          messageModal.style.display = 'none';
-          messageForm.reset();
-        } else {
-          alert('Error: ' + data.message);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error sending message');
       });
     });
   }

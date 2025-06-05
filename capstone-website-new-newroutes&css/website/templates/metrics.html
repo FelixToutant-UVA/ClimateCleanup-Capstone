@@ -292,11 +292,6 @@
       </div>
 
       <div class="metric-summary-card">
-        <h3>Water Stored</h3>
-        <p class="metric-value">{{ water_stored|default('3,671') }} <span class="unit">m³</span></p>
-      </div>
-
-      <div class="metric-summary-card">
         <h3>Biodiversity Index</h3>
         <p class="metric-value">{{ biodiversity_index|default('0.75') }} <span class="unit">index</span></p>
       </div>
@@ -320,19 +315,6 @@
         <div class="chart-container">
           <canvas id="carbonTrendChart"></canvas>
           <div id="carbonNoData" class="no-data-message" style="display: none;">
-            No historical data available. Update your metrics to start tracking trends.
-          </div>
-        </div>
-      </div>
-
-      <!-- Water Storage Trend -->
-      <div class="chart-card">
-        <div class="chart-header">
-          <h3>Water Storage Capacity</h3>
-        </div>
-        <div class="chart-container">
-          <canvas id="waterTrendChart"></canvas>
-          <div id="waterNoData" class="no-data-message" style="display: none;">
             No historical data available. Update your metrics to start tracking trends.
           </div>
         </div>
@@ -489,23 +471,6 @@ document.addEventListener('DOMContentLoaded', function() {
       options: getChartOptions('CO₂ (tons)')
     });
 
-    // Water Storage Trend Chart
-    updateChart('waterTrendChart', {
-      type: 'line',
-      data: {
-        labels: data.labels,
-        datasets: [{
-          label: 'Water Storage (m³)',
-          data: data.water_data,
-          borderColor: '#2196F3',
-          backgroundColor: 'rgba(33, 150, 243, 0.1)',
-          tension: 0.4,
-          fill: true
-        }]
-      },
-      options: getChartOptions('Water (m³)')
-    });
-
     // Biodiversity Index Trend Chart
     updateChart('biodiversityTrendChart', {
       type: 'line',
@@ -594,26 +559,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function showNoDataMessages() {
     document.getElementById('carbonNoData').style.display = 'block';
-    document.getElementById('waterNoData').style.display = 'block';
     document.getElementById('biodiversityNoData').style.display = 'block';
     document.getElementById('sizeNoData').style.display = 'block';
     
     // Hide chart canvases
     document.getElementById('carbonTrendChart').style.display = 'none';
-    document.getElementById('waterTrendChart').style.display = 'none';
     document.getElementById('biodiversityTrendChart').style.display = 'none';
     document.getElementById('sizeTrendChart').style.display = 'none';
   }
 
   function hideNoDataMessages() {
     document.getElementById('carbonNoData').style.display = 'none';
-    document.getElementById('waterNoData').style.display = 'none';
     document.getElementById('biodiversityNoData').style.display = 'none';
     document.getElementById('sizeNoData').style.display = 'none';
     
     // Show chart canvases
     document.getElementById('carbonTrendChart').style.display = 'block';
-    document.getElementById('waterTrendChart').style.display = 'block';
     document.getElementById('biodiversityTrendChart').style.display = 'block';
     document.getElementById('sizeTrendChart').style.display = 'block';
   }

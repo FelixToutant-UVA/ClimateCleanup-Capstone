@@ -733,11 +733,6 @@
   {% else %}
     <p class="no-contact-info">Contact information not available at this time.</p>
   {% endif %}
-  {% if forest and forest.messages_enabled %}
-    <button class="message-btn" id="messageOwnerBtn">
-      <i class="fas fa-comment"></i> Send Message
-    </button>
-  {% endif %}
 </div>
 </section>
 
@@ -784,24 +779,6 @@
 </div>
 </div>
 
-<!-- Message Modal -->
-<div id="messageModal" class="modal">
-<div class="modal-content">
-  <span class="close-modal">&times;</span>
-  <h2>Send Message to {{ forest.forest_name if forest else 'Forest Owner' }}</h2>
-  <form id="messageForm">
-    <div class="form-group">
-      <label for="messageSubject">Subject</label>
-      <input type="text" id="messageSubject" name="subject" placeholder="Enter message subject">
-    </div>
-    <div class="form-group">
-      <label for="messageContent">Message</label>
-      <textarea id="messageContent" name="content" rows="5" placeholder="Enter your message..." required></textarea>
-    </div>
-    <button type="submit" class="submit-btn">Send Message</button>
-  </form>
-</div>
-</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -822,57 +799,6 @@ if (closeContactModal) {
   });
 }
 
-// Message Modal
-const messageBtn = document.getElementById('messageOwnerBtn');
-const messageModal = document.getElementById('messageModal');
-const closeMessageModal = messageModal.querySelector('.close-modal');
-const messageForm = document.getElementById('messageForm');
-
-if (messageBtn) {
-  messageBtn.addEventListener('click', function() {
-    messageModal.style.display = 'block';
-  });
-}
-
-if (closeMessageModal) {
-  closeMessageModal.addEventListener('click', function() {
-    messageModal.style.display = 'none';
-  });
-}
-
-if (messageForm) {
-  messageForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const subject = document.getElementById('messageSubject').value;
-    const content = document.getElementById('messageContent').value;
-    
-    fetch(`/send-message/{{ forest.id if forest else '1' }}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        subject: subject,
-        content: content
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Message sent successfully!');
-        messageModal.style.display = 'none';
-        messageForm.reset();
-      } else {
-        alert('Error: ' + data.message);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Error sending message');
-    });
-  });
-}
 
 // Close modal when clicking outside
 window.addEventListener('click', function(event) {
@@ -1132,45 +1058,6 @@ if (likeBtn) {
     <p>Learn more about the science behind food forests and their environmental benefits</p>
     <a href="{{ url_for('views.article') }}" class="impact-learn-more">Explore the Research</a>
   </div>
-</section>
-
-<!-- Forest Metrics Section -->
-<section class="forest-metrics-section">
-  <div class="container">
-    <h2>Forest Metrics</h2>
-    {% if carbon_data %}
-      <div class="metrics-display-grid">
-        <div class="metric-display-card">
-          <h3>Size</h3>
-          <p class="metric-display-value">{{ carbon_data.size_m2|default('20000') }} m²</p>
-          <p class="metric-display-label">Square Meters</p>
-        </div>
-        
-        <div class="metric-display-card">
-          <h3>Soil Type</h3>
-          <p class="metric-display-value">{{ carbon_data.soil_type|default('Zandgrond') }}</p>
-          <p class="metric-display-label">Soil Classification</p>
-        </div>
-        
-        <div class="metric-display-card">
-          <h3>Age</h3>
-          <p class="metric-display-value">{{ carbon_data.age_years|default('4') }} years</p>
-          <p class="metric-display-label">Forest Age</p>
-        </div>
-        
-        <div class="metric-display-card">
-          <h3>Biodiversity Index</h3>
-          <p class="metric-display-value">{{ carbon_data.biodiversity_index|default('0.75') }}</p>
-          <p class="metric-display-label">Species Diversity</p>
-        </div>
-      </div>
-    {% else %}
-      <div class="no-data-message">
-        <p>No carbon data available for this forest yet.</p>
-      </div>
-    {% endif %}
-  </div>
-</section>
 </section>
 
 {% endblock %}
