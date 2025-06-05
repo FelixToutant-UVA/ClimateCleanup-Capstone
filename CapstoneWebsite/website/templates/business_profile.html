@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block body_class %}business-profile-page{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+  <div class="profile-content">
+    <!-- Business Details Card -->
+    <div class="business-details-card">
+      <h2>Business details</h2>
+      <div class="business-image">
+        {% if user.business_image %}
+          <img src="{{ url_for('static', filename=user.business_image) }}" alt="Business Image">
+        {% else %}
+          <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Business Image">
+        {% endif %}
+      </div>
+      <p>Location: {{ user.business_location|default('Amsterdam, Netherlands') }}</p>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section">
+      <div class="about-header">
+        <h2>About</h2>
+        <button id="edit-about-btn" class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+      </div>
+      <p class="subtitle">Tell customers about your business</p>
+      <div id="about-content">
+        {% if user.business_about %}
+          {{ user.business_about|safe }}
+        {% else %}
+          <p>
+            Share information about your business, your sustainability practices, and how you work with food forests.
+            Click the Edit button to add your business description.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Food Forests Nearby Section -->
+  <div class="food-forests-section">
+    <h2>Food-Forests Nearby</h2>
+    <div class="forests-grid">
+      {% if nearby_forests %}
+        {% for forest in nearby_forests %}
+          <div class="forest-card">
+            <h3>{{ forest.name }}</h3>
+            <img src="{{ url_for('static', filename=forest.image) }}" alt="{{ forest.name }}" class="forest-image">
+            <p>{{ forest.location }}</p>
+            <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="explore-btn">Explore</a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-forests-message">
+          <p>No food forests found nearby. Check back later as our community grows!</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Edit About Modal -->
+<div id="editAboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Edit About Section</h2>
+    <form id="editAboutForm" action="{{ url_for('views.update_business_about') }}" method="POST">
+      <div class="form-group">
+        <label for="businessAbout">About Your Business</label>
+        <textarea id="businessAbout" name="businessAbout" rows="8" class="form-control">{{ user.business_about }}</textarea>
+      </div>
+      <button type="submit" class="submit-btn">Save Changes</button>
+      <div class="form-group delete-section">
+        <hr style="margin: 2rem 0; border: 1px solid #eee;">
+        <h3 style="color: #dc3545; margin-bottom: 1rem;">Danger Zone</h3>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+          Once you delete your profile, there is no going back. This will permanently delete your business profile and all associated data.
+        </p>
+        <button type="button" class="delete-profile-btn" id="deleteBusinessProfileBtn">
+          <i class="fas fa-trash"></i> Delete Profile
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Edit About Modal
+    const editAboutBtn = document.getElementById('edit-about-btn');
+    const editAboutModal = document.getElementById('editAboutModal');
+    const closeAboutModal = editAboutModal.querySelector('.close-modal');
+    
+    editAboutBtn.addEventListener('click', function() {
+      editAboutModal.style.display = 'block';
+    });
+    
+    closeAboutModal.addEventListener('click', function() {
+      editAboutModal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === editAboutModal) {
+        editAboutModal.style.display = 'none';
+      }
+    });
+
+  // Delete Business Profile functionality
+  const deleteBusinessProfileBtn = document.getElementById('deleteBusinessProfileBtn');
+  if (deleteBusinessProfileBtn) {
+    deleteBusinessProfileBtn.addEventListener('click', function() {
+      const confirmMessage = `Are you sure you want to delete your business profile?
+
+This action will permanently delete:
+- Your business profile and details
+- All messages and data
+
+This action cannot be undone. Type "DELETE" to confirm:`;
+
+      const userInput = prompt(confirmMessage);
+      
+      if (userInput === 'DELETE') {
+        const finalConfirm = confirm('This is your final warning. Are you absolutely sure you want to delete your profile? This cannot be undone.');
+        
+        if (finalConfirm) {
+          // Create a form to submit the delete request
+          const deleteForm = document.createElement('form');
+          deleteForm.method = 'POST';
+          deleteForm.action = '/delete-profile';
+          deleteForm.style.display = 'none';
+          
+          document.body.appendChild(deleteForm);
+          deleteForm.submit();
+        }
+      } else if (userInput !== null) {
+        alert('Profile deletion cancelled. You must type "DELETE" exactly to confirm.');
+      }
+    });
+  }
+  });
+</script>
+{% endblock %}
+
+{% block footer %}{% endblock %}

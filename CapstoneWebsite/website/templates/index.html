@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+{% block head %}
+<style>
+  body.home-page main {
+    padding-top: 0;
+  }
+</style>
+{% endblock %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-background">
+    <img src="{{ url_for('static', filename='uploads/slider-bos.jpg') }}" alt="Food Forest Background" />
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="container">
+      <h1>Explore Sustainable Food Forests, One Harvest at a Time</h1>
+      <div class="hero-actions">
+        <a href="{{ url_for('views.food_forests') }}" class="hero-btn primary">Explore Forests</a>
+        <a href="{{ url_for('views.article') }}" class="hero-btn secondary">Compear values</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-left">
+        <h2> Compear Aims to Bring Food Forests and Businesses Together</h2>
+        <a href="{{ url_for('views.about_us') }}" class="about-us-btn">About us</a>
+      </div>
+
+      <div class="about-right">
+        <p class="about-body">
+          We believe that the future of food lies in working with nature, not against it. We created this platform to connect food forests with food businesses who value locally grown, environmentally responsible produce. Our mission is to support a food system that is healthier for both people and the planet by making it easier to access and appreciate the true value of food grown in harmony with nature. Together, we can build stronger local food networks and shift toward a more sustainable, regenerative way of eating.
+        </p>
+        <ul class="about-features">
+          <li> <a href="{{ url_for('views.article') }}" class="compare-link">Learn more</a> about Food forests</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What are Food-Forests Section -->
+<section class="food-forests-info-section">
+  <div class="container">
+    <div class="info-grid">
+
+      <div class="info-left">
+        <h3>What are Food Forests?</h3>
+        <p class="info-body">
+          Food forests are regenerative agricultural systems that replicate the structure and diversity of natural forests to produce food in a sustainable way. They consist of multiple layers of plants, such as fruit and nut trees, shrubs, herbs, vines, and groundcovers, that work together to support healthy soil, conserve water, and enhance biodiversity. By mimicking natural ecosystems, food forests don't rely on synthetic fertilisers or pesticides. Instead, they use natural processes and plant diversity to keep the soil healthy and manage pests, allowing them to thrive with little human input over time. This makes them a resilient and climate-friendly alternative to conventional agriculture.
+        </p>
+      </div>
+
+      <div class="info-right">
+        <div class="forest-diagram">
+          <div class="diagram-placeholder">
+            <img src="{{ url_for('static', filename='uploads/Food-Forest-1024x899.png') }}" alt="Food Forest Layers Diagram" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Cards Section -->
+<section class="impact-cards-section">
+  <div class="container">
+        <p class="info-body">
+          <strong>Example topics why food forests are important:</strong>
+        </p>
+    <div class="cards-container">
+      <div class="cards-grid">
+
+        <div class="flip-card" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="impact-image">
+                <img src="{{ url_for('static', filename='uploads/c1bc598abb841608f9874681b8eb6c55.jpg') }}" alt="Social Impact" />
+              </div>
+              <div class="impact-content">
+                <h3>Social Impact</h3>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-content">
+                <h3>Building Communities</h3>
+                <p>Food forests bring communities together to learn, share, and collaborate around sustainable agriculture, building connection and resilient local food networks.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="flip-card" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="impact-image">
+                <img src="{{ url_for('static', filename='uploads/peacock-butterfly-1655724_1920.jpg') }}" alt="Biodiversity" />
+              </div>
+              <div class="impact-content">
+                <h3>Biodiversity</h3>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-content">
+                <h3>Supporting Wildlife</h3>
+                <p>Food forests provide habitat for fostering diversity of fauna and flora, creating multiple ecological niches, supporting pollinators like bees. This strengthens the entire ecosystem and creates a more resilient agricultural system.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flip-card" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="impact-image">
+                <img src="{{ url_for('static', filename='uploads/A-Z-Guide-of-Nutrition-Essentials_truworth-wellness.jpg') }}" alt="Nutrition" />
+              </div>
+              <div class="impact-content">
+                <h3>Nutrition</h3>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-content">
+                <h3>Healthy Food Systems</h3>
+                <p>Food forests grow nutrient-rich foods in healthy soil without synthetic chemicals. Their diverse harvest offers essential vitamins, minerals, and antioxidants.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Forest Examples Section -->
+<section class="forest-examples-section">
+  <div class="container">
+    <h2>A Few Examples of Food Forests that Already Signed Up</h2>
+    <div class="examples-grid">
+      {% if forests %}
+        {% for forest in forests[:3] %}
+          <div class="example-card">
+            <div class="example-image">
+              <img src="{{ url_for('static', filename=forest.forest_image) if forest.forest_image else url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="{{ forest.forest_name }}" />
+            </div>
+            <div class="example-content">
+              <span class="example-tag">{{ forest.forest_location.split(',')[0] if forest.forest_location else 'Location' }}</span>
+              <h4>{{ forest.forest_name or 'Forest Name' }}</h4>
+              <p>{{ forest.forest_location or 'A sustainable food forest with a focus on biodiversity and community.' }}</p>
+              <a href="{{ url_for('views.forest_detail', forest_id=forest.id) }}" class="explore-btn">Explore</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+
+      <div class="example-card">
+          <div class="example-image">
+            <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Chang's Forest" />
+          </div>
+          <div class="example-content">
+            <span class="example-tag">Chang's</span>
+            <h4>Chang's</h4>
+            <p>A sustainable food forest with a focus on biodiversity and community.</p>
+            <a href="{{ url_for('views.food_forests') }}" class="explore-btn">Explore</a>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-image">
+            <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Green Valley Forest" />
+          </div>
+          <div class="example-content">
+            <span class="example-tag">Green Valley</span>
+            <h4>Green Valley</h4>
+            <p>A sustainable food forest with a focus on biodiversity and community.</p>
+            <a href="{{ url_for('views.food_forests') }}" class="explore-btn">Explore</a>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-image">
+            <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Harmony Forest" />
+          </div>
+          <div class="example-content">
+            <span class="example-tag">Harmony</span>
+            <h4>Harmony</h4>
+            <p>A sustainable food forest with a focus on biodiversity and community.</p>
+            <a href="{{ url_for('views.food_forests') }}" class="explore-btn">Explore</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Data & Methodology Section -->
+<section class="data-methodology-section">
+  <div class="container">
+    <div class="data-methodology-grid">
+
+      <div class="data-methodology-left">
+        <h3>Preliminary Analysis and Workflow</h3>
+        <p class="methodology-body">
+          As a group we evaluated whether newly established food forests influence nearby surface water quality in the Netherlands by linking annual measurements (2016–2024) of five key chemicals to food forest locations, taking into account each forest’s establishment year and area. First, we identified clusters of sampling points that were consistently monitored over this nine-year period, then matched each food forest to any water quality site within a 5 km radius. Our mixed-effects models, applied to log-transformed chemical concentrations, indicated that higher precipitation is associated with elevated nutrient levels, likely the result of increased runoff, while warmer temperatures coincide with lower nitrogen concentrations. In addition, areas with greater agricultural land use tend to exhibit higher nitrate and nitrite levels. Of all the food-forest variables we considered, only forest age showed a consistent association, with older food forests linked to lower chloride concentrations; this suggests a potential long-term buffering effect. Since our dataset spans just nine years, these findings remain preliminary, but our analysis pipeline is fully operational and ready to incorporate new data as it becomes available.
+        </p>
+      </div>
+
+      <div class="data-methodology-right">
+        <div class="methodology-image">
+          <img src="{{ url_for('static', filename='uploads/data-analysis-1024x576.webp') }}" alt="Analysis Illustration" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-container">
+      <div class="cta-content">
+        <h2>Ready to improve our environment and the food we eat?</h2>
+        <p>Whether you are a restaurant / food forest, you can join our platform through filling out this form and creating a profile.</p>
+        <a href="{{ url_for('auth.sign_up') }}" class="cta-signup-btn">Sign up</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function flipCard(card) {
+  card.classList.toggle('flipped');
+}
+</script>
+
+{% endblock %}
