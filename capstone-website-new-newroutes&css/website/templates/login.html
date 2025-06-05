@@ -42,7 +42,6 @@
         </div>
       </div>
 
-      <!-- Hidden input to store the selected account_type -->
       <input type="hidden" name="account_type" id="account_type" value="business">
 
       <button type="submit" class="auth-submit-btn">Login</button>
@@ -71,20 +70,22 @@
   </div>
 </div>
 
+
 <script>
+
+  // JavaScript to handle account type selection
+  
   document.addEventListener('DOMContentLoaded', function() {
     const accountTypeBtns = document.querySelectorAll('.account-type-btn');
     const accountTypeInput = document.getElementById('account_type');
 
     accountTypeBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        // Remove "active" class from all toggle buttons
+
         accountTypeBtns.forEach(b => b.classList.remove('active'));
 
-        // Add "active" class to the clicked button
         this.classList.add('active');
 
-        // Update the hidden input value
         accountTypeInput.value = this.dataset.type;
       });
     });

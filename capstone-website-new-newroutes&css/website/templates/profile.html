@@ -473,7 +473,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (likeForestBtn) {
     const forestId = likeForestBtn.getAttribute('data-forest-id');
     
-    // Load initial like status
     fetch(`/like-status/${forestId}`)
       .then(response => response.json())
       .then(data => {
@@ -531,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarProductSelect = document.getElementById('calendarProduct');
   
   if (editCalendarForm && calendarProductSelect) {
-    // Product harvest periods data from server
+
     const productHarvestPeriods = {
       {% if product_harvest_periods %}
         {% for product_id, months in product_harvest_periods.items() %}
@@ -540,14 +539,11 @@ document.addEventListener('DOMContentLoaded', function() {
       {% endif %}
     };
 
-    // Load harvest periods when product selection changes
     calendarProductSelect.addEventListener('change', function() {
       const productId = this.value;
       
-      // Reset all checkboxes
       document.querySelectorAll('input[name="months"]').forEach(cb => cb.checked = false);
       
-      // Check boxes based on data from server
       if (productId in productHarvestPeriods) {
         const months = productHarvestPeriods[productId];
         months.forEach(month => {
@@ -585,7 +581,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (response.ok) {
           alert('Harvest calendar updated successfully!');
           editCalendarModal.style.display = 'none';
-          location.reload(); // Reload to show updated calendar
+          location.reload(); 
         } else {
           alert('Error updating harvest calendar');
         }
@@ -597,14 +593,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Delete Profile functionality - simplified to one confirmation
+  // Delete Profile functionality 
   const deleteProfileBtn = document.getElementById('deleteProfileBtn');
   if (deleteProfileBtn) {
     deleteProfileBtn.addEventListener('click', function() {
       const confirmed = confirm('Are you sure you want to delete your profile? This action cannot be undone and will permanently delete all your data including your forest profile, products, and metrics.');
       
       if (confirmed) {
-        // Submit the delete form
         const deleteForm = document.getElementById('deleteProfileForm');
         deleteForm.submit();
       }
@@ -617,7 +612,6 @@ function editProduct(productId) {
   const editProductModal = document.getElementById('editProductModal');
   const editProductForm = document.getElementById('editProductForm');
   
-  // Product data from server
   const productData = {
     {% if products %}
       {% for product in products %}
@@ -637,15 +631,13 @@ function editProduct(productId) {
     return;
   }
   
-  // Set form action
   editProductForm.action = `/edit-product/${productId}`;
   
-  // Fill form fields
   document.getElementById('editProductName').value = product.name;
   document.getElementById('editProductPrice').value = product.price;
   document.getElementById('editProductDescription').value = product.description;
   
-  // Show current image if exists
+  // Show current image 
   const currentImageContainer = document.getElementById('currentProductImage');
   currentImageContainer.innerHTML = '';
   if (product.image) {
