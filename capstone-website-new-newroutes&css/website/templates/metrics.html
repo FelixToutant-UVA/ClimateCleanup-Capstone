@@ -456,14 +456,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Carbon Sequestration Trend Chart
     updateChart('carbonTrendChart', {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: data.labels,
         datasets: [{
           label: 'CO₂ Sequestration (tons)',
           data: data.carbon_data,
           borderColor: '#4CAF50',
-          backgroundColor: 'rgba(76, 175, 80, 0.1)',
+          backgroundColor: 'rgba(76, 175, 80, 0.7)', // Increased opacity from 0.1 to 0.7
           tension: 0.4,
           fill: true
         }]
@@ -473,14 +473,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Biodiversity Index Trend Chart
     updateChart('biodiversityTrendChart', {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: data.labels,
         datasets: [{
           label: 'Biodiversity Index',
           data: data.biodiversity_data,
           borderColor: '#FF9800',
-          backgroundColor: 'rgba(255, 152, 0, 0.1)',
+          backgroundColor: 'rgba(255, 152, 0, 0.7)', // Increased opacity from 0.1 to 0.7
           tension: 0.4,
           fill: true
         }]
