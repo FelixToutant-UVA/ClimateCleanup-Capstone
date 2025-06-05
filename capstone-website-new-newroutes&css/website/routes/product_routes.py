@@ -11,15 +11,12 @@ product_bp = Blueprint('product_bp', __name__)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
-    """Check if the file extension is allowed."""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @product_bp.route('/product/<int:product_id>')
 def product_detail(product_id):
-    """
-    Display details for a specific product.
-    """
+
     # Get the product
     product = Product.query.get_or_404(product_id)
     
@@ -41,9 +38,6 @@ def product_detail(product_id):
 @product_bp.route('/add-product', methods=['POST'])
 @login_required
 def add_product():
-    """
-    Add a new product.
-    """
     if request.method == 'POST':
         name = request.form.get('productName')
         price = request.form.get('productPrice')
@@ -71,14 +65,11 @@ def add_product():
                     # Use app config for upload folder
                     upload_folder = current_app.config['UPLOAD_FOLDER']
                     os.makedirs(upload_folder, exist_ok=True)
-                    
-                    # Full file path
+
                     filepath = os.path.join(upload_folder, filename)
-                    
-                    # Save the file
+
                     file.save(filepath)
                     
-                    # Store the relative path that can be used with url_for('static', filename=...)
                     new_product.image = f"uploads/{filename}"
                     
                     print(f"Product image saved successfully: {filepath}")
@@ -93,7 +84,7 @@ def add_product():
         db.session.commit()
         
         # Add default harvest periods (e.g., summer months)
-        default_months = [6, 7, 8]  # June, July, August
+        default_months = [6, 7, 8] 
         for month in default_months:
             harvest_period = HarvestPeriod(
                 product_id=new_product.id,
@@ -131,22 +122,17 @@ def edit_product(product_id):
             if file and file.filename != '' and allowed_file(file.filename):
                 try:
                     filename = secure_filename(file.filename)
-                    # Create unique filename to avoid conflicts
                     import time
                     timestamp = str(int(time.time()))
                     filename = f"product_{current_user.id}_{timestamp}_{filename}"
                     
-                    # Use app config for upload folder
                     upload_folder = current_app.config['UPLOAD_FOLDER']
                     os.makedirs(upload_folder, exist_ok=True)
-                    
-                    # Full file path
+
                     filepath = os.path.join(upload_folder, filename)
-                    
-                    # Save the file
+
                     file.save(filepath)
-                    
-                    # Store the relative path that can be used with url_for('static', filename=...)
+
                     product.image = f"uploads/{filename}"
                     
                     print(f"Product image updated successfully: {filepath}")
@@ -165,9 +151,6 @@ def edit_product(product_id):
 @product_bp.route('/delete-product/<int:product_id>', methods=['POST'])
 @login_required
 def delete_product(product_id):
-    """
-    Delete a product.
-    """
     product = Product.query.get_or_404(product_id)
     
     # Check if the product belongs to the current user
@@ -188,9 +171,6 @@ def delete_product(product_id):
 @product_bp.route('/update-harvest-calendar', methods=['POST'])
 @login_required
 def update_harvest_calendar():
-    """
-    Update the harvest calendar for a product.
-    """
     if request.method == 'POST':
         product_id = request.form.get('product_id')
         
@@ -198,7 +178,6 @@ def update_harvest_calendar():
         if request.form.getlist('months'):
             selected_months = request.form.getlist('months')
         else:
-            # If months come as a comma-separated string (from fetch API)
             months_str = request.form.get('months', '')
             if months_str:
                 selected_months = months_str.split(',')
@@ -218,7 +197,7 @@ def update_harvest_calendar():
         for month in selected_months:
             try:
                 month_int = int(month)
-                if 1 <= month_int <= 12:  # Validate month is between 1-12
+                if 1 <= month_int <= 12:
                     harvest_period = HarvestPeriod(
                         product_id=product_id,
                         user_id=current_user.id,
@@ -226,7 +205,7 @@ def update_harvest_calendar():
                     )
                     db.session.add(harvest_period)
             except ValueError:
-                continue  # Skip invalid values
+                continue  
         
         db.session.commit()
         flash('Harvest calendar updated successfully!', category='success')

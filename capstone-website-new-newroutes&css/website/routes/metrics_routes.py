@@ -1,6 +1,3 @@
-"""
-Routes related to metrics and carbon calculations.
-"""
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from ..models import CarbonData, MetricsHistory
@@ -14,9 +11,6 @@ metrics_bp = Blueprint('metrics_bp', __name__)
 @metrics_bp.route('/metrics', methods=['GET', 'POST'])
 @login_required
 def metrics():
-    """
-    Handle metrics page - display and update carbon data.
-    """
     carbon_data = CarbonData.query.filter_by(user_id=current_user.id).first()
 
     if request.method == 'POST':
@@ -37,14 +31,12 @@ def metrics():
             avg_carbon = (carbon_estimate['min'] + carbon_estimate['max']) / 2
 
         if carbon_data:
-            # Edit existing
             carbon_data.size_m2 = float(size)
             carbon_data.soil_type = soil
             carbon_data.age_years = int(age)
             carbon_data.biodiversity_index = float(biodiversity_index)
             flash("Carbon data updated!", category='success')
         else:
-            # Add new
             carbon_data = CarbonData(
                 size_m2=float(size),
                 soil_type=soil,
@@ -117,10 +109,6 @@ def metrics():
 @metrics_bp.route('/api/metrics-data')
 @login_required
 def get_metrics_data():
-    """
-    API endpoint to get historical metrics data for charts.
-    """
-    # Get time range from query parameters
     days = request.args.get('days', 365, type=int)
     start_date = datetime.now() - timedelta(days=days)
     
@@ -150,9 +138,6 @@ def get_metrics_data():
 @metrics_bp.route('/delete-carbon/<int:id>', methods=['POST'])
 @login_required
 def delete_carbon(id):
-    """
-    Delete carbon data entry.
-    """
     carbon = CarbonData.query.get_or_404(id)
 
     if carbon.user_id != current_user.id:

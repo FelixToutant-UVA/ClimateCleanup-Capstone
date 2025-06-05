@@ -1,6 +1,3 @@
-"""
-Routes related to food forests.
-"""
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy import or_
@@ -44,17 +41,15 @@ def food_forests():
     elif sort_by == 'oldest':
         query = query.order_by(User.id.asc())
     elif sort_by == 'size':
-        # Join with carbon_data to sort by size
         query = query.join(CarbonData, User.id == CarbonData.user_id, isouter=True)\
                      .order_by(CarbonData.size_m2.desc())
     elif sort_by == 'biodiversity':
-        # Join with carbon_data to sort by biodiversity_index
         query = query.join(CarbonData, User.id == CarbonData.user_id, isouter=True)\
                      .order_by(CarbonData.biodiversity_index.desc())
     
     # Add pagination logic
     page = request.args.get('page', 1, type=int)
-    per_page = 12  # Number of forests per page
+    per_page = 12 
 
     # Apply pagination to the query
     forests_paginated = query.paginate(
@@ -80,8 +75,8 @@ def food_forests():
         # Calculate metrics if carbon data exists
         metrics = {}
         if carbon_data:
-            metrics['species'] = int(carbon_data.biodiversity_index * 100)  # Approx. number of species
-            metrics['acres'] = round(carbon_data.size_m2 / 4047, 1)  # Convert m² to acres
+            metrics['species'] = int(carbon_data.biodiversity_index * 100) 
+            metrics['acres'] = round(carbon_data.size_m2 / 4047, 1) 
             
             # Calculate carbon sequestration
             carbon_estimate = calculate_carbon_sequestration(
@@ -92,7 +87,7 @@ def food_forests():
             )
             
             if carbon_estimate:
-                metrics['carbon'] = round((carbon_estimate['min'] + carbon_estimate['max']) / 2, 1)  # Average
+                metrics['carbon'] = round((carbon_estimate['min'] + carbon_estimate['max']) / 2, 1) 
         
         forest_data.append({
             'id': forest.id,
@@ -100,11 +95,11 @@ def food_forests():
             'location': forest.forest_location,
             'image': forest.forest_image or 'uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg',
             'metrics': metrics,
-            'type': 'Community',  # Example placeholder
+            'type': 'Community', 
             'coordinates': coordinates
         })
     
-    # Get featured forest (first one or None)
+    # Get featured forest
     featured_forest = forest_data[0] if forest_data else None
     
     return render_template(
@@ -124,10 +119,9 @@ def forest_detail(forest_id):
     """
     Display details for a specific food forest.
     """
-    # Get the forest (user with account_type='food-forest')
+    # Get the forest
     forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
     
-    # Get carbon data
     carbon_data = CarbonData.query.filter_by(user_id=forest.id).first()
     
     # Get products
@@ -142,7 +136,6 @@ def forest_detail(forest_id):
     # Calculate metrics if carbon_data exists
     metrics = {}
     if carbon_data:
-        # Calculate carbon sequestration using the same function as profile
         carbon_estimate = calculate_carbon_sequestration(
             carbon_data.size_m2,
             carbon_data.age_years,
@@ -158,7 +151,7 @@ def forest_detail(forest_id):
             metrics['carbon'] = "Data not available"
         
         # Calculate biodiversity impact
-        species_count = int(carbon_data.biodiversity_index * 60)  # Scale to realistic species count
+        species_count = int(carbon_data.biodiversity_index * 60) 
         metrics['biodiversity'] = f"+{species_count} species supported"
         
         # Calculate water savings based on forest size and soil type
@@ -225,10 +218,6 @@ def forest_detail(forest_id):
 
 @forest_bp.route('/forest')
 def forest():
-    """
-    Redirect to the first forest or show a default view.
-    """
-    # Redirect to the first forest or show a default view
     forest = User.query.filter_by(account_type='food-forest').first()
     if forest:
         return redirect(url_for('views.forest_detail', forest_id=forest.id))
@@ -252,9 +241,6 @@ def forest():
 
 @forest_bp.route('/api/forest/contact/<int:forest_id>')
 def get_contact_info(forest_id):
-    """
-    Get contact information for a specific forest.
-    """
     forest = User.query.filter_by(id=forest_id, account_type='food-forest').first_or_404()
     
     if not forest.contact_visible:
@@ -270,12 +256,9 @@ def get_contact_info(forest_id):
 
 # These routes need to be accessible from the main views blueprint
 def register_like_routes(app):
-    """Register like routes that can be accessed from main views"""
-    
     @app.route('/like-forest/<int:forest_id>', methods=['POST'])
     @login_required
     def like_forest(forest_id):
-        """Toggle like status for a forest."""
         print(f"Like request received for forest {forest_id} by user {current_user.id}")
         
         forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
@@ -312,7 +295,6 @@ def register_like_routes(app):
     @app.route('/like-status/<int:forest_id>')
     @login_required
     def get_like_status(forest_id):
-        """Get like status for a forest."""
         forest = User.query.filter_by(id=forest_id, account_type='food-forest').first()
         if not forest:
             return jsonify({'success': False, 'message': 'Forest not found'}), 404

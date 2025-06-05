@@ -1,6 +1,3 @@
-"""
-Routes related to user profiles.
-"""
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user, logout_user
 import os
@@ -16,16 +13,12 @@ profile_bp = Blueprint('profile_bp', __name__)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
-  """Check if the file extension is allowed."""
   return '.' in filename and \
          filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @profile_bp.route('/profile')
 @login_required
 def profile():
-  """
-  Display user profile.
-  """
   carbon_data = CarbonData.query.filter_by(user_id=current_user.id).first()
   products = Product.query.filter_by(user_id=current_user.id).all()
   
@@ -64,9 +57,6 @@ def profile():
 @profile_bp.route('/update-forest', methods=['POST'])
 @login_required
 def update_forest():
-  """
-  Update forest details.
-  """
   if request.method == 'POST':
       forest_name = request.form.get('forestName')
       forest_location = request.form.get('forestLocation')
@@ -85,7 +75,6 @@ def update_forest():
       current_user.contact_phone = contact_phone
       current_user.contact_visible = contact_visible
       current_user.messages_enabled = messages_enabled
-      # Force account type to 'food-forest' here if you're sure this update is for a forest
       current_user.account_type = 'food-forest'
       
       # Handle forest image upload
@@ -102,14 +91,11 @@ def update_forest():
                   # Use app config for upload folder
                   upload_folder = current_app.config['UPLOAD_FOLDER']
                   os.makedirs(upload_folder, exist_ok=True)
-                  
-                  # Full file path
+
                   filepath = os.path.join(upload_folder, filename)
-                  
-                  # Save the file
+
                   file.save(filepath)
-                  
-                  # Store the relative path that can be used with url_for('static', filename=...)
+
                   current_user.forest_image = f"uploads/{filename}"
                   
                   print(f"Forest image saved successfully: {filepath}")
@@ -154,9 +140,6 @@ def update_forest():
 @profile_bp.route('/business-profile')
 @login_required
 def business_profile():
-  """
-  Display business profile.
-  """
   if current_user.account_type != 'business':
       flash('Unauthorized access.', category='error')
       return redirect(url_for('profile_bp.profile'))
@@ -181,9 +164,6 @@ def business_profile():
 @profile_bp.route('/update-business-about', methods=['POST'])
 @login_required
 def update_business_about():
-  """
-  Update business about section.
-  """
   if current_user.account_type != 'business':
       flash('Unauthorized access.', category='error')
       return redirect(url_for('profile_bp.profile'))
@@ -212,8 +192,6 @@ def delete_profile():
         user_id = current_user.id
         user_email = current_user.email
         
-        # Delete all associated data in the correct order to avoid foreign key constraints
-        
         # Delete harvest periods
         HarvestPeriod.query.filter_by(user_id=user_id).delete()
         
@@ -227,15 +205,10 @@ def delete_profile():
         from ..models import MetricsHistory
         MetricsHistory.query.filter_by(user_id=user_id).delete()
         
-        # Delete forest likes (both given and received)
+        # Delete forest likes
         from ..models import ForestLike
-        ForestLike.query.filter_by(user_id=user_id).delete()  # Likes given by user
-        ForestLike.query.filter_by(forest_id=user_id).delete()  # Likes received by user's forest
-        
-        # Delete messages (both sent and received)
-        from ..models import Message
-        Message.query.filter_by(sender_id=user_id).delete()  # Messages sent by user
-        Message.query.filter_by(recipient_id=user_id).delete()  # Messages received by user
+        ForestLike.query.filter_by(user_id=user_id).delete()  
+        ForestLike.query.filter_by(forest_id=user_id).delete()
         
         # Delete notes
         from ..models import Note
