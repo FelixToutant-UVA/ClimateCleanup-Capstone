@@ -126,7 +126,7 @@
           </div>
 
           <!-- True Costs Row -->
-          <div class="metric-row main-metric">
+          <div class="metric-row main-metric larger-metric">
             <div class="metric-value left" id="true-costs-forest">
               +0.00 Total
             </div>
@@ -164,7 +164,7 @@
           </div>
 
           <!-- True Value Row -->
-          <div class="metric-row" data-section="true-value-section">
+          <div class="metric-row larger-metric" data-section="true-value-section">
             <div class="metric-value left" id="true-value-forest">Higher</div>
             <div class="metric-label">
               <span>True value</span>
@@ -363,6 +363,24 @@
 
 <style>
   /* Reset and base styles */
+
+  .larger-metric .metric-value {
+    font-size: 1.2rem;       
+    padding: 1.2rem 2.4rem;    
+    min-height: 60px;          
+  }
+
+  .larger-metric .metric-label {
+    font-size: 1.3rem;        
+    padding: 1.4rem 2.2rem;   
+    min-height: 80px;          
+  }
+  
+  .larger-metric .metric-label.main {
+    font-size: 1.35rem;        
+    padding: 1.5rem 2.4rem;    
+    min-height: 90px;         
+  }
   .article-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -936,6 +954,8 @@
       text-align: center;
     }
   }
+
+
 </style>
 
 <!-- JavaScript for the slider functionality and navbar scroll -->
