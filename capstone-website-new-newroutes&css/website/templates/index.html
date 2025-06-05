@@ -32,13 +32,12 @@
 <section class="about-section">
   <div class="container">
     <div class="about-grid">
-      <!-- Left Column - Header and Button -->
+
       <div class="about-left">
         <h2> Compear Aims to Bring Food Forests and Businesses Together</h2>
         <a href="{{ url_for('views.about_us') }}" class="about-us-btn">About us</a>
       </div>
 
-      <!-- Right Column - All Text Content -->
       <div class="about-right">
         <p class="about-body">
           We believe that the future of food lies in working with nature, not against it. We created this platform to connect food forests with food businesses who value locally grown, environmentally responsible produce. Our mission is to support a food system that is healthier for both people and the planet by making it easier to access and appreciate the true value of food grown in harmony with nature. Together, we can build stronger local food networks and shift toward a more sustainable, regenerative way of eating.
@@ -55,7 +54,7 @@
 <section class="food-forests-info-section">
   <div class="container">
     <div class="info-grid">
-      <!-- Left Column - Text Content -->
+
       <div class="info-left">
         <h3>What are Food Forests?</h3>
         <p class="info-body">
@@ -63,7 +62,6 @@
         </p>
       </div>
 
-      <!-- Right Column - Food Forest Diagram -->
       <div class="info-right">
         <div class="forest-diagram">
           <div class="diagram-placeholder">
@@ -83,7 +81,7 @@
         </p>
     <div class="cards-container">
       <div class="cards-grid">
-        <!-- Social Impact Card -->
+
         <div class="flip-card" onclick="flipCard(this)">
           <div class="flip-card-inner">
             <div class="flip-card-front">
@@ -103,7 +101,7 @@
           </div>
         </div>
         
-        <!-- Biodiversity Card -->
+
         <div class="flip-card" onclick="flipCard(this)">
           <div class="flip-card-inner">
             <div class="flip-card-front">
@@ -123,7 +121,6 @@
           </div>
         </div>
         
-        <!-- Nutrition Card -->
         <div class="flip-card" onclick="flipCard(this)">
           <div class="flip-card-inner">
             <div class="flip-card-front">
@@ -167,8 +164,8 @@
           </div>
         {% endfor %}
       {% else %}
-        <!-- Default examples when no forests exist -->
-        <div class="example-card">
+
+      <div class="example-card">
           <div class="example-image">
             <img src="{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}" alt="Chang's Forest" />
           </div>
@@ -212,7 +209,7 @@
 <section class="data-methodology-section">
   <div class="container">
     <div class="data-methodology-grid">
-      <!-- Left Column – Short Methodology Text -->
+
       <div class="data-methodology-left">
         <h3>Preliminary Analysis and Workflow</h3>
         <p class="methodology-body">
@@ -220,7 +217,6 @@
         </p>
       </div>
 
-      <!-- Right Column – Placeholder for Image -->
       <div class="data-methodology-right">
         <div class="methodology-image">
           <img src="{{ url_for('static', filename='uploads/data-analysis-1024x576.webp') }}" alt="Analysis Illustration" />

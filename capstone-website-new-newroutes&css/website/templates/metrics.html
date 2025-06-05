@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
 <style>
-/* Inline styles as fallback */
 .metrics-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -304,7 +303,7 @@
 
     <!-- Charts Section -->
     <div class="metrics-charts">
-      <!-- Carbon Sequestration Trend -->
+
       <div class="chart-card">
         <div class="chart-header">
           <h3>Carbon Sequestration Trend</h3>
@@ -320,7 +319,6 @@
         </div>
       </div>
 
-      <!-- Biodiversity Index Trend -->
       <div class="chart-card">
         <div class="chart-header">
           <h3>Biodiversity Index Over Time</h3>
@@ -333,7 +331,6 @@
         </div>
       </div>
 
-      <!-- Forest Size Trend -->
       <div class="chart-card">
         <div class="chart-header">
           <h3>Forest Size (Hectares)</h3>
@@ -463,7 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
           label: 'CO₂ Sequestration (tons)',
           data: data.carbon_data,
           borderColor: '#4CAF50',
-          backgroundColor: 'rgba(76, 175, 80, 0.7)', // Increased opacity from 0.1 to 0.7
+          backgroundColor: 'rgba(76, 175, 80, 0.7)', 
           tension: 0.4,
           fill: true
         }]
@@ -471,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
       options: getChartOptions('CO₂ (tons)')
     });
 
-    // Biodiversity Index Trend Chart
+
     updateChart('biodiversityTrendChart', {
       type: 'bar',
       data: {
@@ -480,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
           label: 'Biodiversity Index',
           data: data.biodiversity_data,
           borderColor: '#FF9800',
-          backgroundColor: 'rgba(255, 152, 0, 0.7)', // Increased opacity from 0.1 to 0.7
+          backgroundColor: 'rgba(255, 152, 0, 0.7)', 
           tension: 0.4,
           fill: true
         }]
@@ -488,7 +485,6 @@ document.addEventListener('DOMContentLoaded', function() {
       options: getChartOptions('Index')
     });
 
-    // Forest Size Trend Chart
     updateChart('sizeTrendChart', {
       type: 'bar',
       data: {
@@ -509,12 +505,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
 
-    // Destroy existing chart if it exists
     if (charts[canvasId]) {
       charts[canvasId].destroy();
     }
 
-    // Create new chart
     charts[canvasId] = new Chart(ctx.getContext('2d'), config);
   }
 
@@ -562,7 +556,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('biodiversityNoData').style.display = 'block';
     document.getElementById('sizeNoData').style.display = 'block';
     
-    // Hide chart canvases
     document.getElementById('carbonTrendChart').style.display = 'none';
     document.getElementById('biodiversityTrendChart').style.display = 'none';
     document.getElementById('sizeTrendChart').style.display = 'none';
@@ -573,13 +566,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('biodiversityNoData').style.display = 'none';
     document.getElementById('sizeNoData').style.display = 'none';
     
-    // Show chart canvases
     document.getElementById('carbonTrendChart').style.display = 'block';
     document.getElementById('biodiversityTrendChart').style.display = 'block';
     document.getElementById('sizeTrendChart').style.display = 'block';
   }
 
-  // Initial load
   loadMetricsData();
 });
 </script>
