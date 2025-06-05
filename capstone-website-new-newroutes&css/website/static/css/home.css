@@ -574,3 +574,67 @@
     padding: 0 1rem;
   }
 }
+
+/* Data & Methodology Section */
+.data-methodology-section {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.data-methodology-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: stretch;
+}
+
+.data-methodology-left h3 {
+  font-size: 1.8rem;
+  color: #6b8e23; /* Olive green to match "What are Food-Forests" */
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.methodology-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.data-methodology-right .methodology-image {
+  text-align: center;
+}
+
+.data-methodology-right .methodology-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .data-methodology-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .data-methodology-left h3 {
+    font-size: 1.6rem;
+  }
+  .methodology-body {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .data-methodology-section {
+    padding: 3rem 0;
+  }
+  .data-methodology-left h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .methodology-body {
+    font-size: 0.9rem;
+  }
+}
