@@ -316,10 +316,10 @@
   </div>
 </div>
 
-<!-- JavaScript for interactive elements -->
+<!-- JavaScript (map section) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // View toggle functionality
+
   const gridViewBtn = document.getElementById('gridViewBtn');
   const mapViewBtn = document.getElementById('mapViewBtn');
   const forestGrid = document.querySelector('.forest-grid');
@@ -338,17 +338,16 @@ document.addEventListener('DOMContentLoaded', function() {
     mapViewBtn.classList.add('active');
     gridViewBtn.classList.remove('active');
 
-    // Initialize map if it hasn't been already
+    // Initialize map 
     if (!window.forestsMapInitialized) {
-      // Check if Leaflet is available
+     
       if (typeof L !== 'undefined') {
-        // Center map on Amsterdam
+
         const forestsMap = L.map('forests-map').setView([52.3676, 4.9041], 12);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '© OpenStreetMap contributors'
         }).addTo(forestsMap);
 
-        // Add markers for each forest using actual coordinates
         const forestLocations = [
           {% for forest in forests %}
             {
@@ -376,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
           `);
         });
 
-        // Fit map to show all markers if there are any
+      
         if (forestLocations.length > 0) {
           const group = new L.featureGroup(forestsMap._layers);
           if (Object.keys(group._layers).length > 0) {
@@ -397,13 +396,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   categoryTabs.forEach(tab => {
     tab.addEventListener('click', function() {
-      // Update active tab
+
       categoryTabs.forEach(t => t.classList.remove('active'));
       this.classList.add('active');
 
       const category = this.dataset.category;
 
-      // Filter forest cards
+      // Filter 
       forestCards.forEach(card => {
         if (category === 'all' || card.dataset.category === category) {
           card.style.display = 'block';
@@ -414,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Contact functionality for forest cards
+  // Contact functionality 
   const contactButtons = document.querySelectorAll('.forest-card-contact');
   const forestContactModal = document.getElementById('forestContactModal');
   const closeForestContactModal = forestContactModal.querySelector('.close-modal');
