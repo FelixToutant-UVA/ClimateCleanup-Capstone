@@ -34,12 +34,12 @@
 
     <!-- Slider Section -->
     <section class="comparison-slider-section">
-      <h2>How many KG of food do you want to compare?</h2>
-      <p class="slider-instruction">Use the slider below to show how many KG of apples you would like to compare</p>
+      <h2>How many kg of food do you want to compare?</h2>
+      <p class="slider-instruction">Use the slider below to show how many kg of apples you would like to compare</p>
       
       <div class="slider-container">
         <input type="range" min="1" max="1000" value="1" step="1" class="slider" id="amountSlider">
-        <div class="slider-value"><span id="current-amount">20000</span>KG</div>
+        <div class="slider-value"><span id="current-amount">20000</span>kg</div>
       </div>
     </section>
 
@@ -52,7 +52,7 @@
         <div class="comparison-image">
           <img src="{{ url_for('static', filename='uploads/oogst-overvloed-voedselbos-ketelbroek.jpg') }}" alt="Food forest produce" />
         </div>
-        <h3>Food-Forest</h3>
+        <h3>Food Forest</h3>
       </div>
       
       <div class="vs-divider">VS</div>
@@ -69,30 +69,30 @@
     <div class="unified-metrics-rectangle">
       <!-- Carbon Row -->
       <div class="metric-row" data-section="carbon-section">
-        <div class="metric-value left" id="carbon-forest">+0.00 / KG</div>
+        <div class="metric-value left" id="carbon-forest">+0.00 / kg</div>
         <div class="metric-label">
           <span>Carbon</span>
         </div>
-        <div class="metric-value right" id="carbon-agriculture">+2.67 / KG</div>
+        <div class="metric-value right" id="carbon-agriculture">+2.67 / kg</div>
       </div>
 
       <!-- Water Row -->
       <div class="metric-row" data-section="water-section">
-        <div class="metric-value left" id="water-forest">+0.00 / KG</div>
+        <div class="metric-value left" id="water-forest">+0.00 / kg</div>
         <div class="metric-label">
           <span>Water</span>
         </div>
-        <div class="metric-value right" id="water-agriculture">+0.05 per KG</div>
+        <div class="metric-value right" id="water-agriculture">+0.05 / kg</div>
       </div>
 
       <!-- True Costs Row -->
       <div class="metric-row main-metric">
-        <div class="metric-value left" id="true-costs-forest">+0.00 / KG</div>
+        <div class="metric-value left" id="true-costs-forest">+0.00 / kg</div>
         <div class="metric-label main">
           <div class="arrow-down">↓</div>
           <span>True costs</span>
         </div>
-        <div class="metric-value right" id="true-costs-agriculture">+2.72 per KG</div>
+        <div class="metric-value right" id="true-costs-agriculture">+2.72 Total</div>
       </div>
 
       <!-- Nutrition Row -->
