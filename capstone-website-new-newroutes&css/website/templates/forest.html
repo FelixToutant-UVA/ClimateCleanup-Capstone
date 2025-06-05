@@ -144,10 +144,14 @@
 }
 
 .inventory-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
   margin-bottom: 3rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
 }
 
 .featured-product {
@@ -191,12 +195,6 @@
 .view-product-btn:hover {
   background: #1b5e20;
   transform: translateY(-2px);
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
 }
 
 .product-card {
@@ -340,8 +338,10 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  margin-bottom: 3rem;
+  margin: 3rem auto; /* Center the calendar */
   overflow: hidden;
+  max-width: 1200px; /* Match container width */
+  padding: 0 2rem 2rem 2rem; /* Add horizontal and bottom padding */
 }
 
 .card-header {
@@ -445,24 +445,20 @@
 .forest-impact-section {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   padding: 4rem 2rem;
-  margin: 3rem 0;
+  margin: 3rem auto; /* Center the section */
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; /* Match container width */
 }
 
 .impact-header {
   text-align: center;
   margin-bottom: 3rem;
-}
-
-.impact-header h2 {
-  font-size: 2.5rem;
-  color: #2e7d32;
-  margin-bottom: 1rem;
-  font-weight: 600;
+  padding: 0 1rem; /* Add horizontal padding for text */
 }
 
 .impact-grid {
+  padding: 0 1rem; /* Add horizontal padding for cards */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
@@ -597,21 +593,17 @@
 .forest-metrics-section {
   background: #f8f9fa;
   padding: 4rem 2rem;
-  margin: 3rem 0;
-}
-
-.forest-metrics-section h2 {
-  text-align: center;
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 3rem;
+  margin: 3rem auto;
+  max-width: 1200px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .metrics-display-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
-  max-width: 1000px;
+  padding: 1rem;
   margin: 0 auto;
 }
 
@@ -699,6 +691,17 @@
   
   .forest-metrics-section {
     padding: 3rem 1rem;
+    margin: 2rem 1rem;
+  }
+
+  .harvest-calendar-card {
+    padding: 0 1rem 1rem 1rem; /* Smaller padding on mobile */
+    margin: 2rem 1rem; /* Smaller margins on mobile */
+  }
+
+  .forest-impact-section {
+    padding: 3rem 1rem;
+    margin: 2rem 1rem; /* Smaller margins on mobile */
   }
 }
 </style>
@@ -951,65 +954,25 @@ if (likeBtn) {
 <h2>Inventory</h2>
 
 <div class="inventory-layout">
-  <!-- Featured product -->
   {% if products and products|length > 0 %}
-    <div class="featured-product">
-      <img src="{{ url_for('static', filename=products[0].image) if products[0].image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ products[0].name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'" />
-      <div class="featured-product-info">
-        <h3>{{ products[0].name }}</h3>
-        <p>{{ products[0].description|default('This product is grown in our sustainable food forest ecosystem, supporting biodiversity and reducing carbon emissions compared to conventional farming methods.') }}</p>
-        <a href="{{ url_for('views.product_detail', product_id=products[0].id) }}" class="view-product-btn">View Product</a>
-      </div>
-    </div>
-  
-    <!-- Product grid -->
-    {% if products|length > 1 %}
-      <div class="product-grid">
-        {% for product in products[1:3] %}
-          <div class="product-card">
-            <img src="{{ url_for('static', filename=product.image) if product.image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ product.name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'" />
-            <div class="product-info">
-              <h4>{{ product.name }}</h4>
-              <p>{{ product.description|truncate(50) }}</p>
-              <a href="{{ url_for('views.product_detail', product_id=product.id) }}" class="product-link">View Details</a>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% else %}
-    <div class="featured-product">
-      <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Featured pears" />
-      <div class="featured-product-info">
-        <h3>Pear</h3>
-        <p>Description of featured product. These pears are grown in our sustainable food forest ecosystem, supporting biodiversity and reducing carbon emissions compared to conventional farming methods.</p>
-        <a href="{{ url_for('views.product_detail', product_id=1) }}" class="view-product-btn">View Product</a>
-      </div>
-    </div>
-  
-    <!-- Product grid -->
     <div class="product-grid">
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Pear" />
-        <div class="product-info">
-          <h4>Pear</h4>
-          <p>Description of top product</p>
-          <a href="{{ url_for('views.product_detail', product_id=2) }}" class="product-link">View Details</a>
-        
+      {% for product in products %}
+        <div class="product-card">
+          <img src="{{ url_for('static', filename=product.image) if product.image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ product.name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'" />
+          <div class="product-info">
+            <h4>{{ product.name }}</h4>
+            <p>{{ product.description|truncate(100) }}</p>
+          </div>
         </div>
-      </div>
-  
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/hero_pears.jpg') }}" alt="Pear" />
-        <div class="product-info">
-          <h4>Pear</h4>
-          <p>Description of top product</p>
-          <a href="{{ url_for('views.product_detail', product_id=3) }}" class="product-link">View Details</a>
-        </div>
-      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="no-products-message">
+      <p>No products available at this time.</p>
     </div>
   {% endif %}
 </div>
+</section>
 
 <!-- Harvest Calendar Section -->
 <section class="profile-card harvest-calendar-card">
