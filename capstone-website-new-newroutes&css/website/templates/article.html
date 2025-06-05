@@ -105,23 +105,23 @@
         <div class="unified-metrics-rectangle">
           <!-- Carbon Row -->
           <div class="metric-row" data-section="carbon-section">
-            <div class="metric-value left" id="carbon-forest">+0.00 / kg</div>
+            <div class="metric-value left" id="carbon-forest">+€0.00 / kg</div>
             <div class="metric-label">
               <span>Carbon</span>
             </div>
             <div class="metric-value right" id="carbon-agriculture">
-              +2.67 / kg
+              +€2.67 / kg
             </div>
           </div>
 
           <!-- Water Row -->
           <div class="metric-row" data-section="water-section">
-            <div class="metric-value left" id="water-forest">+0.00 / kg</div>
+            <div class="metric-value left" id="water-forest">+€0.00 / kg</div>
             <div class="metric-label">
               <span>Water</span>
             </div>
             <div class="metric-value right" id="water-agriculture">
-              +0.05 / kg
+              +€0.05 / kg
             </div>
           </div>
 
@@ -559,14 +559,13 @@
   }
 
   .comparison-container {
-    max-width: 800px; /* Match the metrics rectangle width */
+    max-width: 800px; 
     margin: 0 auto;
   }
 
-  /* Aligned Comparison Images */
   .comparison-images {
     display: grid;
-    grid-template-columns: 1fr auto 1fr; /* Same grid as metrics */
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 0;
     margin-bottom: 3rem;
@@ -580,11 +579,11 @@
   }
 
   .comparison-side:first-child {
-    justify-self: end; /* Align with left metric values */
+    justify-self: end; 
   }
 
   .comparison-side:last-child {
-    justify-self: start; /* Align with right metric values */
+    justify-self: start; 
   }
 
   .comparison-image {
@@ -615,7 +614,7 @@
     color: #2e7d32;
     padding: 0 1rem;
     text-align: center;
-    width: 140px; /* Match metric label width */
+    width: 140px; 
   }
 
   /* Unified Metrics Rectangle - Aligned with Images */
@@ -653,7 +652,7 @@
     text-align: center;
     font-weight: 600;
     font-size: 1.1rem;
-    width: 140px; /* Fixed width to match VS divider */
+    width: 140px; 
     position: relative;
     display: flex;
     flex-direction: column;
@@ -688,7 +687,7 @@
     font-weight: 600;
     font-size: 1rem;
     text-align: center;
-    width: 200px; /* Match comparison image width */
+    width: 200px;
     transition: all 0.3s ease;
     margin: 0.5rem;
     min-height: 50px;
@@ -1000,13 +999,11 @@
         const targetElement = document.getElementById(sectionId);
 
         if (targetElement) {
-          // Add visual feedback
           this.style.background = "rgba(76, 175, 80, 0.2)";
           setTimeout(() => {
             this.style.background = "";
           }, 300);
 
-          // Smooth scroll to section
           window.scrollTo({
             top: targetElement.offsetTop - 100,
             behavior: "smooth",

@@ -57,7 +57,7 @@ body {
   text-decoration: none;
   font-weight: 500;
   position: relative;
-  padding: 0.3rem 0;
+  padding: 0.3rem 0.5rem; /* Added padding for better click area */
   transition: color 0.3s;
 }
 
@@ -82,11 +82,13 @@ body {
 /* Sign up button: white outline, green background on hover */
 .signup-btn {
   border: 2px solid #fff;
-  padding: 0.4rem 1.2rem;
+  padding: 0.6rem 10rem; /* Increased horizontal padding for more space */
   border-radius: 20px;
   background: transparent;
   color: #fff;
   transition: background 0.3s, color 0.3s, transform 0.2s;
+  margin-left: 0.5rem; /* Add some space if it's next to other nav items */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .signup-btn:hover {
