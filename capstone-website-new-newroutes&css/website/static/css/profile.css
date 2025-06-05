@@ -1,4 +1,4 @@
-/* PROFILE PAGE STYLES */
+/* Profile page styles */
 .profile-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -36,8 +36,8 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the content */
-  text-align: center; /* Center text */
+  align-items: center; 
+  text-align: center; 
 }
 
 /* Fix for forest name appearing behind image */
@@ -46,24 +46,24 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 400px; /* Limit maximum width */
-  height: 250px; /* Set fixed height */
-  overflow: hidden; /* Hide overflow */
-  border-radius: 8px; /* Add rounded corners */
+  max-width: 400px; 
+  height: 250px; 
+  overflow: hidden; 
+  border-radius: 8px; 
 }
 
 .forest-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Maintain aspect ratio while filling container */
+  object-fit: cover; 
   border-radius: 8px;
 }
 
 .forest-info {
   position: relative;
   z-index: 2;
-  margin-top: 1.5rem; /* Add more space between image and info */
-  clear: both; /* Ensure info appears below image */
+  margin-top: 1.5rem; 
+  clear: both; 
 }
 
 .forest-info h3 {
@@ -224,25 +224,25 @@
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s, box-shadow 0.3s;
-  margin: 0; /* Remove auto margin */
-  width: 100%; /* Ensure it takes full width of its grid cell */
+  margin: 0; 
+  width: 100%; 
   display: flex;
   flex-direction: column;
-  position: relative; /* Add position relative for better hover effect */
-  top: 0; /* Starting position */
-  transition: all 0.3s ease; /* Smooth transition for all properties */
+  position: relative; 
+  top: 0; 
+  transition: all 0.3s ease; 
 }
 
 .product-item:hover {
-  transform: translateY(-8px); /* Increase the lift effect from 5px to 8px */
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); /* Deeper, more pronounced shadow */
-  z-index: 5; /* Ensure it appears above other items when hovering */
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); 
+  z-index: 5;
 }
 
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem; /* This gap should provide spacing, but let's increase it */
+  gap: 1.5rem; 
   padding: 1.5rem;
 }
 
@@ -259,7 +259,7 @@
 /* Ensure product details have proper spacing */
 .product-details {
   padding: 1rem;
-  flex-grow: 1; /* Allow it to grow and fill available space */
+  flex-grow: 1; 
   display: flex;
   flex-direction: column;
 }
@@ -280,7 +280,7 @@
 .product-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: auto; /* Push to bottom of container */
+  margin-top: auto; 
 }
 
 .edit-product-btn,
@@ -336,7 +336,6 @@
   padding: 3px;
 }
 
-/* Improve file input styling */
 input[type="file"] {
   border: 1px solid #ddd;
   padding: 8px;
@@ -344,7 +343,7 @@ input[type="file"] {
   width: 100%;
 }
 
-/* Modal Styles */
+/* Modal styles */
 .modal {
   display: none;
   position: fixed;
@@ -355,20 +354,20 @@ input[type="file"] {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px 0; /* Add padding for better mobile experience */
+  padding: 20px 0; 
 }
 
 .modal-content {
   background-color: white;
-  margin: 2% auto; /* Reduce top margin */
+  margin: 2% auto; 
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   max-width: 500px;
   width: 90%;
   position: relative;
-  max-height: 90vh; /* Limit height */
-  overflow-y: auto; /* Enable scrolling */
+  max-height: 90vh; 
+  overflow-y: auto; 
 }
 
 .close-modal {
@@ -471,7 +470,7 @@ input[type="file"] {
   }
 }
 
-/* Harvest Calendar Styles */
+/* Harvest calendar styles */
 .harvest-calendar-card {
   margin-bottom: 2rem;
 }
@@ -542,7 +541,7 @@ input[type="file"] {
   transform: translateY(-2px);
 }
 
-/* Month Checkboxes in Modal */
+/* Month checkboxes in modal */
 .month-checkboxes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -601,7 +600,7 @@ input[type="file"] {
   }
 }
 
-/* Like and Message Buttons */
+/* Like and message buttons */
 .like-forest-btn,
 .message-forest-btn {
   background: none;
@@ -636,7 +635,7 @@ input[type="file"] {
   margin-top: 1rem;
 }
 
-/* Message Modal Specific Styles */
+/* Message modal specific styles */
 #messageModal .modal-content {
   max-width: 600px;
 }
@@ -672,7 +671,7 @@ input[type="file"] {
   margin-top: 1rem;
 }
 
-/* Liked Forests Section */
+/* Liked forests section */
 .liked-forests-card {
   margin-bottom: 2rem;
 }
@@ -803,9 +802,7 @@ input[type="file"] {
   }
 }
 
-/* Add these styles at the end of the file */
-
-/* Business Profile Page Styles */
+/* Business profile page styles */
 .business-profile-page .profile-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -819,7 +816,7 @@ input[type="file"] {
   margin-bottom: 2rem;
 }
 
-/* Business Details Card */
+/* Business details card */
 .business-details-card {
   flex: 1;
   min-width: 300px;
@@ -855,7 +852,7 @@ input[type="file"] {
   margin-top: 1rem;
 }
 
-/* About Section */
+/* About section */
 .about-section {
   flex: 2;
   min-width: 300px;
@@ -908,7 +905,7 @@ input[type="file"] {
   padding: 0 1.5rem 1.5rem;
 }
 
-/* Food Forests Section */
+/* Food forests section */
 .food-forests-section {
   width: 100%;
   background: white;
@@ -1007,7 +1004,7 @@ input[type="file"] {
   }
 }
 
-/* Delete Profile Section */
+/* Delete profile section */
 .delete-section {
   margin-top: 2rem;
   padding-top: 1rem;

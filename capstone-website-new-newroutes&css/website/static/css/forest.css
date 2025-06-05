@@ -589,7 +589,7 @@
   text-decoration: underline;
 }
 
-/* PRODUCT DETAIL PAGE STYLES */
+/* Product details */
 .product-detail-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -660,7 +660,7 @@
   color: #2e7d32;
 }
 
-/* True Value Assessment Section */
+/* True value assement section */
 .true-value-section {
   margin-bottom: 4rem;
   padding: 3rem;
@@ -739,7 +739,7 @@
   color: #555;
 }
 
-/* Comparison Metrics Section */
+/* Comparison metrics section */
 .comparison-section {
   margin-bottom: 4rem;
 }
@@ -835,7 +835,7 @@
   line-height: 1.5;
 }
 
-/* Related Products Section */
+/* Related products section */
 .related-products {
   margin-bottom: 3rem;
 }
@@ -881,7 +881,7 @@
   text-decoration: underline;
 }
 
-/* Harvest Calendar Styles */
+/* Harvest calendar styles */
 .harvest-calendar-card {
   background: white;
   border-radius: 8px;
@@ -961,7 +961,7 @@
   box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
 }
 
-/* Calendar Legend */
+/* Calendar legend */
 .calendar-legend {
   display: flex;
   justify-content: center;
@@ -1102,7 +1102,7 @@
   }
 }
 
-/* Contact Section Styles */
+/* Contact section styles */
 .contact-section {
   background: #f9f9f9;
   padding: 3rem 2rem;
@@ -1153,7 +1153,7 @@
   font-style: italic;
 }
 
-/* Contact Modal Styles */
+/* Contact modal styles */
 .contact-info {
   margin: 1.5rem 0;
 }
@@ -1224,7 +1224,7 @@
   color: white;
 }
 
-/* Forest Card Contact Button */
+/* Forest card contact button */
 .forest-card-contact {
   background: none;
   border: none;
