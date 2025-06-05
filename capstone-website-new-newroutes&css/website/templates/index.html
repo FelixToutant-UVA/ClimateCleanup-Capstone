@@ -34,7 +34,7 @@
     <div class="about-grid">
       <!-- Left Column - Header and Button -->
       <div class="about-left">
-        <h2> Compear aims to bring food forests and businesses together</h2>
+        <h2> Compear Aims to Bring Food Forests and Businesses Together</h2>
         <a href="{{ url_for('views.about_us') }}" class="about-us-btn">About us</a>
       </div>
 
@@ -57,7 +57,7 @@
     <div class="info-grid">
       <!-- Left Column - Text Content -->
       <div class="info-left">
-        <h3>What are food forests?</h3>
+        <h3>What are Food Forests?</h3>
         <p class="info-body">
           Food forests are regenerative agricultural systems that replicate the structure and diversity of natural forests to produce food in a sustainable way. They consist of multiple layers of plants, such as fruit and nut trees, shrubs, herbs, vines, and groundcovers, that work together to support healthy soil, conserve water, and enhance biodiversity. By mimicking natural ecosystems, food forests don't rely on synthetic fertilisers or pesticides. Instead, they use natural processes and plant diversity to keep the soil healthy and manage pests, allowing them to thrive with little human input over time. This makes them a resilient and climate-friendly alternative to conventional agriculture.
         </p>
@@ -150,7 +150,7 @@
 <!-- Forest Examples Section -->
 <section class="forest-examples-section">
   <div class="container">
-    <h2>A few examples of food forests that already signed-up</h2>
+    <h2>A Few Examples of Food Forests that Already Signed Up</h2>
     <div class="examples-grid">
       {% if forests %}
         {% for forest in forests[:3] %}
@@ -216,7 +216,7 @@
       <div class="data-methodology-left">
         <h3>Preliminary Analysis and Workflow</h3>
         <p class="methodology-body">
-          As a group we evaluated whether newly established food forests influence nearby surface-water quality in the Netherlands. To do this, we linked annual water-quality measurements (2016–2024) for five key chemicals to food-forest locations (establishment year, area) by clustering sampling points present every year and matching forests to sites within 5 km. Using mixed‐effects models on log‐transformed concentrations, we observed that precipitation drives higher nutrient levels (runoff), warmer temperatures coincide with lower nitrogen (likely microbial uptake), and agricultural land use correlates positively with nitrate/nitrite. Among food-forest variables, only forest age showed a consistent association with lower chloride, hinting at a long‐term buffering effect. Given our nine-year window, these results are preliminary, but the analysis pipeline is fully operational and ready to integrate new data as it becomes available.
+          As a group we evaluated whether newly established food forests influence nearby surface water quality in the Netherlands by linking annual measurements (2016–2024) of five key chemicals to food forest locations, taking into account each forest’s establishment year and area. First, we identified clusters of sampling points that were consistently monitored over this nine-year period, then matched each food forest to any water quality site within a 5 km radius. Our mixed-effects models, applied to log-transformed chemical concentrations, indicated that higher precipitation is associated with elevated nutrient levels, likely the result of increased runoff, while warmer temperatures coincide with lower nitrogen concentrations. In addition, areas with greater agricultural land use tend to exhibit higher nitrate and nitrite levels. Of all the food-forest variables we considered, only forest age showed a consistent association, with older food forests linked to lower chloride concentrations; this suggests a potential long-term buffering effect. Since our dataset spans just nine years, these findings remain preliminary, but our analysis pipeline is fully operational and ready to incorporate new data as it becomes available.
         </p>
       </div>
 
@@ -236,7 +236,7 @@
     <div class="cta-container">
       <div class="cta-content">
         <h2>Ready to improve our environment and the food we eat?</h2>
-        <p>Whether you are a restaurant/ foodforest, you can join our platform through filling out this form and creating a profile.</p>
+        <p>Whether you are a restaurant / food forest, you can join our platform through filling out this form and creating a profile.</p>
         <a href="{{ url_for('auth.sign_up') }}" class="cta-signup-btn">Sign up</a>
       </div>
     </div>
