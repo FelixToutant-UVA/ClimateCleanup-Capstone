@@ -547,7 +547,7 @@
     font-weight: 500;
   }
 
-  /* Comparison Section - Aligned Design */
+  /* Comparison Section */
   .comparison-section-new {
     background: #e8e8e8;
     padding: 2rem;
@@ -617,7 +617,7 @@
     width: 140px; 
   }
 
-  /* Unified Metrics Rectangle - Aligned with Images */
+  /* Unified Metrics Rectangle */
   .unified-metrics-rectangle {
     background: #e8e8e8;
     padding: 0;
@@ -960,18 +960,18 @@
 <!-- JavaScript for the slider functionality and navbar scroll -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    /* ---------- CONSTANTS ---------- */
+    /* Constant */
     const baseTrueCostPerKg = 2.72;
 
-    /* ---------- MAIN UPDATE ---------- */
+    /* Main update */
     function updateValues(amount) {
-      // 1. Update the displayed amount
+      // Update the displayed amount
       document.getElementById("current-amount").textContent = amount;
 
-      // 2. Calculate True Costs values (only this section is dynamic)
+      // Calculate True Costs values (only this section is dynamic)
       const totalTrueCost = baseTrueCostPerKg * amount;
 
-      // 3. Update only True Costs values (Carbon and Water remain static)
+      // Update only True Costs values (Carbon and Water remain static)
       if (amount >= 1000) {
         const trueCostK = totalTrueCost / 1000;
         document.getElementById("true-costs-forest").textContent = `+€0.00`;
@@ -986,13 +986,13 @@
       }
     }
 
-    /* ---------- SLIDER HOOK ---------- */
+    /* Slider hook */
     const slider = document.getElementById("amountSlider");
     slider.addEventListener("input", () =>
       updateValues(parseInt(slider.value, 10))
     );
 
-    /* ---------- METRIC ROW CLICK HANDLERS ---------- */
+    /* Metric row click handlers */
     document.querySelectorAll(".metric-row[data-section]").forEach((row) => {
       row.addEventListener("click", function () {
         const sectionId = this.getAttribute("data-section");
@@ -1012,7 +1012,7 @@
       });
     });
 
-    /* ---------- NAVBAR SCROLL EFFECT ---------- */
+    /* Navbar scroll effect */
     const navbar = document.querySelector(".navbar");
     const transparentHeader = document.querySelector(".transparent-header");
 
@@ -1026,7 +1026,7 @@
       });
     }
 
-    /* ---------- FIRST LOAD ---------- */
+    /* First load  */
     updateValues(parseInt(slider.value, 10));
   });
 </script>
