@@ -1,0 +1,1009 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forest.css') }}" />
+<style>
+.forest-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("{{ url_for('static', filename='uploads/Orchard-Chickens-skylar-jean-U46bGX6KRfU-unsplash-CCO.jpg') }}");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.forest-hero-content {
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.forest-hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.forest-location {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.forest-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.hero-btn {
+  background: #2e7d32;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.hero-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.like-btn {
+  background: none;
+  border: 2px solid #e74c3c;
+  color: #e74c3c;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.like-btn:hover {
+  background: #e74c3c;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.like-btn.liked {
+  background: #e74c3c;
+  color: white;
+}
+
+.contact-section {
+  background: #f8f9fa;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.contact-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.contact-section p {
+  margin-bottom: 2rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.contact-btn, .message-btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-btn:hover, .message-btn:hover {
+  background-color: #1b5e20;
+}
+
+.inventory-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.inventory-container h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #333;
+}
+
+.inventory-layout {
+  margin-bottom: 3rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.featured-product {
+  display: flex;
+  flex-wrap: wrap;
+  background: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.featured-product img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: cover;
+}
+
+.featured-product-info {
+  flex: 1;
+  min-width: 300px;
+  padding: 2rem;
+}
+
+.featured-product-info h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+}
+
+.view-product-btn {
+  display: inline-block;
+  background: #2e7d32;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.view-product-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 1.5rem;
+}
+
+.product-info h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.product-link {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+.product-link:hover {
+  color: #1b5e20;
+  text-decoration: underline;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+.close-modal {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: black;
+}
+
+.contact-info {
+  margin: 1.5rem 0;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.contact-item i {
+  color: #2e7d32;
+  font-size: 1.2rem;
+  width: 20px;
+  text-align: center;
+}
+
+.contact-item a {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.contact-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.contact-action-btn.primary {
+  background: #2e7d32;
+  color: white;
+}
+
+.contact-action-btn.secondary {
+  background: white;
+  color: #2e7d32;
+  border: 2px solid #2e7d32;
+}
+
+/* Harvest Calendar */
+.harvest-calendar-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  margin: 3rem auto; 
+  overflow: hidden;
+  max-width: 1200px; 
+  padding: 0 2rem 2rem 2rem; 
+}
+
+.card-header {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.harvest-calendar {
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: 150px repeat(12, 1fr);
+  gap: 4px;
+  margin-bottom: 12px;
+  font-weight: 500;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 8px 0;
+}
+
+.month-header {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  padding: 8px 0;
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: 150px repeat(12, 1fr);
+  gap: 4px;
+  margin-bottom: 10px;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.product-name {
+  font-size: 1rem;
+  color: #333;
+  padding: 8px 0;
+  font-weight: 500;
+}
+
+.month-grid {
+  display: contents;
+}
+
+.month-cell {
+  height: 30px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.month-cell.in-season {
+  background-color: #4caf50;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.legend-color.in-season {
+  background-color: #4caf50;
+}
+
+/* Forest Impact Section */
+.forest-impact-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 4rem 2rem;
+  margin: 3rem auto; 
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; 
+}
+
+.impact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 0 1rem; 
+}
+
+.impact-grid {
+  padding: 0 1rem; 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.impact-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.impact-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.impact-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.biodiversity .impact-icon {
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
+}
+
+.carbon .impact-icon {
+  background: linear-gradient(135deg, #2196F3, #42A5F5);
+}
+
+.water .impact-icon {
+  background: linear-gradient(135deg, #00BCD4, #26C6DA);
+}
+
+.soil .impact-icon {
+  background: linear-gradient(135deg, #8BC34A, #9CCC65);
+}
+
+.impact-content h3 {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.impact-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.impact-cta {
+  text-align: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.impact-learn-more {
+  display: inline-block;
+  background: linear-gradient(135deg, #2e7d32, #4CAF50);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.impact-learn-more:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Forest Metrics Section */
+.forest-metrics-section {
+  background: #f8f9fa;
+  padding: 4rem 2rem;
+  margin: 3rem auto;
+  max-width: 1200px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.metrics-display-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.metric-display-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.metric-display-card:hover {
+  transform: translateY(-5px);
+}
+
+.metric-display-card h3 {
+  font-size: 1.2rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.metric-display-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.metric-display-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.no-data-message p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .forest-hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .forest-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .like-btn {
+    justify-content: center;
+  }
+
+  .calendar-header,
+  .calendar-row {
+    grid-template-columns: 100px repeat(12, 1fr);
+  }
+
+  .month-header {
+    font-size: 0.75rem;
+  }
+
+  .product-name {
+    font-size: 0.9rem;
+  }
+
+  .metrics-display-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .forest-metrics-section {
+    padding: 3rem 1rem;
+    margin: 2rem 1rem;
+  }
+
+  .harvest-calendar-card {
+    padding: 0 1rem 1rem 1rem; 
+    margin: 2rem 1rem; 
+  }
+
+  .forest-impact-section {
+    padding: 3rem 1rem;
+    margin: 2rem 1rem; 
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="forest-hero">
+<div class="forest-hero-content">
+  <h1>{{ forest.forest_name if forest else 'Food Forest Name' }}</h1>
+  <p class="forest-location">{{ forest.forest_location if forest else 'Location of Food Forest' }}</p>
+  <div class="forest-actions">
+    <a href="{{ url_for('views.article') }}" class="hero-btn">Learn More</a>
+    <button class="like-btn" id="likeForestBtn" data-forest-id="{{ forest.id if forest else '1' }}">
+      <i class="far fa-heart"></i> <span class="like-count">0</span>
+    </button>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+<div class="contact-container">
+  <h2>Get in Touch</h2>
+  <p>Interested in our products, visiting our food forest or discussing carbon credit solutions?<br> We'd love to hear from you! </br></p>
+  
+  {% if forest and forest.contact_visible and (forest.contact_email or forest.contact_phone) %}
+    <button class="contact-btn" id="contactOwnerBtn">
+      <i class="fas fa-envelope"></i> Contact Forest Owner
+    </button>
+  {% else %}
+    <p class="no-contact-info">Contact information not available at this time.</p>
+  {% endif %}
+</div>
+</section>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal">
+<div class="modal-content">
+  <span class="close-modal">&times;</span>
+  <h2>Contact {{ forest.forest_name if forest else 'Forest Owner' }}</h2>
+  <div class="contact-info">
+    {% if forest and forest.contact_email %}
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <div>
+          <strong>Email:</strong>
+          <a href="mailto:{{ forest.contact_email }}">{{ forest.contact_email }}</a>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if forest and forest.contact_phone %}
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <div>
+          <strong>Phone:</strong>
+          <a href="tel:{{ forest.contact_phone }}">{{ forest.contact_phone }}</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="contact-actions">
+    {% if forest and forest.contact_email %}
+      <a href="mailto:{{ forest.contact_email }}?subject=Inquiry about {{ forest.forest_name }}" class="contact-action-btn primary">
+        <i class="fas fa-envelope"></i> Send Email
+      </a>
+    {% endif %}
+    
+    {% if forest and forest.contact_phone %}
+      <a href="tel:{{ forest.contact_phone }}" class="contact-action-btn secondary">
+        <i class="fas fa-phone"></i> Call Now
+      </a>
+    {% endif %}
+  </div>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Contact Modal
+const contactBtn = document.getElementById('contactOwnerBtn');
+const contactModal = document.getElementById('contactModal');
+const closeContactModal = contactModal.querySelector('.close-modal');
+
+if (contactBtn) {
+  contactBtn.addEventListener('click', function() {
+    contactModal.style.display = 'block';
+  });
+}
+
+if (closeContactModal) {
+  closeContactModal.addEventListener('click', function() {
+    contactModal.style.display = 'none';
+  });
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+  if (event.target === contactModal) {
+    contactModal.style.display = 'none';
+  }
+});
+
+// Like button functionality
+const likeBtn = document.getElementById('likeForestBtn');
+if (likeBtn) {
+
+  const forestId = likeBtn.getAttribute('data-forest-id');
+  
+  fetch(`/like-status/${forestId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const icon = likeBtn.querySelector('i');
+        const countSpan = likeBtn.querySelector('.like-count');
+        
+        if (data.liked) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+          likeBtn.classList.add('liked');
+        }
+        
+        countSpan.textContent = data.likes_count;
+      }
+    })
+    .catch(error => {
+      console.error('Error loading like status:', error);
+    });
+
+  likeBtn.addEventListener('click', function() {
+    fetch(`/like-forest/${forestId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const icon = this.querySelector('i');
+        const countSpan = this.querySelector('.like-count');
+        
+        if (data.liked) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+          this.classList.add('liked');
+        } else {
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+          this.classList.remove('liked');
+        }
+        
+        countSpan.textContent = data.likes_count;
+      } else {
+        console.error('Error toggling like:', data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+}
+});
+</script>
+
+<!-- INVENTORY SECTION -->
+<section class="inventory-container">
+<h2>Inventory</h2>
+
+<div class="inventory-layout">
+  {% if products and products|length > 0 %}
+    <div class="product-grid">
+      {% for product in products %}
+        <div class="product-card">
+          <img src="{{ url_for('static', filename=product.image) if product.image else url_for('static', filename='images/hero_pears.jpg') }}" alt="{{ product.name }}" onerror="this.src='{{ url_for('static', filename='images/hero_pears.jpg') }}'" />
+          <div class="product-info">
+            <h4>{{ product.name }}</h4>
+            <p>{{ product.description|truncate(100) }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="no-products-message">
+      <p>No products available at this time.</p>
+    </div>
+  {% endif %}
+</div>
+</section>
+
+<!-- Harvest Calendar Section -->
+<section class="profile-card harvest-calendar-card">
+  <div class="card-header">
+    <h2>Harvest Calendar</h2>
+  </div>
+  <div class="harvest-calendar">
+    <div class="calendar-header">
+      <div class="product-name"></div>
+      <div class="month-header">Jan</div>
+      <div class="month-header">Feb</div>
+      <div class="month-header">Mar</div>
+      <div class="month-header">Apr</div>
+      <div class="month-header">May</div>
+      <div class="month-header">Jun</div>
+      <div class="month-header">Jul</div>
+      <div class="month-header">Aug</div>
+      <div class="month-header">Sep</div>
+      <div class="month-header">Oct</div>
+      <div class="month-header">Nov</div>
+      <div class="month-header">Dec</div>
+    </div>
+    
+    {% if products %}
+      {% for product in products %}
+        <div class="calendar-row">
+          <div class="product-name">{{ product.name }}</div>
+          <div class="month-grid">
+            {% for month in range(1, 13) %}
+              <div class="month-cell {% if product_harvest_periods and product.id in product_harvest_periods and month in product_harvest_periods[product.id] %}in-season{% endif %}"></div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-products-message">
+        <p>No products available for harvest calendar display.</p>
+      </div>
+    {% endif %}
+    
+    <div class="calendar-legend">
+      <div class="legend-item">
+        <div class="legend-color in-season"></div>
+        <span>In Season</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color"></div>
+        <span>Not in Season</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Forest Impact Section  -->
+<section class="forest-impact-section">
+  <div class="impact-header">
+    <h2>Environmental Impact</h2>
+    <p>See how this food forest contributes to a healthier planet</p>
+  </div>
+  
+  <div class="impact-grid">
+    <div class="impact-card biodiversity">
+      <div class="impact-icon">
+        <i class="fas fa-leaf"></i>
+      </div>
+      <div class="impact-content">
+        <h3>Biodiversity Enhancement</h3>
+        <div class="impact-value">
+          {% if carbon_data %}
+            Biodiversity Index: {{ carbon_data.biodiversity_index }}
+          {% else %}
+            +45 species supported
+          {% endif %}
+        </div>
+        <p>Compared to conventional farms, creating habitat for beneficial wildlife</p>
+      </div>
+    </div>
+    
+    <div class="impact-card carbon">
+      <div class="impact-icon">
+        <i class="fas fa-cloud"></i>
+      </div>
+      <div class="impact-content">
+        <h3>Carbon Sequestration</h3>
+        <div class="impact-value">
+          {% if carbon_estimate %}
+            {{ carbon_estimate.min }} - {{ carbon_estimate.max }} {{ carbon_estimate.unit }}
+          {% else %}
+            12 tons CO₂/year
+          {% endif %}
+        </div>
+        <p>Actively removing carbon dioxide from the atmosphere through natural processes</p>
+      </div>
+    </div>
+    
+    <div class="impact-card soil">
+      <div class="impact-icon">
+        <i class="fas fa-seedling"></i>
+      </div>
+      <div class="impact-content">
+        <h3>Soil Health</h3>
+        <div class="impact-value">{{ metrics.soil|default('Regenerative') }}</div>
+        <p>Building soil health naturally through diverse plant communities and organic matter</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="impact-cta">
+    <p>Learn more about the science behind food forests and their environmental benefits</p>
+    <a href="{{ url_for('views.article') }}" class="impact-learn-more">Explore the Research</a>
+  </div>
+</section>
+
+{% endblock %}
